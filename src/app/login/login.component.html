@@ -1,0 +1,30 @@
+<div class="login-container">
+    <div class="login-panel">
+      <h2 class="login-title">Iniciar Sesión</h2>
+      
+      <div class="login-inputs">
+        <input
+          type="text"
+          placeholder="Email"
+          class="login-input"
+          [(ngModel)]="email"
+          name="email"
+        />
+        
+        <input
+          type="password"
+          placeholder="Contraseña"
+          class="login-input"
+          [(ngModel)]="password"
+          name="password"
+        />
+      </div>
+
+      <button class="login-button" (click)="login()">INGRESAR</button>
+      
+      <p class="login-footer">
+        ¿No tienes cuenta? <a href="#">Regístrate aquí</a>
+      </p>
+    </div>
+  </div>
+  

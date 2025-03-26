@@ -1,0 +1,43 @@
+<div class="container" *ngIf="usuario; else noUser">
+    <div class="user-panel">
+      <!-- Perfil del usuario -->
+      <div class="info">
+        <div class="user-img"></div>
+        <!-- Ejemplo mostrando apellidos, nombre -->
+        <p class="user-name">
+          {{ usuario.apellido1 }} {{ usuario.apellido2 }}, {{ usuario.nombre }}
+        </p>
+  
+        <p class="user-info">
+          Rango:
+          <!-- Evitar errores con ? (o con un método getSafeRango()) -->
+          {{ usuario.rango?.nombre || 'No especificado' }}
+        </p>
+        <p class="user-info">
+          Grupo Sanguíneo:
+          {{ usuario.grupo_sanguineo }}
+        </p>
+        <p class="user-info">
+          Antigüedad:
+          {{ usuario.antiguedad }}
+        </p>
+        <p class="user-info">
+          Horas totales de vuelo:
+          {{ usuario.horas_vuelo }}
+        </p>
+      </div>
+  
+      <div class="nav-buttons">
+        <button class="nav-button">LOGROS / MEDALLAS</button>
+        <button class="nav-button" (click)="home()">REGISTRAR VUELO</button>
+        <button class="nav-button">HISTORIAL DE VUELOS</button>
+        <button class="nav-button">TUS DESTINOS</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Si usuario == null, muestras esto -->
+  <ng-template #noUser>
+    <p>No hay usuario logueado.</p>
+  </ng-template>
+  
