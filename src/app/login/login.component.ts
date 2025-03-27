@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../Services/usuario.service';
 import { Usuario } from '../model/usuario.model';
-import { FormsModule } from '@angular/forms'; 
 
 @Component({
   selector: 'app-login',
@@ -32,4 +31,9 @@ export class LoginComponent {
       }
     });
   }
+
+  goToRegister() {
+    this.router.navigate(['/register-user']);
+  }
+  
 }

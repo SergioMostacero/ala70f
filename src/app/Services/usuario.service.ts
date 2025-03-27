@@ -7,7 +7,8 @@ import { Usuario } from '../model/usuario.model';
   providedIn: 'root',
 })
 export class UsuarioService {
-  private apiUrl = 'http://localhost:8000/api/usuarios';
+  //private apiUrl = 'http://localhost:8000/api/usuarios';
+  private apiUrl = 'http://localhost:5432/api/usuarios';
 
   private loggedInUser: Usuario | null = null;
 
@@ -32,4 +33,9 @@ export class UsuarioService {
   getUsuario(id: number): Observable<Usuario> {
     return this.http.get<Usuario>(`${this.apiUrl}/${id}`);
   }
+  createUsuario(usuario: Usuario): Observable<Usuario> {
+    // POST a /api/usuarios con el body del usuario
+    return this.http.post<Usuario>(this.apiUrl, usuario);
+  }
+
 }

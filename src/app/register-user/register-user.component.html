@@ -1,0 +1,94 @@
+<div class="register-container">
+    <div class="register-panel">
+      <h2 class="register-title">Registro de Usuario</h2>
+      
+      <div class="register-inputs">
+        <!-- Nombre -->
+        <input
+          type="text"
+          placeholder="Nombre"
+          class="register-input"
+          [(ngModel)]="nombre"
+          name="nombre"
+        />
+        <!-- Apellido1 -->
+        <input
+          type="text"
+          placeholder="Primer Apellido"
+          class="register-input"
+          [(ngModel)]="apellido1"
+          name="apellido1"
+        />
+        <!-- Apellido2 -->
+        <input
+          type="text"
+          placeholder="Segundo Apellido"
+          class="register-input"
+          [(ngModel)]="apellido2"
+          name="apellido2"
+        />
+        <!-- Grupo sanguíneo -->
+        <input
+          type="text"
+          placeholder="Grupo Sanguíneo"
+          class="register-input"
+          [(ngModel)]="grupoSanguineo"
+          name="grupoSanguineo"
+        />
+        <!-- Antigüedad -->
+        <input
+          type="text"
+          placeholder="Antigüedad"
+          class="register-input"
+          [(ngModel)]="antiguedad"
+          name="antiguedad"
+        />
+        <!-- Horas de Vuelo -->
+        <input
+          type="number"
+          placeholder="Horas de Vuelo"
+          class="register-input"
+          [(ngModel)]="horasVuelo"
+          name="horasVuelo"
+        />
+        <!-- Email -->
+        <input
+          type="email"
+          placeholder="Email"
+          class="register-input"
+          [(ngModel)]="email"
+          name="email"
+        />
+        <!-- Password -->
+        <input
+          type="password"
+          placeholder="Contraseña"
+          class="register-input"
+          [(ngModel)]="password"
+          name="password"
+        />
+  
+        <!-- Selección de Rango -->
+        <select
+          class="register-input"
+          [(ngModel)]="rangoSeleccionadoId"
+          name="rangoSeleccionadoId"
+        >
+          <option
+            *ngFor="let r of rangos"
+            [value]="r.id"
+          >
+            {{ r.nombre }}
+          </option>
+        </select>
+      </div>
+  
+      <button
+        class="register-button"
+        (click)="registrar()"
+      >
+        REGISTRAR
+      </button>
+    </div>
+  </div>
+  

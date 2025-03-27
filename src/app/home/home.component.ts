@@ -47,7 +47,4 @@ export class HomeComponent implements OnInit {
     return this.usuario?.rango?.nombre || 'No especificado';
   }
 
-  getSafeDestino(): string {
-    return this.usuario?.destino?.nombre || 'No especificado';
-  }
 }

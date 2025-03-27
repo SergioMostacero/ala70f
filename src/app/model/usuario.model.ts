@@ -8,7 +8,6 @@ export interface Usuario {
     nombre: string;
     apellido1: string;
     apellido2: string;
-    destino: Destino;
     rango: Rango;
     grupo_sanguineo: string;
     antiguedad: string;
