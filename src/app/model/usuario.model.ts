@@ -4,7 +4,7 @@ import { Rango } from "./rango.model";
 export interface Usuario {
     id?: number;
     email:string;
-    password:string;
+    contrasena:string;
     nombre: string;
     apellido1: string;
     apellido2: string;

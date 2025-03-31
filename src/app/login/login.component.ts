@@ -10,7 +10,7 @@ import { Usuario } from '../model/usuario.model';
 })
 export class LoginComponent {
   email: string = '';
-  password: string = '';
+  contrasena: string = '';
 
   constructor(
     private usuarioService: UsuarioService,
@@ -18,7 +18,7 @@ export class LoginComponent {
   ) {}
 
   login() {
-    this.usuarioService.loginUsuario(this.email, this.password).subscribe({
+    this.usuarioService.loginUsuario(this.email, this.contrasena).subscribe({
       next: (user: Usuario) => {
         console.log('Usuario logueado:', user);
         this.usuarioService.setLoggedInUser(user);

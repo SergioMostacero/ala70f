@@ -17,8 +17,8 @@ export class UsuarioService {
     return this.http.get<Usuario[]>(this.apiUrl);
   }
 
-  loginUsuario(email: string, password: string): Observable<Usuario> {
-    return this.http.post<Usuario>(`${this.apiUrl}/login`, { email, password });
+  loginUsuario(email: string, contrasena: string): Observable<Usuario> {
+    return this.http.post<Usuario>(`${this.apiUrl}/login`, { email, contrasena });
   }
 
   setLoggedInUser(user: Usuario) {

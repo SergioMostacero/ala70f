@@ -18,7 +18,7 @@ export class RegisterUserComponent {
   antiguedad: string = '';
   horasVuelo: number = 0;
   email: string = '';
-  password: string = '';
+  contrasena: string = '';
 
   // Listado de rangos disponibles (puedes cargarlo de tu API si lo deseas)
   rangos: Rango[] = [
@@ -48,7 +48,7 @@ export class RegisterUserComponent {
       antiguedad: this.antiguedad,
       horas_vuelo: this.horasVuelo,
       email: this.email,
-      password: this.password,
+      contrasena: this.contrasena,
       // Asignamos el rango que se haya seleccionado
       rango: rangoSeleccionado!,
     };
