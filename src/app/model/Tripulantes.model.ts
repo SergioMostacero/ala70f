@@ -1,13 +1,11 @@
-import { Destino } from "./destino.model";
 import { Rango } from "./rango.model";
 
-export interface Usuario {
+export interface Tripulantes {
     id?: number;
     email:string;
     contrasena:string;
     nombre: string;
-    apellido1: string;
-    apellido2: string;
+    apellidos:string;
     rango: Rango;
     grupo_sanguineo: string;
     antiguedad: string;

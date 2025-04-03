@@ -8,14 +8,11 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterUserComponent } from './register-user/register-user.component';
-import { RegisterFlightComponent } from './register-flight/register-flight.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-
-  { path: 'register-flight', component: RegisterFlightComponent },
 
   { path: '**', redirectTo: 'login' }
 ];
@@ -26,7 +23,6 @@ const routes: Routes = [
     HomeComponent,
     LoginComponent,
     RegisterUserComponent,
-    RegisterFlightComponent 
   ],
   imports: [
     BrowserModule,

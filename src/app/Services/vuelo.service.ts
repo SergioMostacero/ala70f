@@ -14,7 +14,7 @@ export interface FlightData {
   providedIn: 'root'
 })
 export class FlightService {
-  private baseUrl = 'http://localhost:8080/api/vuelos'; // adapt to your backend
+  private baseUrl = 'http://localhost:8080/api/vuelos';
 
   constructor(private http: HttpClient) {}
 

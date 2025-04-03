@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { UsuarioService } from '../Services/usuario.service';
-import { Usuario } from '../model/usuario.model';
+import { TripulantesService } from '../Services/tripulantes.service';
+import { Tripulantes } from '../model/Tripulantes.model';
 
 @Component({
   selector: 'app-home',
@@ -11,20 +11,20 @@ import { Usuario } from '../model/usuario.model';
 
 })
 export class HomeComponent implements OnInit {
-  usuario: Usuario | null = null;
+  tripulantes: Tripulantes | null = null;
   isLoading = true;
   errorMessage: string | null = null;
 
   constructor(
     private router: Router,
-    private usuarioService: UsuarioService
+    private tripulantesService: TripulantesService
   ) {}
 
   ngOnInit(): void {
-    this.usuario = this.usuarioService.getLoggedInUser();
+    this.tripulantes = this.tripulantesService.getLoggedInUser();
 
-    if (!this.usuario) {
-      this.errorMessage = 'No hay usuario logueado. Redirigiendo...';
+    if (!this.tripulantes) {
+      this.errorMessage = 'No hay tripulantes logueado. Redirigiendo...';
       setTimeout(() => {
         this.router.navigate(['/login']);
       }, 1500);
@@ -39,12 +39,12 @@ export class HomeComponent implements OnInit {
   }
 
   getNombreCompleto(): string {
-    if (!this.usuario) return '';
-    return `${this.usuario.apellido1} ${this.usuario.apellido2}, ${this.usuario.nombre}`;
+    if (!this.tripulantes) return '';
+    return `${this.tripulantes.apellidos}, ${this.tripulantes.nombre}`;
   }
 
   getSafeRango(): string {
-    return this.usuario?.rango?.nombre || 'No especificado';
+    return this.tripulantes?.rango?.nombre || 'No especificado';
   }
 
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsuarioService } from '../Services/usuario.service';
-import { Usuario } from '../model/usuario.model';
+import { TripulantesService } from '../Services/tripulantes.service';
+import { Tripulantes } from '../model/Tripulantes.model';
 
 @Component({
   selector: 'app-login',
@@ -13,27 +13,27 @@ export class LoginComponent {
   contrasena: string = '';
 
   constructor(
-    private usuarioService: UsuarioService,
+    private tripulantesService: TripulantesService,
     private router: Router
   ) {}
 
   login() {
-    this.usuarioService.loginUsuario(this.email, this.contrasena).subscribe({
-      next: (user: Usuario) => {
-        console.log('Usuario logueado:', user);
-        this.usuarioService.setLoggedInUser(user);
+    this.tripulantesService.loginTripulantes(this.email, this.contrasena).subscribe({
+      next: (tripulantes: Tripulantes) => {
+        console.log('Tripulantes logueado:', tripulantes);
+        this.tripulantesService.setLoggedInUser(tripulantes);
 
         this.router.navigate(['/home']);
       },
       error: (error) => {
         console.error('Error al iniciar sesión', error);
-        alert('Credenciales incorrectas o usuario no encontrado');
+        alert('Credenciales incorrectas o tripulantes no encontrado');
       }
     });
   }
 
   goToRegister() {
-    this.router.navigate(['/register-user']);
+    this.router.navigate(['/register-tripulante']);
   }
   
 }

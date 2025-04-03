@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsuarioService } from '../Services/usuario.service';
-import { Usuario } from '../model/usuario.model';
+import { TripulantesService } from '../Services/tripulantes.service';
+import { Tripulantes } from '../model/Tripulantes.model';
 import { Rango } from '../model/rango.model';
 
 @Component({
@@ -10,10 +10,9 @@ import { Rango } from '../model/rango.model';
   styleUrls: ['./register-user.component.scss']
 })
 export class RegisterUserComponent {
-  // Campos para crear el usuario
+  // Campos para crear el tripulantes
   nombre: string = '';
-  apellido1: string = '';
-  apellido2: string = '';
+  apellidos: string = '';
   grupoSanguineo: string = '';
   antiguedad: string = '';
   horasVuelo: number = 0;
@@ -31,7 +30,7 @@ export class RegisterUserComponent {
   rangoSeleccionadoId: number = 1;  // valor por defecto
 
   constructor(
-    private usuarioService: UsuarioService,
+    private tripulantesService: TripulantesService,
     private router: Router
   ) {}
 
@@ -39,11 +38,10 @@ export class RegisterUserComponent {
     // Busca en el array el rango que coincida con el ID elegido
     const rangoSeleccionado = this.rangos.find(r => r.id === this.rangoSeleccionadoId);
 
-    // Crear objeto con datos del nuevo usuario
-    const newUser: Usuario = {
+    // Crear objeto con datos del nuevo tripulantes
+    const newUser: Tripulantes = {
       nombre: this.nombre,
-      apellido1: this.apellido1,
-      apellido2: this.apellido2,
+      apellidos: this.apellidos,
       grupo_sanguineo: this.grupoSanguineo,
       antiguedad: this.antiguedad,
       horas_vuelo: this.horasVuelo,
@@ -53,17 +51,17 @@ export class RegisterUserComponent {
       rango: rangoSeleccionado!,
     };
 
-    // POST al backend para crear el usuario
-    this.usuarioService.createUsuario(newUser).subscribe({
+    // POST al backend para crear el tripulantes
+    this.tripulantesService.createTripulantes(newUser).subscribe({
       next: (createdUser) => {
-        console.log('Usuario registrado:', createdUser);
+        console.log('Tripulantes registrado:', createdUser);
         alert('Registro exitoso');
         // Redirige al login o donde gustes
         this.router.navigate(['/login']);
       },
       error: (error) => {
-        console.error('Error al registrar usuario:', error);
-        alert('No se pudo registrar el usuario');
+        console.error('Error al registrar tripulantes:', error);
+        alert('No se pudo registrar el tripulantes');
       }
     });
   }
