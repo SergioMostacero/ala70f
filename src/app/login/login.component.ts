@@ -18,22 +18,20 @@ export class LoginComponent {
   ) {}
 
   login() {
-    this.tripulantesService.loginTripulantes(this.email, this.contrasena).subscribe({
-      next: (tripulantes: Tripulantes) => {
-        console.log('Tripulantes logueado:', tripulantes);
-        this.tripulantesService.setLoggedInUser(tripulantes);
-
-        this.router.navigate(['/home']);
-      },
-      error: (error) => {
-        console.error('Error al iniciar sesión', error);
-        alert('Credenciales incorrectas o tripulantes no encontrado');
-      }
-    });
+    this.tripulantesService.loginTripulantes(this.email, this.contrasena)
+      .subscribe({
+        next: (tripulante: Tripulantes) => {
+          this.tripulantesService.setLoggedInUser(tripulante);
+          this.router.navigate(['/home']);
+        },
+        error: (error) => {
+          console.error('Error:', error);
+          alert('Credenciales incorrectas');
+        }
+      });
   }
 
   goToRegister() {
     this.router.navigate(['/register-tripulante']);
   }
-  
 }

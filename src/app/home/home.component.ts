@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { TripulantesService } from '../Services/tripulantes.service';
 import { Tripulantes } from '../model/Tripulantes.model';
 
@@ -8,10 +7,9 @@ import { Tripulantes } from '../model/Tripulantes.model';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-
 })
 export class HomeComponent implements OnInit {
-  tripulantes: Tripulantes | null = null;
+  tripulante: Tripulantes | null = null;
   isLoading = true;
   errorMessage: string | null = null;
 
@@ -21,30 +19,23 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.tripulantes = this.tripulantesService.getLoggedInUser();
+    this.tripulante = this.tripulantesService.getLoggedInUser();
 
-    if (!this.tripulantes) {
-      this.errorMessage = 'No hay tripulantes logueado. Redirigiendo...';
-      setTimeout(() => {
-        this.router.navigate(['/login']);
-      }, 1500);
+    if (!this.tripulante) {
+      this.errorMessage = 'No hay tripulante logueado. Redirigiendo...';
+      setTimeout(() => this.router.navigate(['/login']), 1500);
       return;
     }
 
     this.isLoading = false;
   }
 
+  // Resto de métodos permanecen igual
+  getNombreCompleto(): string {
+    return this.tripulante ? `${this.tripulante.nombre}` : '';
+  }
+
   home() {
     this.router.navigate(['/register-flight']);
   }
-
-  getNombreCompleto(): string {
-    if (!this.tripulantes) return '';
-    return `${this.tripulantes.apellidos}, ${this.tripulantes.nombre}`;
-  }
-
-  getSafeRango(): string {
-    return this.tripulantes?.rango?.nombre || 'No especificado';
-  }
-
 }

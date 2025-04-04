@@ -1,28 +1,28 @@
-<div class="container" *ngIf="tripulantes; else noUser">
+<div class="container" *ngIf="tripulante">
     <div class="user-panel">
       <!-- Perfil del tripulantes -->
       <div class="info">
         <div class="user-img"></div>
         <!-- Ejemplo mostrando apellidos, nombre -->
         <p class="user-name">
-          {{ tripulantes?.apellidos }}, {{ tripulantes?.nombre }}
+          {{ tripulante?.apellidos }}, {{ tripulante?.nombre }}
         </p>
   
         <p class="user-info">
           Rango:
-          {{ tripulantes?.rango?.nombre || 'No especificado' }}
+          {{ tripulante?.rango?.nombre || 'No especificado' }}
         </p>
         <p class="user-info">
           Grupo Sanguíneo:
-          {{ tripulantes?.grupo_sanguineo }}
+          {{ tripulante?.grupo_sanguineo }}
         </p>
         <p class="user-info">
           Antigüedad:
-          {{ tripulantes?.antiguedad }}
+          {{ tripulante?.antiguedad }}
         </p>
         <p class="user-info">
           Horas totales de vuelo:
-          {{ tripulantes?.horas_vuelo }}
+          {{ tripulante?.horas_vuelo }}
         </p>
       </div>
   
@@ -37,6 +37,6 @@
   
   <!-- Si tripulantes == null, muestras esto -->
   <ng-template #noUser>
-    <p>No hay tripulantes logueado.</p>
+    <p>No hay tripulante logueado.</p>
   </ng-template>
   
