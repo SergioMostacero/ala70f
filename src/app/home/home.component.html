@@ -3,9 +3,9 @@
       <!-- Perfil del tripulantes -->
       <div class="info">
         <div class="user-img"></div>
-        <!-- Ejemplo mostrando apellidos, nombre -->
+
         <p class="user-name">
-          {{ tripulante?.apellidos }}, {{ tripulante?.nombre }}
+          {{ tripulante?.nombre }} {{ tripulante?.apellidos }} 
         </p>
   
         <p class="user-info">
@@ -14,15 +14,15 @@
         </p>
         <p class="user-info">
           Grupo Sanguíneo:
-          {{ tripulante?.grupo_sanguineo }}
+          {{ tripulante?.grupoSanguineo?.tipo}}
         </p>
         <p class="user-info">
           Antigüedad:
-          {{ tripulante?.antiguedad }}
+          {{ tripulante?.antiguedad || 'No especificado'}}
         </p>
         <p class="user-info">
           Horas totales de vuelo:
-          {{ tripulante?.horas_vuelo }}
+          {{ tripulante?.horas_totales || 'No especificado'}}
         </p>
       </div>
   

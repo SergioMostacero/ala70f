@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Tripulantes } from '../model/Tripulantes.model';
+import { Tripulantes } from '../model/tripulantes.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class TripulantesService {
   loginTripulantes(email: string, contrasena: string): Observable<Tripulantes> {
     return this.http.post<Tripulantes>(
       `${this.apiUrl}/login`, 
-      { email, contrasena } // Envía el objeto directamente sin JSON.stringify()
+      { email, contrasena } 
     );
   }
   

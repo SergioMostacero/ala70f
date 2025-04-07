@@ -1,87 +1,34 @@
-<div class="register-container">
-    <div class="register-panel">
-      <h2 class="register-title">Registro de Usuario</h2>
-      
-      <div class="register-inputs">
-        <!-- Nombre -->
-        <input
-          type="text"
-          placeholder="Nombre"
-          class="register-input"
-          [(ngModel)]="nombre"
-          name="nombre"
-        />
-        <!-- Apellido1s -->
-        <input
-          type="text"
-          placeholder="Primer Apellido"
-          class="register-input"
-          [(ngModel)]="apellidos"
-          name="apellido1"
-        />
+<div class="register-container" @routeAnimations>
+  <div class="register-panel">
+    <h2 class="register-title">Registro de Usuario</h2>
+    
+    <div class="register-inputs">
+      <!-- Campos básicos -->
+      <input type="text" placeholder="Nombre" [(ngModel)]="nombre" class="register-input">
+      <input type="text" placeholder="Apellidos" [(ngModel)]="apellidos" class="register-input">
+      <input type="date" placeholder="Antigüedad" [(ngModel)]="antiguedad" class="register-input">
+      <input type="number" placeholder="Horas de Vuelo" [(ngModel)]="horasVuelo" class="register-input">
+      <input type="email" placeholder="Email" [(ngModel)]="email" class="register-input">
+      <input type="password" placeholder="Contraseña" [(ngModel)]="contrasena" class="register-input">
 
-        <!-- Grupo sanguíneo -->
-        <input
-          type="text"
-          placeholder="Grupo Sanguíneo"
-          class="register-input"
-          [(ngModel)]="grupoSanguineo"
-          name="grupoSanguineo"
-        />
-        <!-- Antigüedad -->
-        <input
-          type="text"
-          placeholder="Antigüedad"
-          class="register-input"
-          [(ngModel)]="antiguedad"
-          name="antiguedad"
-        />
-        <!-- Horas de Vuelo -->
-        <input
-          type="number"
-          placeholder="Horas de Vuelo"
-          class="register-input"
-          [(ngModel)]="horasVuelo"
-          name="horasVuelo"
-        />
-        <!-- Email -->
-        <input
-          type="email"
-          placeholder="Email"
-          class="register-input"
-          [(ngModel)]="email"
-          name="email"
-        />
-        <!-- Password -->
-        <input
-          type="contrasena"
-          placeholder="Contraseña"
-          class="register-input"
-          [(ngModel)]="contrasena"
-          name="contrasena"
-        />
-  
-        <!-- Selección de Rango -->
-        <select
-          class="register-input"
-          [(ngModel)]="rangoSeleccionadoId"
-          name="rangoSeleccionadoId"
-        >
-          <option
-            *ngFor="let r of rangos"
-            [value]="r.id"
-          >
-            {{ r.nombre }}
-          </option>
-        </select>
-      </div>
-  
-      <button
-        class="register-button"
-        (click)="registrar()"
-      >
-        REGISTRAR
-      </button>
+      <!-- Selects con estilos -->
+      <select [(ngModel)]="grupoSanguineoId" class="register-input">
+        <option value="">Grupo Sanguíneo</option>
+        <option *ngFor="let gs of gruposSanguineos" [value]="gs.id">{{ gs.tipo }}</option>
+      </select>
+
+      <select [(ngModel)]="rangoId" class="register-input">
+        <option value="">Rango</option>
+        <option *ngFor="let rango of rangos" [value]="rango.id">{{ rango.nombre }}</option>
+      </select>
+
+      <select [(ngModel)]="oficioId" class="register-input">
+        <option value="">Oficio</option>
+        <option *ngFor="let oficio of oficios" [value]="oficio.id">{{ oficio.nombre }}</option>
+      </select>
     </div>
+
+    <button class="register-button" (click)="registrar()">REGISTRAR</button>
+    <button class="login-button" routerLink="/login">← Volver a Login</button>
   </div>
-  
+</div>

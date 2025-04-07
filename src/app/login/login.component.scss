@@ -95,3 +95,36 @@ body, html {
 .login-footer a:hover {
     text-decoration: underline;
 }
+
+
+.auth-container {
+    perspective: 1000px;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login-container, .register-container {
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    position: absolute;
+    backface-visibility: hidden;
+  }
+  
+  .login-container {
+    transform: rotateY(0deg);
+  }
+  
+  .register-container {
+    transform: rotateY(180deg);
+  }
+  
+  .auth-container.flipped .login-container {
+    transform: rotateY(-180deg);
+  }
+  
+  .auth-container.flipped .register-container {
+    transform: rotateY(0deg);
+  }
