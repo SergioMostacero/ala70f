@@ -11,8 +11,7 @@ export interface Tripulantes {
   email: string;
   contrasena: string;
   antiguedad: string;
-  horas_mes: string;
-  horas_año: string;
+  permisos: boolean;
   horas_totales: string;
   rango: Rango;          // Objeto completo
   grupoSanguineo: GrupoSanguineo;  // Objeto completo

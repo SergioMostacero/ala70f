@@ -5,6 +5,9 @@ import { RangoService } from '../Services/rango.service';
 import { GrupoSanguineoService } from '../Services/grupo-sanguineo.service';
 import { OficioService } from '../Services/oficio.service';
 import { Tripulantes } from '../model/tripulantes.model';
+import { Rango } from '../model/rango.model';
+import { GrupoSanguineo } from '../model/grupo-sanguineo.model';
+import { Oficio } from '../model/oficio.model';
 
 @Component({
   selector: 'app-register-user',
@@ -17,18 +20,19 @@ export class RegisterUserComponent implements OnInit {
   apellidos: string = '';
   antiguedad: string = '';
   horasVuelo: number = 0;
+  permisos: boolean = false;
   email: string = '';
   contrasena: string = '';
-  
-  // Relaciones con IDs
-  grupoSanguineoId: number = 0;
-  rangoId: number = 0;
-  oficioId: number = 0;
+
+  // Relación con objetos seleccionados
+  grupoSanguineoSeleccionado!: GrupoSanguineo;
+  rangoSeleccionado!: Rango;
+  oficioSeleccionado!: Oficio;
 
   // Listas para selects
-  rangos: any[] = [];
-  gruposSanguineos: any[] = [];
-  oficios: any[] = [];
+  rangos: Rango[] = [];
+  gruposSanguineos: GrupoSanguineo[] = [];
+  oficios: Oficio[] = [];
 
   constructor(
     private tripulantesService: TripulantesService,
@@ -49,11 +53,28 @@ export class RegisterUserComponent implements OnInit {
   }
 
   registrar() {
-    // Busca los objetos completos usando los IDs seleccionados
-    const grupoSanguineo = this.gruposSanguineos.find(g => g.id === this.grupoSanguineoId);
-    const rango = this.rangos.find(r => r.id === this.rangoId);
-    const oficio = this.oficios.find(o => o.id === this.oficioId);
-  
+    // Validación de campos obligatorios
+    if (
+      !this.nombre.trim() ||
+      !this.apellidos.trim() ||
+      !this.antiguedad ||
+      !this.horasVuelo ||
+      !this.email.trim() ||
+      !this.contrasena.trim()
+    ) {
+      alert('Por favor completa todos los campos obligatorios.');
+      return;
+    }
+
+    if (
+      !this.grupoSanguineoSeleccionado ||
+      !this.rangoSeleccionado ||
+      !this.oficioSeleccionado
+    ) {
+      alert('Por favor selecciona grupo sanguíneo, rango y oficio.');
+      return;
+    }
+
     const nuevoTripulante: Tripulantes = {
       nombre: this.nombre,
       apellidos: this.apellidos,
@@ -61,17 +82,16 @@ export class RegisterUserComponent implements OnInit {
       contrasena: this.contrasena,
       antiguedad: this.antiguedad,
       horas_totales: this.horasVuelo.toString(),
-      grupoSanguineo: grupoSanguineo!, // Asume que siempre se selecciona un valor válido
-      rango: rango!,
-      oficio: oficio!,
-      horas_mes: '0',
-      horas_año: '0',
+      permisos: false,
+      grupoSanguineo: this.grupoSanguineoSeleccionado,
+      rango: this.rangoSeleccionado,
+      oficio: this.oficioSeleccionado,
       medallas: [],
       vuelos: []
     };
-  
+
     this.tripulantesService.createTripulantes(nuevoTripulante).subscribe({
-      next: (res) => {
+      next: () => {
         alert('Registro exitoso!');
         this.router.navigate(['/login']);
       },

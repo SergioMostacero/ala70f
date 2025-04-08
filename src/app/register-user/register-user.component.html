@@ -1,34 +1,50 @@
 <div class="register-container" @routeAnimations>
   <div class="register-panel">
     <h2 class="register-title">Registro de Usuario</h2>
-    
+
+    <!-- ✅ Datos Personales -->
+    <h3 class="section-title">Datos Personales</h3>
     <div class="register-inputs">
-      <!-- Campos básicos -->
       <input type="text" placeholder="Nombre" [(ngModel)]="nombre" class="register-input">
       <input type="text" placeholder="Apellidos" [(ngModel)]="apellidos" class="register-input">
       <input type="date" placeholder="Antigüedad" [(ngModel)]="antiguedad" class="register-input">
       <input type="number" placeholder="Horas de Vuelo" [(ngModel)]="horasVuelo" class="register-input">
-      <input type="email" placeholder="Email" [(ngModel)]="email" class="register-input">
-      <input type="password" placeholder="Contraseña" [(ngModel)]="contrasena" class="register-input">
-
-      <!-- Selects con estilos -->
-      <select [(ngModel)]="grupoSanguineoId" class="register-input">
-        <option value="">Grupo Sanguíneo</option>
-        <option *ngFor="let gs of gruposSanguineos" [value]="gs.id">{{ gs.tipo }}</option>
-      </select>
-
-      <select [(ngModel)]="rangoId" class="register-input">
-        <option value="">Rango</option>
-        <option *ngFor="let rango of rangos" [value]="rango.id">{{ rango.nombre }}</option>
-      </select>
-
-      <select [(ngModel)]="oficioId" class="register-input">
-        <option value="">Oficio</option>
-        <option *ngFor="let oficio of oficios" [value]="oficio.id">{{ oficio.nombre }}</option>
-      </select>
     </div>
 
-    <button class="register-button" (click)="registrar()">REGISTRAR</button>
-    <button class="login-button" routerLink="/login">← Volver a Login</button>
+    <!-- ✅ Credenciales de Acceso -->
+    <h3 class="section-title">Acceso</h3>
+    <div class="register-inputs">
+      <input type="email" placeholder="Email" [(ngModel)]="email" class="register-input">
+      <input type="password" placeholder="Contraseña" [(ngModel)]="contrasena" class="register-input">
+    </div>
+
+    <!-- ✅ Información Profesional -->
+    <h3 class="section-title">Información Profesional</h3>
+    <div class="register-inputs">
+<!-- Grupo Sanguíneo -->
+<select [(ngModel)]="grupoSanguineoSeleccionado" class="register-input">
+  <option [ngValue]="null" disabled selected hidden>Grupo Sanguíneo</option>
+  <option *ngFor="let gs of gruposSanguineos" [ngValue]="gs">{{ gs.tipo }}</option>
+</select>
+
+<select [(ngModel)]="rangoSeleccionado" class="register-input">
+  <option [ngValue]="null" disabled selected hidden>Rango</option>
+  <option *ngFor="let r of rangos" [ngValue]="r">{{ r.nombre }}</option>
+</select>
+
+<select [(ngModel)]="oficioSeleccionado" class="register-input">
+  <option [ngValue]="null" disabled selected hidden>Oficio</option>
+  <option *ngFor="let o of oficios" [ngValue]="o">{{ o.nombre }}</option>
+</select>
+
+
+      
+    </div>
+
+    <!-- ✅ Botones -->
+    <div class="register-buttons">
+      <button class="register-button" (click)="registrar()">REGISTRAR</button>
+      <button class="login-button" routerLink="/login">← Volver a Login</button>
+    </div>
   </div>
 </div>

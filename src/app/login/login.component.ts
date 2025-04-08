@@ -22,8 +22,15 @@ export class LoginComponent {
     this.tripulantesService.loginTripulantes(this.email, this.contrasena)
       .subscribe({
         next: (tripulante: Tripulantes) => {
+
           this.tripulantesService.setLoggedInUser(tripulante);
-          this.router.navigate(['/home']);
+
+          // Redirigir dependiendo del permiso
+          if (tripulante.permisos === true) {
+            this.router.navigate(['/homePermisos']);
+          } else {
+            this.router.navigate(['/home']);
+          }
         },
         error: (error) => {
           console.error('Error:', error);
@@ -31,5 +38,6 @@ export class LoginComponent {
         }
       });
   }
+  
 
 }
