@@ -42,15 +42,36 @@ export class RegisterUserComponent implements OnInit {
     private router: Router
   ) {}
 
+  compareById(a: any, b: any): boolean {
+    return a?.id === b?.id;
+  }
+  
+  
+
   ngOnInit() {
     this.cargarOpciones();
+    
   }
 
   cargarOpciones() {
-    this.rangoService.getRangos().subscribe(data => this.rangos = data);
-    this.grupoSanguineoService.getGruposSanguineos().subscribe(data => this.gruposSanguineos = data);
-    this.oficioService.getOficios().subscribe(data => this.oficios = data);
+    this.rangoService.getRangos().subscribe(data => {
+      this.rangos = data;
+      alert('Rangos cargados: ' + JSON.stringify(data));
+    });
+  
+    this.grupoSanguineoService.getGruposSanguineos().subscribe(data => {
+      this.gruposSanguineos = data;
+      alert('Grupos sanguíneos cargados: ' + JSON.stringify(data));
+    });
+  
+    this.oficioService.getOficios().subscribe(data => {
+      this.oficios = data;
+      alert('Oficios cargados: ' + JSON.stringify(data));
+    });
   }
+  
+
+  
 
   registrar() {
     // Validación de campos obligatorios

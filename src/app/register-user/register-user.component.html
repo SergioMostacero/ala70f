@@ -5,16 +5,30 @@
     <!-- ✅ Datos Personales -->
     <h3 class="section-title">Datos Personales</h3>
     <div class="register-inputs">
+      <p>Nombre:</p>
       <input type="text" placeholder="Nombre" [(ngModel)]="nombre" class="register-input">
+      <p>Apellidos:</p>
       <input type="text" placeholder="Apellidos" [(ngModel)]="apellidos" class="register-input">
+      <p>Antigüedad:</p>
       <input type="date" placeholder="Antigüedad" [(ngModel)]="antiguedad" class="register-input">
+      <p>Horas de vuelo:</p>
       <input type="number" placeholder="Horas de Vuelo" [(ngModel)]="horasVuelo" class="register-input">
+      <p>Permisos:</p>
+      <select Class="register-input">
+        <option  Type="text">No</option>
+        <option  Type="text">Sí</option>
+      </select>
+
+      <p>Horas Vuelo:</p>
+      <input type="text" placeholder="Horas de Vuelo" [(ngModel)]="horasVuelo" class="register-input">
     </div>
 
     <!-- ✅ Credenciales de Acceso -->
     <h3 class="section-title">Acceso</h3>
     <div class="register-inputs">
+      <p>Email:</p>
       <input type="email" placeholder="Email" [(ngModel)]="email" class="register-input">
+      <p>Contraseña:</p>
       <input type="password" placeholder="Contraseña" [(ngModel)]="contrasena" class="register-input">
     </div>
 
@@ -22,16 +36,28 @@
     <h3 class="section-title">Información Profesional</h3>
     <div class="register-inputs">
 <!-- Grupo Sanguíneo -->
-<select [(ngModel)]="grupoSanguineoSeleccionado" class="register-input">
+ 
+<p>Grupo Sanguíneo:</p>
+
+<select
+  id="grupoSanguineo"
+  class="register-input"
+  [(ngModel)]="grupoSanguineoSeleccionado"
+  [compareWith]="compareById">
   <option [ngValue]="null" disabled selected hidden>Grupo Sanguíneo</option>
-  <option *ngFor="let gs of gruposSanguineos" [ngValue]="gs">{{ gs.tipo }}</option>
+  <option *ngFor="let gs of gruposSanguineos" [ngValue]="gs">
+    {{ gs.tipo }}
+  </option>
 </select>
 
+<!-- Rango y Oficio -->
+<p>Rango:</p>
 <select [(ngModel)]="rangoSeleccionado" class="register-input">
   <option [ngValue]="null" disabled selected hidden>Rango</option>
   <option *ngFor="let r of rangos" [ngValue]="r">{{ r.nombre }}</option>
 </select>
 
+<p>Oficio:</p>
 <select [(ngModel)]="oficioSeleccionado" class="register-input">
   <option [ngValue]="null" disabled selected hidden>Oficio</option>
   <option *ngFor="let o of oficios" [ngValue]="o">{{ o.nombre }}</option>

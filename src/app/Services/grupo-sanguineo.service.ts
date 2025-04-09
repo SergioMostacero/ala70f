@@ -7,7 +7,7 @@ import { GrupoSanguineo } from '../model/grupo-sanguineo.model';
   providedIn: 'root'
 })
 export class GrupoSanguineoService {
-  private apiUrl = 'http://localhost:8080/api/grupo-sanguineo';
+  private apiUrl = 'http://localhost:8000/api/grupoSanguineos';
 
   constructor(private http: HttpClient) { }
 
