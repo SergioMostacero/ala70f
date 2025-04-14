@@ -8,7 +8,7 @@ import { HomePermisosComponent } from './homePermisos/homePermisos.component';
 import { LogrosMedallasComponent } from './logros-medallas/logrosMedallas.componet';
 import { ManagementComponent } from './management/management.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
-import { FlightsComponent } from './flights/flights.component';
+import { VuelosComponent } from './vuelos/vuelos.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'management', component: ManagementComponent },
   { path: 'create-user', component: RegisterUserComponent },
   { path: 'edit-user', component: EditUserComponent },
-  { path: 'flights', component: FlightsComponent },
+  { path: 'flights', component: VuelosComponent },
 //{ path: 'create-oficio', component: CreateOficioComponent },
 //{ path: 'edit-oficio', component: EditOficioComponent },
   { path: '**', redirectTo: 'login' }

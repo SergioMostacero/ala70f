@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="user-panel">
+    <h1>Registrar Vuelo</h1>
+
+    <!-- Formulario Reactivo -->
+    <form [formGroup]="vueloForm" (ngSubmit)="createVuelo()">
+      
+      <div class="form-group">
+        <label for="fecha">Fecha y Hora:</label>
+        <input id="fecha" type="datetime-local" formControlName="fecha" />
+      </div>
+
+      <div class="form-group">
+        <label for="hora_salida">Hora de Salida:</label>
+        <input id="hora_salida" type="text" formControlName="hora_salida" />
+      </div>
+
+      <div class="form-group">
+        <label for="hora_llegada">Hora de Llegada:</label>
+        <input id="hora_llegada" type="text" formControlName="hora_llegada" />
+      </div>
+
+      <div class="form-group">
+        <label for="anticipo">Anticipo:</label>
+        <input id="anticipo" type="text" formControlName="anticipo" />
+      </div>
+
+      <div class="form-group">
+        <label for="gasolina">Gasolina:</label>
+        <input id="gasolina" type="text" formControlName="gasolina" />
+      </div>
+
+      <!-- AvionDTO -->
+      <div class="form-group">
+        <label for="avionSelect">Avión:</label>
+        <select id="avionSelect" formControlName="avionDTO">
+          <option [ngValue]="null">-- Selecciona un Avión --</option>
+          <option *ngFor="let avion of avionList" [ngValue]="{ id: avion.id }">
+            {{ avion.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <!-- MisionesDTO -->
+      <div class="form-group">
+        <label for="misionSelect">Misión:</label>
+        <select id="misionSelect" formControlName="misionesDTO">
+          <option [ngValue]="null">-- Selecciona una Misión --</option>
+          <option *ngFor="let mision of misionList" [ngValue]="{ id: mision.id }">
+            {{ mision.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <!-- ItinerarioDTO -->
+      <div class="form-group">
+        <label for="itinerarioSelect">Itinerario:</label>
+        <select id="itinerarioSelect" formControlName="itinerarioDTO">
+          <option [ngValue]="null">-- Selecciona un Itinerario --</option>
+          <option *ngFor="let iti of itinerarioList" [ngValue]="{ id: iti.id }">
+            {{ iti.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <button type="submit" class="nav-button" [disabled]="vueloForm.invalid">
+        Crear Vuelo
+      </button>
+    </form>
+  </div>
+</div>
