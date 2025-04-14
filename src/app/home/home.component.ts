@@ -42,4 +42,8 @@ export class HomeComponent implements OnInit {
   home() {
     this.router.navigate(['/register-flight']);
   }
+
+  irALogrosMedallas(): void {
+    this.router.navigate(['/logros-medallas']);
+  }
 }

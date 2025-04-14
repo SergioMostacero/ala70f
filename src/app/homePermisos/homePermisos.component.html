@@ -8,7 +8,6 @@
         {{ tripulante?.nombre }} {{ tripulante?.apellidos }}
       </p>
 
-<<<<<<< HEAD
       <p class="user-info">
         Rango: {{ tripulante?.rango?.nombre || 'No especificado' }}
       </p>
@@ -27,18 +26,12 @@
     <div class="nav-buttons">
       <button class="nav-button" (click)="verGestion()">Gestión</button>
       <button class="nav-button" (click)="verVuelos()">Vuelos</button>
-      <button class="nav-button" (click)="verLogros()">Logros / Medallas</button>
-=======
-      </div>
-  
-      <div class="nav-buttons">
-        <button class="nav-button" (click)="registrar()">Registra a un Tripulante</button>
-        <button class="nav-button" routerLink="/logros-medallas" >LOGROS / MEDALLAS</button>
-        <!--<button class="nav-button" (click)="()">REGISTRAR VUELO</button>-->
-        <button class="nav-button">HISTORIAL DE VUELOS</button>
-        <button class="nav-button">TUS DESTINOS</button>
-      </div>
->>>>>>> e2c8571a5a85595eb9b6b5c93e055715aa4c8c19
+      <button class="nav-button" (click)="verLogros()">Logros / Medallas</button>       
+      <button class="nav-button" (click)="registrar()">Registra a un Tripulante</button>
+      <button class="nav-button" (click)="irALogrosMedallas()">MEDALLAS/LOGROS</button>
+      <!--<button class="nav-button" (click)="()">REGISTRAR VUELO</button>-->
+      <button class="nav-button">HISTORIAL DE VUELOS</button>
+      <button class="nav-button">TUS DESTINOS</button>
     </div>
   </div>
 </div>

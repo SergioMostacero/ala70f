@@ -28,17 +28,18 @@ export class LogrosMedallasComponent implements OnInit {
 
   private loadTripulante(): void {
     this.tripulante = this.tripulantesService.getLoggedInUser();
-
+  
     if (!this.tripulante) {
       this.router.navigate(['/login']);
       return;
     }
-
+  
     if (this.tripulante.id) {
       this.medallaService.getMedallasByTripulante(this.tripulante.id)
         .subscribe(medallas => this.medallas = medallas);
     }
   }
+  
 
 
   private loadAllMedallas(): void {

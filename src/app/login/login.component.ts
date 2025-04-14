@@ -2,11 +2,20 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { TripulantesService } from '../Services/tripulantes.service';
 import { Tripulantes } from '../model/Tripulantes.model';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  animations: [
+    trigger('routeAnimations', [
+      transition('* => *', [
+        style({ opacity: 0 }),
+        animate('300ms ease-out', style({ opacity: 1 }))
+      ])
+    ])
+  ]
 })
 export class LoginComponent {
   email: string = '';

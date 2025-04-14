@@ -33,6 +33,9 @@ export class HomePermisosComponent implements OnInit {
 
     this.isLoading = false;
   }
+  irALogrosMedallas(): void {
+    this.router.navigate(['/logros-medallas']);
+  }
 
   // Resto de métodos permanecen igual
   getNombreCompleto(): string {
@@ -52,9 +55,6 @@ export class HomePermisosComponent implements OnInit {
     this.router.navigate(['/logros']); // Asegúrate de tener esta ruta configurada o crea una futura
   }
 
-<<<<<<< HEAD
-
-=======
   registrar() {
     this.router.navigate(['/register'], { 
       state: { 
@@ -62,5 +62,4 @@ export class HomePermisosComponent implements OnInit {
       } 
     });
   }
->>>>>>> e2c8571a5a85595eb9b6b5c93e055715aa4c8c19
 }

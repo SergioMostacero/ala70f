@@ -7,7 +7,7 @@ import { Medalla } from '../model/medalla.model';
   providedIn: 'root'
 })
 export class MedallaService {
-  private apiUrl = 'http://localhost:8080/api/medallas';
+  private apiUrl = 'http://localhost:8000/api/medallas';
 
   constructor(private http: HttpClient) { }
 
