@@ -4,7 +4,7 @@ import { TripulantesService } from '../Services/tripulantes.service';
 import { RangoService } from '../Services/rango.service';
 import { GrupoSanguineoService } from '../Services/grupo-sanguineo.service';
 import { OficioService } from '../Services/oficio.service';
-import { Tripulantes } from '../model/tripulantes.model';
+import { Tripulantes } from '../model/Tripulantes.model';
 import { Rango } from '../model/rango.model';
 import { GrupoSanguineo } from '../model/grupo-sanguineo.model';
 import { Oficio } from '../model/oficio.model';
@@ -15,10 +15,11 @@ import { Oficio } from '../model/oficio.model';
   styleUrls: ['./register-user.component.scss']
 })
 export class RegisterUserComponent implements OnInit {
+  currentTripulante!: Tripulantes;
   // Campos básicos
   nombre: string = '';
   apellidos: string = '';
-  antiguedad: string = '';
+  antiguedad: Date | undefined ;
   horasVuelo: number = 0;
   permisos: boolean = false;
   email: string = '';
@@ -56,17 +57,14 @@ export class RegisterUserComponent implements OnInit {
   cargarOpciones() {
     this.rangoService.getRangos().subscribe(data => {
       this.rangos = data;
-      alert('Rangos cargados: ' + JSON.stringify(data));
     });
   
     this.grupoSanguineoService.getGruposSanguineos().subscribe(data => {
       this.gruposSanguineos = data;
-      alert('Grupos sanguíneos cargados: ' + JSON.stringify(data));
     });
   
     this.oficioService.getOficios().subscribe(data => {
       this.oficios = data;
-      alert('Oficios cargados: ' + JSON.stringify(data));
     });
   }
   

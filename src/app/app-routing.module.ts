@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterUserComponent } from './register-user/register-user.component';
 import { HomeComponent } from './home/home.component';
 import { HomePermisosComponent } from './homePermisos/homePermisos.component';
+import { LogrosMedallasComponent } from './logros-medallas/logrosMedallas.componet';
 
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterUserComponent, data: { animation: 'register' } },
   { path: 'home', component: HomeComponent, data: { animation: 'home' } },
   { path: 'homePermisos', component: HomePermisosComponent, data: { animation: 'homePermisos' } },
+  { path: 'logros-medallas', component: LogrosMedallasComponent },
   { path: '**', redirectTo: 'login' }
 ];
 

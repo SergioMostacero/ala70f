@@ -63,6 +63,14 @@
   <option *ngFor="let o of oficios" [ngValue]="o">{{ o.nombre }}</option>
 </select>
 
+<!-- Añadir un campo oculto o condicional para permisos -->
+<div *ngIf="currentTripulante?.permisos" class="register-inputs">
+  <label class="permission-checkbox">
+    <input type="checkbox" [(ngModel)]="permisos"> 
+    Otorgar permisos administrativos
+  </label>
+</div>
+
 
       
     </div>
@@ -70,7 +78,7 @@
     <!-- ✅ Botones -->
     <div class="register-buttons">
       <button class="register-button" (click)="registrar()">REGISTRAR</button>
-      <button class="login-button" routerLink="/login">← Volver a Login</button>
+      <button class="home-button" routerLink="/homePermisos">← Home</button>
     </div>
   </div>
 </div>

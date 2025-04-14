@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TripulantesService } from '../Services/tripulantes.service';
-import { Tripulantes } from '../model/tripulantes.model';
+import { Tripulantes } from '../model/Tripulantes.model';
 import { GrupoSanguineoService } from '../Services/grupo-sanguineo.service';
 import { OficioService } from '../Services/oficio.service';
 
