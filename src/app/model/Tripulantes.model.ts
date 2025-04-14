@@ -10,12 +10,12 @@ export interface Tripulantes {
   apellidos: string;
   email: string;
   contrasena: string;
-  antiguedad: string;
+  antiguedad: Date;
   permisos: boolean;
   horas_totales: string;
-  rango: Rango;          // Objeto completo
-  grupoSanguineo: GrupoSanguineo;  // Objeto completo
+  rango: Rango;        
+  grupoSanguineo: GrupoSanguineo; 
   oficio: Oficio;
-  medallas: any[];
-  vuelos: any[];
+  medallas: Medalla[];
+  vuelos: Vuelo[];
 }

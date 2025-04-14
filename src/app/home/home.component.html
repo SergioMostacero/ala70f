@@ -5,6 +5,7 @@
         <div class="user-img"></div>
 
         <p class="user-name">
+          USUARIO
           {{ tripulante?.nombre }} {{ tripulante?.apellidos }} 
         </p>
   
@@ -27,8 +28,7 @@
       </div>
   
       <div class="nav-buttons">
-        <button class="nav-button">LOGROS / MEDALLAS</button>
-        <button class="nav-button" (click)="home()">REGISTRAR VUELO</button>
+        <button class="nav-button" routerLink="/logros-medallas">LOGROS / MEDALLAS</button>
         <button class="nav-button">HISTORIAL DE VUELOS</button>
         <button class="nav-button">TUS DESTINOS</button>
       </div>

@@ -1,0 +1,33 @@
+<div class="medallas-container">
+    <h1>Logros y Medallas</h1>
+    
+    <!-- Medallas obtenidas -->
+    <div class="seccion-medallas">
+      <h2>Tus Medallas Obtenidas</h2>
+      <div *ngIf="medallas.length === 0" class="sin-medallas">
+        <p>Aún no has obtenido ninguna medalla</p>
+      </div>
+      <div class="grid-medallas">
+        <div *ngFor="let medalla of medallas" class="medalla-card">
+          <img [src]="medalla.medallaURL" [alt]="medalla.nombre" class="medalla-imagen">
+          <h3>{{ medalla.nombre }}</h3>
+          <p>{{ medalla.descripcion }}</p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Todas las medallas disponibles -->
+    <div class="seccion-medallas">
+      <h2>Todas las Medallas Disponibles</h2>
+      <div class="grid-medallas">
+        <div *ngFor="let medalla of todasMedallas" class="medalla-card" [class.no-obtenida]="!tieneMedalla(medalla.id)">
+          <img [src]="medalla.medallaURL" [alt]="medalla.nombre" class="medalla-imagen">
+          <h3>{{ medalla.nombre }}</h3>
+          <p>{{ medalla.descripcion }}</p>
+          <div *ngIf="!tieneMedalla(medalla.id)" class="bloqueada">
+            <span class="candado">🔒</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

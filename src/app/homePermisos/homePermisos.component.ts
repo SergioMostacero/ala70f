@@ -52,5 +52,15 @@ export class HomePermisosComponent implements OnInit {
     this.router.navigate(['/logros']); // Asegúrate de tener esta ruta configurada o crea una futura
   }
 
+<<<<<<< HEAD
 
+=======
+  registrar() {
+    this.router.navigate(['/register'], { 
+      state: { 
+        currentTripulante: this.tripulante 
+      } 
+    });
+  }
+>>>>>>> e2c8571a5a85595eb9b6b5c93e055715aa4c8c19
 }
