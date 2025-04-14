@@ -11,15 +11,26 @@ import { HomeComponent } from './home/home.component';
 import { HomePermisosComponent } from './homePermisos/homePermisos.component'; // Removed or commented out due to missing definition
 import { LoginComponent } from './login/login.component';
 import { RegisterUserComponent } from './register-user/register-user.component';
+import { ManagementComponent } from './management/management.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { FlightsComponent } from './flights/flights.component';
+import { RegisterFlightComponent } from './register-flight/register-flight.component';
+import { MedalsComponent } from './medals/medals.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
-  { path: 'homePermisos', component: HomePermisosComponent }, // Removed or commented out due to missing definition
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterUserComponent },
-  { path: '**', redirectTo: 'login' }
+  { path: 'home', component: HomeComponent },
+  { path: 'homePermisos', component: HomePermisosComponent },
+  { path: 'management', component: ManagementComponent },
+  { path: 'edit-user', component: EditUserComponent },
+  { path: 'flights', component: FlightsComponent },
+  { path: 'register-flight', component: RegisterFlightComponent },
+  { path: 'medals', component: MedalsComponent },
+  { path: '**', redirectTo: 'login' } // ROUTA DE ERROR
 ];
+
 
 const routeAnimations = trigger('routeAnimations', [
   transition('login => register', [
@@ -47,6 +58,11 @@ const routeAnimations = trigger('routeAnimations', [
     LoginComponent,
     RegisterUserComponent,
     HomePermisosComponent,
+    ManagementComponent,
+    EditUserComponent,
+    FlightsComponent,
+    RegisterFlightComponent,
+    MedalsComponent,
   ],
   imports: [
     BrowserModule,

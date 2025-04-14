@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TripulantesService } from '../Services/tripulantes.service';
-import { Tripulantes } from '../model/tripulantes.model';
+import { Tripulantes } from '../model/Tripulantes.model';
 import { GrupoSanguineoService } from '../Services/grupo-sanguineo.service';
 import { OficioService } from '../Services/oficio.service';
 
@@ -39,11 +39,18 @@ export class HomePermisosComponent implements OnInit {
     return this.tripulante ? `${this.tripulante.nombre}` : '';
   }
 
-  home() {
-    this.router.navigate(['/register-flight']);
+
+  verGestion() {
+    this.router.navigate(['/management']);
+  }
+  
+  verVuelos() {
+    this.router.navigate(['/flights']);
+  }
+  
+  verLogros() {
+    this.router.navigate(['/logros']); // Asegúrate de tener esta ruta configurada o crea una futura
   }
 
-  registrar() {
-    this.router.navigate(['/register']);
-  }
+
 }

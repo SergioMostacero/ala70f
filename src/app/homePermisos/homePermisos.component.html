@@ -1,44 +1,37 @@
-<div class="container" *ngIf="tripulante">
-    <div class="user-panel">
-      <!-- Perfil del tripulantes -->
-      <div class="info">
-        <div class="user-img"></div>
+<div class="container" *ngIf="tripulante; else noUser">
+  <div class="user-panel">
+    <!-- Perfil del tripulante -->
+    <div class="info">
+      <div class="user-img"></div>
 
-        <p class="user-name">
-          {{ tripulante?.nombre }} {{ tripulante?.apellidos }} 
-        </p>
-  
-        <p class="user-info">
-          Rango:
-          {{ tripulante?.rango?.nombre || 'No especificado' }}
-        </p>
-        <p class="user-info">
-          Grupo Sanguíneo:
-          {{ tripulante?.grupoSanguineo?.tipo}}
-        </p>
-        <p class="user-info">
-          Antigüedad:
-          {{ tripulante?.antiguedad || 'No especificado'}}
-        </p>
-        <p class="user-info">
-          Horas totales de vuelo:
-          {{ tripulante?.horas_totales || 'No especificado'}}
-        </p>
+      <p class="user-name">
+        {{ tripulante?.nombre }} {{ tripulante?.apellidos }}
+      </p>
 
-      </div>
-  
-      <div class="nav-buttons">
-        <button class="nav-button" (click)="registrar()">Registra a un Tripulante</button>
-        <button class="nav-button">LOGROS / MEDALLAS</button>
-        <!--<button class="nav-button" (click)="()">REGISTRAR VUELO</button>-->
-        <button class="nav-button">HISTORIAL DE VUELOS</button>
-        <button class="nav-button">TUS DESTINOS</button>
-      </div>
+      <p class="user-info">
+        Rango: {{ tripulante?.rango?.nombre || 'No especificado' }}
+      </p>
+      <p class="user-info">
+        Grupo Sanguíneo: {{ tripulante?.grupoSanguineo?.tipo || 'No especificado' }}
+      </p>
+      <p class="user-info">
+        Antigüedad: {{ tripulante?.antiguedad || 'No especificado' }}
+      </p>
+      <p class="user-info">
+        Horas totales de vuelo: {{ tripulante?.horas_totales || 'No especificado' }}
+      </p>
+    </div>
+
+    <!-- Botones de navegación -->
+    <div class="nav-buttons">
+      <button class="nav-button" (click)="verGestion()">Gestión</button>
+      <button class="nav-button" (click)="verVuelos()">Vuelos</button>
+      <button class="nav-button" (click)="verLogros()">Logros / Medallas</button>
     </div>
   </div>
-  
-  <!-- Si tripulantes == null, muestras esto -->
-  <ng-template #noUser>
-    <p>No hay tripulante logueado.</p>
-  </ng-template>
-  
+</div>
+
+<!-- Si no hay tripulante logueado -->
+<ng-template #noUser>
+  <p>No hay tripulante logueado.</p>
+</ng-template>
