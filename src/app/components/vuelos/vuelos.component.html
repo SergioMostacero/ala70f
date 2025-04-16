@@ -1,4 +1,28 @@
-<div class="container">
+<div class="container-grid">
+
+  <div class="recent-flights">
+    <h2>Vuelos Recientes</h2>
+    <table class="flight-table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Salida</th>
+          <th>Llegada</th>
+          <th>Avión</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vuelo of vuelosRecientes">
+          <td>{{ vuelo.fecha }}</td>
+          <td>{{ vuelo.hora_salida }}</td>
+          <td>{{ vuelo.hora_llegada }}</td>
+          <td>{{ vuelo.avionDTO?.nombre }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
   <div class="user-panel">
     <h1>Registrar Vuelo</h1>
 
@@ -64,9 +88,16 @@
 
 
 
-      <button type="submit" class="nav-button" [disabled]="vueloForm.invalid">
-        Crear Vuelo
-      </button>
+      <div class="button-group">
+        <button type="submit" class="nav-button" [disabled]="vueloForm.invalid">
+          Crear Vuelo
+        </button>
+        <button type="button" class="nav-button" (click)="goBack()">
+          Volver
+        </button>
+      </div>
+      
+      
     </form>
   </div>
 </div>

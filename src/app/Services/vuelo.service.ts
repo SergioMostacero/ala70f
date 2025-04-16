@@ -11,11 +11,18 @@ export class VueloService {
 
   constructor(private http: HttpClient) {}
 
+  // Crear nuevo vuelo
   createVuelo(vueloData: Vuelo): Observable<Vuelo> {
     return this.http.post<Vuelo>(this.baseUrl, vueloData);
   }
 
+  // Obtener todos los vuelos
   getAllVuelos(): Observable<Vuelo[]> {
     return this.http.get<Vuelo[]>(this.baseUrl);
   }
+
+  getVuelosByUser(tripulanteId: number): Observable<Vuelo[]> {
+    return this.http.get<Vuelo[]>(`${this.baseUrl}/user?tripulanteId=${tripulanteId}`);
+  }
+  
 }

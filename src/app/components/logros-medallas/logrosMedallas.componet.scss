@@ -88,3 +88,32 @@
   font-size: 2rem;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
 }
+
+.button-group {
+  display: flex;
+  justify-content: center; 
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.nav-button {
+  padding: 0.8rem;
+  background: #282c34;
+  color: #cdd0d5;
+  border-radius: 0.3rem;
+  border: 1px solid #3a3f4b;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, border 0.2s;
+  font-size: 1rem;
+
+  &:hover {
+    background: #3a3f4b;
+    border: 1px solid #555b6e;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}

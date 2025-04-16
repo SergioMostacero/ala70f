@@ -5,6 +5,7 @@ import { ItinerarioService } from '../../Services/itinerario.service';
 import { MisionService } from '../../Services/mision.service';
 import { UbicacionService } from '../../Services/ubicacion.service';
 import { AvionService } from '../../Services/avion.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vuelos',
@@ -25,7 +26,8 @@ export class VuelosComponent implements OnInit {
     private itinerarioService: ItinerarioService,
     private misionService: MisionService,
     private ubicacionService: UbicacionService,
-    private avionService: AvionService
+    private avionService: AvionService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -33,6 +35,7 @@ export class VuelosComponent implements OnInit {
     this.loadAviones();
     this.loadMisiones();
     this.loadItinerarios();
+    this.loadVuelosUsuario();
   }
 
   private initForm(): void {
@@ -48,6 +51,10 @@ export class VuelosComponent implements OnInit {
     });
   }
 
+  goBack() {
+    this.router.navigate(['/homePermisos']);
+  }
+  
   private loadAviones(): void {
     this.avionService.getAll().subscribe({
       next: (data) => this.avionList = data,
@@ -107,4 +114,21 @@ export class VuelosComponent implements OnInit {
       alert('Por favor, completa todos los campos');
     }
   }
+
+  vuelosRecientes: any[] = [];
+
+  private loadVuelosUsuario(): void {
+    const tripulanteId = Number(localStorage.getItem('tripulanteId'));
+
+    if (tripulanteId) {
+      this.vueloService.getVuelosByUser(tripulanteId).subscribe({
+        next: (data) => this.vuelosRecientes = data,
+        error: (err) => console.error('Error cargando vuelos recientes:', err)
+      });
+    } else {
+      console.warn('No se encontró el tripulanteId en localStorage');
+    }
+  }
+
+
 }

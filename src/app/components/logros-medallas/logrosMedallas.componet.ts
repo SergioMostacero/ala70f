@@ -50,4 +50,8 @@ export class LogrosMedallasComponent implements OnInit {
   tieneMedalla(medallaId: number): boolean {
     return this.medallas.some(m => m.id === medallaId);
   }
+
+  goBack() {
+    this.router.navigate(['/homePermisos']);
+  }
 }
