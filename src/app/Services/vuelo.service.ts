@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Vuelo } from '../model/vuelo.model'; // Ajusta el path según tu estructura
+import { Vuelo } from '../model/vuelo.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VueloService {
-  private baseUrl = 'http://localhost:8080/api/vuelos';
+  private baseUrl = 'http://localhost:8000/api/vuelos';
 
   constructor(private http: HttpClient) {}
 
@@ -15,5 +15,7 @@ export class VueloService {
     return this.http.post<Vuelo>(this.baseUrl, vueloData);
   }
 
-  // Otros métodos si lo necesitas...
+  getAllVuelos(): Observable<Vuelo[]> {
+    return this.http.get<Vuelo[]>(this.baseUrl);
+  }
 }

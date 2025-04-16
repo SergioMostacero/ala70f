@@ -4,7 +4,7 @@ import { Mision } from "./mision.model";
 
 export interface Vuelo {
     id: number;
-    localDateTime: Date;
+    localDate: Date;
     horaSalida: string;
     horaLlegada: string;
     anticipo: string;

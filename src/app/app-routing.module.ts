@@ -1,14 +1,14 @@
 // app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { RegisterUserComponent } from './register-user/register-user.component';
-import { HomeComponent } from './home/home.component';
-import { HomePermisosComponent } from './homePermisos/homePermisos.component';
-import { LogrosMedallasComponent } from './logros-medallas/logrosMedallas.componet';
-import { ManagementComponent } from './management/management.component';
-import { EditUserComponent } from './edit-user/edit-user.component';
-import { VuelosComponent } from './vuelos/vuelos.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterUserComponent } from './components/register-user/register-user.component';
+import { HomeComponent } from './components/home/home.component';
+import { HomePermisosComponent } from './components/homePermisos/homePermisos.component';
+import { LogrosMedallasComponent } from './components/logros-medallas/logrosMedallas.componet';
+import { ManagementComponent } from './components/management/management.component';
+import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { VuelosComponent } from './components/vuelos/vuelos.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },

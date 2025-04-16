@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { TripulantesService } from '../Services/tripulantes.service';
-import { Tripulantes } from '../model/Tripulantes.model';
+import { TripulantesService } from '../../Services/tripulantes.service';
+import { Tripulantes } from '../../model/Tripulantes.model';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({

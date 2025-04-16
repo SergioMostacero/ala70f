@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { TripulantesService } from '../Services/tripulantes.service';
-import { MedallaService } from '../Services/medalla.service';
-import { Tripulantes } from '../model/Tripulantes.model';
-import { Medalla } from '../model/medalla.model';
+import { TripulantesService } from '../../Services/tripulantes.service';
+import { MedallaService } from '../../Services/medalla.service';
+import { Tripulantes } from '../../model/Tripulantes.model';
+import { Medalla } from '../../model/medalla.model';
 import { Router } from '@angular/router';
 
 @Component({

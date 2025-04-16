@@ -6,12 +6,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { HomePermisosComponent } from './homePermisos/homePermisos.component'; 
-import { LoginComponent } from './login/login.component';
-import { RegisterUserComponent } from './register-user/register-user.component';
-import { LogrosMedallasComponent } from './logros-medallas/logrosMedallas.componet';
-import { VuelosComponent } from './vuelos/vuelos.component';
+import { HomeComponent } from './components/home/home.component';
+import { HomePermisosComponent } from './components/homePermisos/homePermisos.component'; 
+import { LoginComponent } from './components/login/login.component';
+import { RegisterUserComponent } from './components/register-user/register-user.component';
+import { LogrosMedallasComponent } from './components/logros-medallas/logrosMedallas.componet';
+import { VuelosComponent } from './components/vuelos/vuelos.component';
 
 import { AppRoutingModule } from './app-routing.module'; 
 

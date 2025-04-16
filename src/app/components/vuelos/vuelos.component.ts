@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { VueloService } from '../Services/vuelo.service';
+import { VueloService } from '../../Services/vuelo.service';
+import { ItinerarioService } from '../../Services/itinerario.service';
+import { MisionService } from '../../Services/mision.service';
+import { UbicacionService } from '../../Services/ubicacion.service';
+import { AvionService } from '../../Services/avion.service';
 
 @Component({
   selector: 'app-vuelos',
@@ -17,7 +21,11 @@ export class VuelosComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private vueloService: VueloService
+    private vueloService: VueloService,
+    private itinerarioService: ItinerarioService,
+    private misionService: MisionService,
+    private ubicacionService: UbicacionService,
+    private avionService: AvionService
   ) {}
 
   ngOnInit(): void {
@@ -27,7 +35,6 @@ export class VuelosComponent implements OnInit {
     this.loadItinerarios();
   }
 
-  // Inicializa el formulario Reactivo
   private initForm(): void {
     this.vueloForm = this.fb.group({
       fecha: ['', Validators.required],
@@ -42,32 +49,52 @@ export class VuelosComponent implements OnInit {
   }
 
   private loadAviones(): void {
-    // Simulando datos; aquí llamarías a tu servicio real
-    this.avionList = [
-      { id: 1, nombre: 'Boeing 737' },
-      { id: 2, nombre: 'Airbus A320' }
-    ];
+    this.avionService.getAll().subscribe({
+      next: (data) => this.avionList = data,
+      error: (err) => {
+        console.error('Error cargando aviones:', err);
+        alert('No se pudieron cargar los aviones');
+      }
+    });
   }
 
   private loadMisiones(): void {
-    this.misionList = [
-      { id: 10, nombre: 'Misión de rescate' },
-      { id: 11, nombre: 'Entrenamiento' }
-    ];
+    this.misionService.getAll().subscribe({
+      next: (data) => this.misionList = data,
+      error: (err) => {
+        console.error('Error cargando misiones:', err);
+        alert('No se pudieron cargar las misiones');
+      }
+    });
   }
 
   private loadItinerarios(): void {
-    this.itinerarioList = [
-      { id: 100, nombre: 'Ruta A' },
-      { id: 101, nombre: 'Ruta B' }
-    ];
+    this.itinerarioService.getAll().subscribe({
+      next: (data) => this.itinerarioList = data,
+      error: (err) => {
+        console.error('Error cargando itinerarios:', err);
+        alert('No se pudieron cargar los itinerarios');
+      }
+    });
   }
 
+  get avionFormGroup(): FormGroup {
+    return this.vueloForm.get('avionDTO') as FormGroup;
+  }
+  
+  get misionesFormGroup(): FormGroup {
+    return this.vueloForm.get('misionesDTO') as FormGroup;
+  }
+  
+  get itinerarioFormGroup(): FormGroup {
+    return this.vueloForm.get('itinerarioDTO') as FormGroup;
+  }
+  
   createVuelo(): void {
     if (this.vueloForm.valid) {
       const vueloData = this.vueloForm.value;
       this.vueloService.createVuelo(vueloData).subscribe({
-        next: (created) => {
+        next: () => {
           alert('¡Vuelo creado con éxito!');
           this.vueloForm.reset();
         },
