@@ -32,6 +32,7 @@ export class LoginComponent {
       .subscribe({
         next: (tripulante: Tripulantes) => {
           localStorage.setItem('tripulanteId', tripulante.id?.toString() || '');
+          localStorage.setItem('permisos', tripulante.permisos ? 'true' : 'false');
           this.tripulantesService.setLoggedInUser(tripulante);
 
           // Redirigir dependiendo del permiso

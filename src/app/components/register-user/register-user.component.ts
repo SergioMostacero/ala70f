@@ -49,7 +49,6 @@ export class RegisterUserComponent implements OnInit {
   }
   
   
-
   ngOnInit() {
     this.cargarOpciones();
     

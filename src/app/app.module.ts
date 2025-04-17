@@ -14,6 +14,7 @@ import { LogrosMedallasComponent } from './components/logros-medallas/logrosMeda
 import { VuelosComponent } from './components/vuelos/vuelos.component';
 
 import { AppRoutingModule } from './app-routing.module'; 
+import { RegisterFlightComponent } from './components/register-flight/register-flight.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { AppRoutingModule } from './app-routing.module';
     LoginComponent,
     RegisterUserComponent,
     LogrosMedallasComponent,
-    VuelosComponent
+    VuelosComponent,
+    RegisterFlightComponent
   ],
   imports: [
     BrowserModule,

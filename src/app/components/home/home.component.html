@@ -5,7 +5,6 @@
         <div class="user-img"></div>
 
         <p class="user-name">
-          USUARIO
           {{ tripulante?.nombre }} {{ tripulante?.apellidos }} 
         </p>
   
@@ -29,7 +28,7 @@
   
       <div class="nav-buttons">
         <button class="nav-button" (click)="irALogrosMedallas()">MEDALLAS/LOGROS</button>
-        <button class="nav-button">HISTORIAL DE VUELOS</button>
+        <button class="nav-button" (click)="verVuelos()">Vuelos</button>   
         <button class="nav-button">TUS DESTINOS</button>
       </div>
     </div>
