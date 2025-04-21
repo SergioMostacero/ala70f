@@ -42,7 +42,7 @@ export class RegisterFlightComponent implements OnInit {
       anticipo: ['', Validators.required],
       gasolina: ['', Validators.required],
       avionDTO: this.fb.group({ id: [null] }),
-      misionesDTO: this.fb.group({ id: [null] }),
+      misionDTO: this.fb.group({ id: [null] }),
       itinerarioDTO: this.fb.group({ id: [null] })
     });
   }
@@ -52,7 +52,7 @@ export class RegisterFlightComponent implements OnInit {
   }
 
   get misionesFormGroup(): FormGroup {
-    return this.vueloForm.get('misionesDTO') as FormGroup;
+    return this.vueloForm.get('misionDTO') as FormGroup;
   }
 
   get itinerarioFormGroup(): FormGroup {
@@ -78,7 +78,7 @@ export class RegisterFlightComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/homePermisos']);
+    this.router.navigate(['/flights']);
   }
 
   private loadAviones(): void {

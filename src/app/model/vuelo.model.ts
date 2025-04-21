@@ -5,13 +5,13 @@ import { Tripulantes } from "./Tripulantes.model";
 
 export interface Vuelo {
     id: number;
-    localDate: Date;
-    horaSalida: string;
-    horaLlegada: string;
+    fecha: string;        
+    hora_salida: string;   
+    hora_llegada: string;   
     anticipo: string;
     gasolina: string;
-    avion: Avion;
-    mision: Mision;
-    itinerario: Itinerario;
-    tripulantes: Tripulantes[];
+    avionDTO: { id: number };  
+    misionDTO: { id: number };  
+    itinerarioDTO: { id: number };  
+    tripulantesDTO?: any[];  
 }

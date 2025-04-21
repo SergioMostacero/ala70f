@@ -21,6 +21,11 @@ export class VuelosComponent implements OnInit {
     this.mostrarBotonRegistro = localStorage.getItem('permisos') === 'true';
   }
 
+  // vuelos.component.ts (actualización del método goBack)
+goBack() {
+  this.router.navigate(['/homePermisos']);
+}
+
   irARegistrarVuelo() {
     this.router.navigate(['/register-flights']);
   }

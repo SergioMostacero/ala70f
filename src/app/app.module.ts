@@ -33,7 +33,7 @@ import { RegisterFlightComponent } from './components/register-flight/register-f
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule 
+    AppRoutingModule, 
   ],
   providers: [],
   bootstrap: [AppComponent]

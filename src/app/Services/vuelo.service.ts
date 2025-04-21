@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Vuelo } from '../model/vuelo.model';
 
@@ -11,9 +11,17 @@ export class VueloService {
 
   constructor(private http: HttpClient) {}
 
-  // Crear nuevo vuelo
   createVuelo(vueloData: Vuelo): Observable<Vuelo> {
-    return this.http.post<Vuelo>(this.baseUrl, vueloData);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  
+    const payload = {
+      ...vueloData,
+      avionDTO: { id: vueloData.avionDTO.id },
+      misionDTO: { id: vueloData.misionDTO.id },
+      itinerarioDTO: { id: vueloData.itinerarioDTO.id }
+    };
+  
+    return this.http.post<Vuelo>(this.baseUrl, payload, { headers });
   }
 
   // Obtener todos los vuelos

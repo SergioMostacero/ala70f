@@ -10,9 +10,9 @@ export interface Tripulantes {
   apellidos: string;
   email: string;
   contrasena: string;
-  antiguedad: Date;
+  antiguedad: string;
   permisos: boolean;
-  horas_totales: string;
+  horas_totales: number;
   rango: Rango;        
   grupoSanguineo: GrupoSanguineo; 
   oficio: Oficio;

@@ -99,14 +99,12 @@ export class RegisterUserComponent implements OnInit {
       apellidos: this.apellidos,
       email: this.email,
       contrasena: this.contrasena,
-      antiguedad: this.antiguedad,
-      horas_totales: this.horasVuelo.toString(),
+      antiguedad: this.antiguedad.toISOString().split('T')[0], // Formato YYYY-MM-DD
       permisos: false,
-      grupoSanguineo: this.grupoSanguineoSeleccionado,
-      rango: this.rangoSeleccionado,
-      oficio: this.oficioSeleccionado,
-      medallas: [],
-      vuelos: []
+      horas_totales: this.horasVuelo,
+      rango: this.rangoSeleccionado.id,
+      grupoSanguineoId: this.grupoSanguineoSeleccionado.id,
+      oficioId: this.oficioSeleccionado.id
     };
 
     this.tripulantesService.createTripulantes(nuevoTripulante).subscribe({
