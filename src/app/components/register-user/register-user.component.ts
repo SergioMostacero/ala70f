@@ -9,6 +9,7 @@ import { Rango } from '../../model/rango.model';
 import { GrupoSanguineo } from '../../model/grupo-sanguineo.model';
 import { Oficio } from '../../model/oficio.model';
 import { TripulantesService } from '../../Services/tripulantes.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-register-user',
@@ -99,12 +100,14 @@ export class RegisterUserComponent implements OnInit {
       apellidos: this.apellidos,
       email: this.email,
       contrasena: this.contrasena,
-      antiguedad: this.antiguedad.toISOString().split('T')[0], // Formato YYYY-MM-DD
+      antiguedad: this.antiguedad ? formatDate(this.antiguedad, 'yyyy-MM-dd', 'en-GB'): '',
       permisos: false,
       horas_totales: this.horasVuelo,
-      rango: this.rangoSeleccionado.id,
-      grupoSanguineoId: this.grupoSanguineoSeleccionado.id,
-      oficioId: this.oficioSeleccionado.id
+      rango: this.rangoSeleccionado,        
+      grupoSanguineo: this.grupoSanguineoSeleccionado, 
+      oficio: this.oficioSeleccionado, 
+      medallas: [],
+      vuelos: []
     };
 
     this.tripulantesService.createTripulantes(nuevoTripulante).subscribe({

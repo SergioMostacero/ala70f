@@ -10,7 +10,7 @@ export interface Tripulantes {
   apellidos: string;
   email: string;
   contrasena: string;
-  antiguedad: string;
+  antiguedad: string; 
   permisos: boolean;
   horas_totales: number;
   rango: Rango;        
