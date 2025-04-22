@@ -14,6 +14,11 @@ export class TripulantesService {
     this.loadFromStorage();
   }
 
+
+  
+  getAll(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
   // Login
   loginTripulantes(email: string, contrasena: string): Observable<Tripulantes> {
     return this.http.post<Tripulantes>(
@@ -54,6 +59,26 @@ export class TripulantesService {
   getTripulantess(): Observable<Tripulantes[]> {
     return this.http.get<Tripulantes[]>(this.apiUrl);
   }
+
+  getPilotos(): Observable<Tripulantes[]> {
+    return this.http.get<Tripulantes[]>(`${this.apiUrl}/pilotos`);
+  }
+
+  getCoPilotos(): Observable<Tripulantes[]> {
+    return this.http.get<Tripulantes[]>(`${this.apiUrl}/copilotos`);
+  }
+  
+
+  getMecanicos(): Observable<Tripulantes[]> {
+    return this.http.get<Tripulantes[]>(`${this.apiUrl}/mecanicos`);
+  }
+  
+
+  getTecnicosCom(): Observable<Tripulantes[]> {
+    return this.http.get<Tripulantes[]>(`${this.apiUrl}/tecnicoscom`);
+  }
+  
+  
 
   createTripulantes(tripulante: Tripulantes): Observable<Tripulantes> {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});

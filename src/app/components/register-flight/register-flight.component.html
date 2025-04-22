@@ -60,8 +60,49 @@
         </select>
       </div>
 
+<!-- Piloto -->
+<div class="form-group">
+  <label for="tripulanteSelect">Piloto:</label>
+  <select id="tripulanteSelect" formControlName="piloto">
+    <option [ngValue]="null">-- Selecciona un Piloto --</option>
+    <option *ngFor="let piloto of pilotosList" [ngValue]="piloto">
+      {{ piloto.nombre }} {{ piloto.apellidos }}
+    </option>
+  </select>
+</div>
 
+<!-- Copiloto -->
+<div class="form-group">
+  <label for="copilotoSelect">Copiloto:</label>
+  <select id="copilotoSelect" formControlName="copiloto">
+    <option [ngValue]="null">-- Selecciona un Copiloto --</option>
+    <option *ngFor="let copiloto of copilotosList" [ngValue]="copiloto">
+      {{ copiloto.nombre }} {{ copiloto.apellidos }}
+    </option>
+  </select>
+</div>
 
+<!-- Mecánico -->
+<div class="form-group">
+  <label for="mecanicosSelect">Mecánico:</label>
+  <select id="mecanicosSelect" formControlName="mecanico">
+    <option [ngValue]="null">-- Selecciona un Mecánico --</option>
+    <option *ngFor="let mecanico of mecanicosList" [ngValue]="mecanico">
+      {{ mecanico.nombre }} {{ mecanico.apellidos }}
+    </option>
+  </select>
+</div>
+
+<!-- Técnico de Comunicaciones -->
+<div class="form-group">
+  <label for="tecnicosComSelect">Técnico de Comunicaciones y Navegación:</label>
+  <select id="tecnicosComSelect" formControlName="tecnicoCom">
+    <option [ngValue]="null">-- Selecciona un Técnico --</option>
+    <option *ngFor="let tecnicoCom of tecnicoComList" [ngValue]="tecnicoCom">
+      {{ tecnicoCom.nombre }} {{ tecnicoCom.apellidos }}
+    </option>
+  </select>
+</div>
 
 
       <div class="button-group">

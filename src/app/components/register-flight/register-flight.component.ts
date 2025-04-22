@@ -4,6 +4,7 @@ import { VueloService } from '../../Services/vuelo.service';
 import { ItinerarioService } from '../../Services/itinerario.service';
 import { MisionService } from '../../Services/mision.service';
 import { AvionService } from '../../Services/avion.service';
+import { TripulantesService } from '../../Services/tripulantes.service'; 
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,6 +18,10 @@ export class RegisterFlightComponent implements OnInit {
   avionList: any[] = [];
   misionList: any[] = [];
   itinerarioList: any[] = [];
+  pilotosList: any[] = [];
+  copilotosList: any[] = [];
+  mecanicosList: any[] = [];
+  tecnicoComList: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -24,6 +29,7 @@ export class RegisterFlightComponent implements OnInit {
     private itinerarioService: ItinerarioService,
     private misionService: MisionService,
     private avionService: AvionService,
+    private tripulantesService: TripulantesService,
     private router: Router
   ) {}
 
@@ -32,6 +38,10 @@ export class RegisterFlightComponent implements OnInit {
     this.loadAviones();
     this.loadMisiones();
     this.loadItinerarios();
+    this.loadPilotos();
+    this.loadCopilotos();
+    this.loadMecanicos();
+    this.loadTecnicosCom();
   }
 
   private initForm(): void {
@@ -43,8 +53,11 @@ export class RegisterFlightComponent implements OnInit {
       gasolina: ['', Validators.required],
       avionDTO: this.fb.group({ id: [null] }),
       misionDTO: this.fb.group({ id: [null] }),
-      itinerarioDTO: this.fb.group({ id: [null] })
-    });
+      itinerarioDTO: this.fb.group({ id: [null] }),
+      piloto: [null, Validators.required],
+      copiloto: [null],
+      mecanico: [null],
+      tecnicoCom: [null],    });
   }
 
   get avionFormGroup(): FormGroup {
@@ -90,6 +103,46 @@ export class RegisterFlightComponent implements OnInit {
       }
     });
   }
+
+  private loadPilotos(): void {
+  this.tripulantesService.getPilotos().subscribe({
+    next: (data) => this.pilotosList = data,
+    error: (err) => {
+      console.error('Error cargando pilotos:', err);
+      alert('No se pudieron cargar los pilotos');
+    }
+  });
+}
+
+private loadCopilotos(): void {
+  this.tripulantesService.getCoPilotos().subscribe({
+    next: (data) => this.copilotosList = data,
+    error: (err) => {
+      console.error('Error cargando copilotos:', err);
+      alert('No se pudieron cargar los copilotos');
+    }
+  });
+}
+
+private loadMecanicos(): void {
+  this.tripulantesService.getMecanicos().subscribe({
+    next: (data) => this.mecanicosList = data,
+    error: (err) => {
+      console.error('Error cargando mecanicos:', err);
+      alert('No se pudieron cargar los mecanicos');
+    }
+  });
+}
+
+private loadTecnicosCom(): void {
+  this.tripulantesService.getTecnicosCom().subscribe({
+    next: (data) => this.tecnicoComList = data,
+    error: (err) => {
+      console.error('Error cargando tecnicos de comunicaciones y navegación:', err);
+      alert('No se pudieron cargar los tecnicos de comunicaciones y navegación');
+    }
+  });
+}
 
   private loadMisiones(): void {
     this.misionService.getAll().subscribe({
