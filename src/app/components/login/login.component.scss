@@ -22,7 +22,6 @@ html, body {
       width: 200%;
       height: 200%;
       background: radial-gradient(circle, 
-          rgba(255,255,255,0.05) 0%, 
           rgba(255,255,255,0) 70%
       );
       pointer-events: none;
@@ -131,4 +130,80 @@ html, body {
       transition: width 0.4s ease, height 0.4s ease;
       transform: translate(-50%, -50%) scale(6);
   }
+}
+
+:host .login-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-size: 3px 3px, 2px 2px;
+  background-position: 0 0, 1.5px 1.5px;
+  animation: starShift 90s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes starShift {
+  from { transform: translateY(0);   }
+  to   { transform: translateY(-50%);}
+}
+
+/* ====================  OVERLAY  ==================== */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(18,18,18,0.92);  /* casi opaco */
+  z-index: 1000;
+}
+
+/* ====================  RADAR  ==================== */
+.radar {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+                #66c2ff0a 0 2px,
+                transparent 2px 20px
+              ),
+              #121212;
+  box-shadow:
+    0 0 12px #008cff55,
+    0 0 25px #008cff33 inset;
+  overflow: hidden;
+}
+
+.radar::before {           /* línea del eje horizontal */
+  content: '';
+  position: absolute;
+  top: 50%; left: 0;
+  width: 100%; height: 1px;
+  background: #008cff55;
+}
+
+.radar::after {            /* línea del eje vertical */
+  content: '';
+  position: absolute;
+  left: 50%; top: 0;
+  width: 1px; height: 100%;
+  background: #008cff55;
+}
+
+.beam {                    /* haz que barre 360º */
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+      from 0deg,
+      rgba(0,140,255,0.25) 0deg,
+      rgba(0,140,255,0.10) 45deg,
+      rgba(0,140,255,0.00) 60deg 360deg
+  );
+  animation: sweep 2.5s linear infinite;
+  border-radius: 50%;
+}
+
+@keyframes sweep {
+  to { transform: rotate(360deg); }
 }

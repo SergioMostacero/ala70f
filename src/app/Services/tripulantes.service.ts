@@ -80,8 +80,9 @@ export class TripulantesService {
   
   
 
-  createTripulantes(tripulante: Tripulantes): Observable<Tripulantes> {
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<Tripulantes>(`${this.apiUrl}`, tripulante, {headers});
+  createTripulantes(dto: any): Observable<Tripulantes> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<Tripulantes>(this.apiUrl, dto, { headers });
   }
+  
 }

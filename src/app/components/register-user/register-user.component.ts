@@ -95,7 +95,7 @@ export class RegisterUserComponent implements OnInit {
       return;
     }
 
-    const nuevoTripulante: Tripulantes = {
+    const nuevoTripulante = {
       nombre: this.nombre,
       apellidos: this.apellidos,
       email: this.email,
@@ -103,9 +103,9 @@ export class RegisterUserComponent implements OnInit {
       antiguedad: this.antiguedad ? formatDate(this.antiguedad, 'yyyy-MM-dd', 'en-GB'): '',
       permisos: false,
       horas_totales: this.horasVuelo,
-      rango: this.rangoSeleccionado,        
-      grupoSanguineo: this.grupoSanguineoSeleccionado, 
-      oficio: this.oficioSeleccionado, 
+      grupoSanguineoDTO: { id: this.grupoSanguineoSeleccionado.id },
+      rangoDTO:          { id: this.rangoSeleccionado.id },
+      oficioDTO:         { id: this.oficioSeleccionado.id },
       medallas: [],
       vuelos: []
     };
