@@ -62,10 +62,11 @@
 
 <!-- Piloto -->
 <div class="form-group">
+
   <label for="tripulanteSelect">Piloto:</label>
   <select id="tripulanteSelect" formControlName="piloto">
     <option [ngValue]="null">-- Selecciona un Piloto --</option>
-    <option *ngFor="let piloto of pilotosList" [ngValue]="piloto">
+    <option *ngFor="let piloto of pilotosList" [ngValue]="piloto.id"> 
       {{ piloto.nombre }} {{ piloto.apellidos }}
     </option>
   </select>
@@ -76,7 +77,7 @@
   <label for="copilotoSelect">Copiloto:</label>
   <select id="copilotoSelect" formControlName="copiloto">
     <option [ngValue]="null">-- Selecciona un Copiloto --</option>
-    <option *ngFor="let copiloto of copilotosList" [ngValue]="copiloto">
+    <option *ngFor="let copiloto of copilotosList" [ngValue]="copiloto.id"> <!-- Enviar solo el ID -->
       {{ copiloto.nombre }} {{ copiloto.apellidos }}
     </option>
   </select>
@@ -87,7 +88,7 @@
   <label for="mecanicosSelect">Mecánico:</label>
   <select id="mecanicosSelect" formControlName="mecanico">
     <option [ngValue]="null">-- Selecciona un Mecánico --</option>
-    <option *ngFor="let mecanico of mecanicosList" [ngValue]="mecanico">
+    <option *ngFor="let mecanico of mecanicosList" [ngValue]="mecanico.id"> <!-- Enviar solo el ID -->
       {{ mecanico.nombre }} {{ mecanico.apellidos }}
     </option>
   </select>
@@ -98,7 +99,7 @@
   <label for="tecnicosComSelect">Técnico de Comunicaciones y Navegación:</label>
   <select id="tecnicosComSelect" formControlName="tecnicoCom">
     <option [ngValue]="null">-- Selecciona un Técnico --</option>
-    <option *ngFor="let tecnicoCom of tecnicoComList" [ngValue]="tecnicoCom">
+    <option *ngFor="let tecnicoCom of tecnicoComList" [ngValue]="tecnicoCom.id"> <!-- Enviar solo el ID -->
       {{ tecnicoCom.nombre }} {{ tecnicoCom.apellidos }}
     </option>
   </select>

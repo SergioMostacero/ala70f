@@ -1,0 +1,52 @@
+body {
+    background: #1a1a1a; /* Fondo base */
+    background: linear-gradient(
+      145deg, 
+      #2d2d2d 0%, 
+      #1a1a1a 50%, 
+      #2d2d2d 100%
+    );
+    min-height: 100vh;
+  }
+  
+  .login-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Efecto de partículas sutiles (opcional) */
+  .login-container::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, 
+      rgba(255,255,255,0.05) 0%, 
+      rgba(255,255,255,0) 70%
+    );
+    pointer-events: none;
+  }
+
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #3a3f4b;
+    border-top: 4px solid #555b6e;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  @keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  

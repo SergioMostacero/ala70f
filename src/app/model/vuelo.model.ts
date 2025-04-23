@@ -13,5 +13,5 @@ export interface Vuelo {
     avionDTO: { id: number };  
     misionDTO: { id: number };  
     itinerarioDTO: { id: number };  
-    tripulantesDTO?: any[];  
+    tripulantesDTO?: { id: number }[];  
 }

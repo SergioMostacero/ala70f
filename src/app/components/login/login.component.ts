@@ -9,6 +9,19 @@ import { animate, style, transition, trigger } from '@angular/animations';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   animations: [
+    trigger('fadeSlide', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('600ms cubic-bezier(0.23, 1, 0.32, 1)', 
+          style({ opacity: 1, transform: 'translateY(0)' })
+        )
+      ]),
+      transition(':leave', [
+        animate('500ms cubic-bezier(0.23, 1, 0.32, 1)', 
+          style({ opacity: 0, transform: 'translateY(-20px)' })
+        )
+      ])
+    ]),
     trigger('routeAnimations', [
       transition('* => *', [
         style({ opacity: 0 }),
@@ -20,12 +33,18 @@ import { animate, style, transition, trigger } from '@angular/animations';
 export class LoginComponent {
   email: string = '';
   contrasena: string = '';
-  showRegister: boolean = false;
+  loading: boolean = true;
 
   constructor(
     private tripulantesService: TripulantesService,
     private router: Router
   ) {}
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.loading = false;
+    }, 2000);
+  }
 
   login() {
     this.tripulantesService.loginTripulantes(this.email, this.contrasena)
@@ -35,8 +54,7 @@ export class LoginComponent {
           localStorage.setItem('permisos', tripulante.permisos ? 'true' : 'false');
           this.tripulantesService.setLoggedInUser(tripulante);
 
-          // Redirigir dependiendo del permiso
-          if (tripulante.permisos === true) {
+          if (tripulante.permisos) {
             this.router.navigate(['/homePermisos']);
           } else {
             this.router.navigate(['/home']);
@@ -48,6 +66,4 @@ export class LoginComponent {
         }
       });
   }
-  
-
 }

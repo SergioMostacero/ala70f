@@ -12,6 +12,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterUserComponent } from './components/register-user/register-user.component';
 import { LogrosMedallasComponent } from './components/logros-medallas/logrosMedallas.componet';
 import { VuelosComponent } from './components/vuelos/vuelos.component';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 import { AppRoutingModule } from './app-routing.module'; 
 import { RegisterFlightComponent } from './components/register-flight/register-flight.component';

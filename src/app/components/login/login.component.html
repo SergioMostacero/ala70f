@@ -1,5 +1,6 @@
 <div class="login-container" @routeAnimations>
-  <div class="login-panel">
+  <div *ngIf="loading" class="loading-spinner"></div>
+  <div class="login-panel" @fadeSlide *ngIf="!loading">
     <h2 class="login-title">Iniciar Sesión</h2>
     
     <div class="login-inputs">

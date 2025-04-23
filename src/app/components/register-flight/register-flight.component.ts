@@ -74,11 +74,34 @@ export class RegisterFlightComponent implements OnInit {
 
   createVuelo(): void {
     if (this.vueloForm.valid) {
-      const vueloData = this.vueloForm.value;
+      // Obtener ID del usuario logueado
+      const currentUserId = Number(localStorage.getItem('tripulanteId'));
+      
+      // Obtener IDs de los tripulantes seleccionados
+      const pilotoId = this.vueloForm.get('piloto')!.value; // Usar ! para indicar que no es null
+      const copilotoId = this.vueloForm.get('copiloto')!.value;
+      const mecanicoId = this.vueloForm.get('mecanico')!.value;
+      const tecnicoComId = this.vueloForm.get('tecnicoCom')!.value;
+  
+      // Agrupar IDs únicos (incluyendo al usuario actual)
+      const tripulanteIds = new Set<number>();
+      if (currentUserId) tripulanteIds.add(currentUserId);
+      if (pilotoId) tripulanteIds.add(pilotoId);
+      if (copilotoId) tripulanteIds.add(copilotoId);
+      if (mecanicoId) tripulanteIds.add(mecanicoId);
+      if (tecnicoComId) tripulanteIds.add(tecnicoComId);
+  
+      // Construir el payload con tripulantesDTO
+      const vueloData = {
+        ...this.vueloForm.value,
+        tripulantesDTO: Array.from(tripulanteIds).map(id => ({ id })) 
+      };
+  
       this.vueloService.createVuelo(vueloData).subscribe({
         next: () => {
           alert('¡Vuelo creado con éxito!');
           this.vueloForm.reset();
+          this.router.navigate(['/flights']); 
         },
         error: (err) => {
           console.error('Error al crear el vuelo:', err);

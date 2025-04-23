@@ -18,7 +18,8 @@ export class VueloService {
       ...vueloData,
       avionDTO: { id: vueloData.avionDTO.id },
       misionDTO: { id: vueloData.misionDTO.id },
-      itinerarioDTO: { id: vueloData.itinerarioDTO.id }
+      itinerarioDTO: { id: vueloData.itinerarioDTO.id },
+      tripulantesDTO: vueloData.tripulantesDTO
     };
   
     return this.http.post<Vuelo>(this.baseUrl, payload, { headers });
