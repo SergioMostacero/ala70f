@@ -14,4 +14,9 @@ export class GrupoSanguineoService {
   getGruposSanguineos(): Observable<GrupoSanguineo[]> {
     return this.http.get<GrupoSanguineo[]>(this.apiUrl);
   }
+  // grupo-sanguineo.service.ts
+
+  getGrupoSanguineoById(id: number): Observable<GrupoSanguineo> {
+    return this.http.get<GrupoSanguineo>(`${this.apiUrl}/${id}`);
+  }
 }

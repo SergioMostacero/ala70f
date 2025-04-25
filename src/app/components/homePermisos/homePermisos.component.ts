@@ -4,6 +4,7 @@ import { TripulantesService } from '../../Services/tripulantes.service';
 import { Tripulantes } from '../../model/Tripulantes.model';
 import { GrupoSanguineoService } from '../../Services/grupo-sanguineo.service';
 import { OficioService } from '../../Services/oficio.service';
+import { RangoService } from 'src/app/Services/rango.service';
 
 @Component({
   selector: 'app-homePermisos',
@@ -19,25 +20,40 @@ export class HomePermisosComponent implements OnInit {
     private router: Router,
     private tripulantesService: TripulantesService,
     private grupoSanguineoService: GrupoSanguineoService,
-    private oficioService: OficioService,
+    private rangoService: RangoService
   ) {}
 
   ngOnInit(): void {
     this.tripulante = this.tripulantesService.getLoggedInUser();
-
     if (!this.tripulante) {
       this.errorMessage = 'No hay tripulante logueado. Redirigiendo...';
       setTimeout(() => this.router.navigate(['/login']), 1500);
       return;
     }
+    if (this.tripulante.grupoSanguineoDTO?.id) {
+      this.grupoSanguineoService.getGrupoSanguineoById(this.tripulante.grupoSanguineoDTO.id)
+        .subscribe(gs => {
+          this.tripulante!.grupoSanguineoDTO = gs;
+        });
+    }
+
+    // Cargar detalles del rango
+    if (this.tripulante.rangoDTO?.id) {
+      this.rangoService.getRangoById(this.tripulante.rangoDTO.id)
+        .subscribe(rango => {
+          this.tripulante!.rangoDTO = rango;
+        });
+    }
 
     this.isLoading = false;
   }
+
+  
   irALogrosMedallas(): void {
     this.router.navigate(['/logros-medallas']);
   }
 
-  // Resto de métodos permanecen igual
+
   getNombreCompleto(): string {
     return this.tripulante ? `${this.tripulante.nombre}` : '';
   }

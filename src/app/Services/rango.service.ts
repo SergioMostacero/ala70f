@@ -14,4 +14,8 @@ export class RangoService {
   getRangos(): Observable<Rango[]> {
     return this.http.get<Rango[]>(this.apiUrl);
   }
+
+  getRangoById(id: number): Observable<Rango> {
+    return this.http.get<Rango>(`${this.apiUrl}/${id}`);
+  }
 }

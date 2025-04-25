@@ -7,25 +7,37 @@ import { Tripulantes } from '../model/Tripulantes.model';
   providedIn: 'root'
 })
 export class TripulantesService {
-  private apiUrl = 'http://localhost:8000/api/tripulantes';
+  private baseUrl = 'http://localhost:8000/api/tripulantes';
   private loggedInTripulante: Tripulantes | null = null;
 
   constructor(private http: HttpClient) {
     this.loadFromStorage();
   }
 
+  createTripulantes(tripulantesData: Tripulantes): Observable<Tripulantes> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
+    const payload = {
+      ...tripulantesData,
+      grupoSanguineoDTO: { id: tripulantesData.grupoSanguineoDTO.id },
+      rangoDTO: { id: tripulantesData.rangoDTO.id },
+      oficioDTO: { id: tripulantesData.oficioDTO.id },
+    }
+    return this.http.post<Tripulantes>(this.baseUrl, payload, { headers });
+  }
   
   getAll(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.baseUrl);
   }
-  // Login
+
+  // login
   loginTripulantes(email: string, contrasena: string): Observable<Tripulantes> {
     return this.http.post<Tripulantes>(
-      `${this.apiUrl}/login`,
+      `${this.baseUrl}/login`,
       { email, contrasena }
     );
   }
+
 
   // Guardar usuario logueado
   setLoggedInUser(tripulante: Tripulantes): void {
@@ -57,32 +69,29 @@ export class TripulantesService {
 
   // Otros métodos
   getTripulantess(): Observable<Tripulantes[]> {
-    return this.http.get<Tripulantes[]>(this.apiUrl);
+    return this.http.get<Tripulantes[]>(this.baseUrl);
   }
 
   getPilotos(): Observable<Tripulantes[]> {
-    return this.http.get<Tripulantes[]>(`${this.apiUrl}/pilotos`);
+    return this.http.get<Tripulantes[]>(`${this.baseUrl}/pilotos`);
   }
 
   getCoPilotos(): Observable<Tripulantes[]> {
-    return this.http.get<Tripulantes[]>(`${this.apiUrl}/copilotos`);
+    return this.http.get<Tripulantes[]>(`${this.baseUrl}/copilotos`);
   }
   
 
   getMecanicos(): Observable<Tripulantes[]> {
-    return this.http.get<Tripulantes[]>(`${this.apiUrl}/mecanicos`);
+    return this.http.get<Tripulantes[]>(`${this.baseUrl}/mecanicos`);
   }
   
 
   getTecnicosCom(): Observable<Tripulantes[]> {
-    return this.http.get<Tripulantes[]>(`${this.apiUrl}/tecnicoscom`);
+    return this.http.get<Tripulantes[]>(`${this.baseUrl}/tecnicoscom`);
   }
   
   
 
-  createTripulantes(dto: any): Observable<Tripulantes> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<Tripulantes>(this.apiUrl, dto, { headers });
-  }
+  
   
 }

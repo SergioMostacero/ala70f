@@ -95,20 +95,21 @@ export class RegisterUserComponent implements OnInit {
       return;
     }
 
-    const nuevoTripulante = {
+    const nuevoTripulante: Tripulantes = {
       nombre: this.nombre,
       apellidos: this.apellidos,
       email: this.email,
       contrasena: this.contrasena,
-      antiguedad: this.antiguedad ? formatDate(this.antiguedad, 'yyyy-MM-dd', 'en-GB'): '',
+      antiguedad: this.antiguedad
+                   ? formatDate(this.antiguedad, 'yyyy-MM-dd', 'en-GB')
+                   : '',
       permisos: false,
       horas_totales: this.horasVuelo,
-      grupoSanguineoDTO: { id: this.grupoSanguineoSeleccionado.id },
-      rangoDTO:          { id: this.rangoSeleccionado.id },
-      oficioDTO:         { id: this.oficioSeleccionado.id },
-      medallas: [],
-      vuelos: []
+      grupoSanguineoDTO: { id: this.grupoSanguineoSeleccionado.id } as any,
+      rangoDTO:          { id: this.rangoSeleccionado.id }          as any,
+      oficioDTO:         { id: this.oficioSeleccionado.id }         as any
     };
+    
 
     this.tripulantesService.createTripulantes(nuevoTripulante).subscribe({
       next: () => {
