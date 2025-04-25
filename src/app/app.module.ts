@@ -16,6 +16,8 @@ import { trigger, transition, style, animate } from '@angular/animations';
 
 import { AppRoutingModule } from './app-routing.module'; 
 import { RegisterFlightComponent } from './components/register-flight/register-flight.component';
+import { HistorialFlightsComponent } from './components/historial-flights/historial-flights.component';
+import { ViewFlightComponent } from './components/view-flight/view-flight.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { RegisterFlightComponent } from './components/register-flight/register-f
     RegisterUserComponent,
     LogrosMedallasComponent,
     VuelosComponent,
-    RegisterFlightComponent
+    RegisterFlightComponent,
+    HistorialFlightsComponent,
+    ViewFlightComponent
   ],
   imports: [
     BrowserModule,

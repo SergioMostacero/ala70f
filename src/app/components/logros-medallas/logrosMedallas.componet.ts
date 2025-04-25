@@ -18,7 +18,8 @@ export class LogrosMedallasComponent implements OnInit {
   constructor(
     private tripulantesService: TripulantesService,
     private medallaService: MedallaService,
-    private router: Router 
+    private router: Router
+    
   ) { }
 
   ngOnInit(): void {
@@ -51,7 +52,15 @@ export class LogrosMedallasComponent implements OnInit {
     return this.medallas.some(m => m.id === medallaId);
   }
 
+  
   goBack() {
-    this.router.navigate(['/homePermisos']);
+    const tienePermisos = localStorage.getItem('permisos') === 'true';
+  
+    if (tienePermisos) {
+      this.router.navigate(['/homePermisos']);
+    } else {
+      this.router.navigate(['/home']);
+    }
   }
+  
 }

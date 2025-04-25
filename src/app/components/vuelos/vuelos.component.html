@@ -26,11 +26,31 @@
         </thead>
         <tbody>
           <tr *ngFor="let vuelo of vuelosRecientes">
-            <td>{{ vuelo.itinerarioDTO?.nombre }}</td>
-            <td>{{ vuelo.fecha | date:'dd/MM/yyyy' }}</td>
-            <td>{{ vuelo.hora_salida }}</td>
-            <td>{{ vuelo.hora_llegada }}</td>
-            <td>{{ vuelo.avionDTO?.nombre }}</td>
+            <td>
+              <a (click)="verVuelo(vuelo.id)" class="link-itinerario">
+                {{ vuelo.itinerarioDTO?.nombre }}
+              </a>
+            </td>
+            <td>
+              <a (click)="verVuelo(vuelo.id)" class="link-itinerario">
+                {{ vuelo.fecha | date:'dd/MM/yyyy' }}
+              </a>
+            </td>
+            <td>
+              <a (click)="verVuelo(vuelo.id)" class="link-itinerario">
+                {{ vuelo.hora_salida }}
+              </a>
+            </td>
+            <td>
+              <a (click)="verVuelo(vuelo.id)" class="link-itinerario">
+                {{ vuelo.hora_llegada }}
+              </a>
+            </td>
+            <td>
+              <a (click)="verVuelo(vuelo.id)" class="link-itinerario">
+                {{ vuelo.avionDTO?.nombre }}
+              </a>
+            </td>
           </tr>
         </tbody>
       </table>

@@ -1,0 +1,50 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 4rem 1rem 2rem;
+}
+
+.user-panel {
+  width: 100%;
+  max-width: 1200px;
+  background: #1c1f26;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid #3a3f4b;
+  color: #cdd0d5;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #3a3f4b;
+  position: relative;
+
+  h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.nav-button {
+  background: #2d323d;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.map-container {
+  height: 40rem;
+  width: 100%;
+  margin-top: 20px;
+}
+

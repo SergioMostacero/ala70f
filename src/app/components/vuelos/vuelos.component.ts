@@ -20,25 +20,42 @@ export class VuelosComponent implements OnInit {
     this.loadVuelosUsuario();
     this.mostrarBotonRegistro = localStorage.getItem('permisos') === 'true';
   }
-
-  // vuelos.component.ts (actualización del método goBack)
-goBack() {
-  this.router.navigate(['/homePermisos']);
-}
+  
+  goBack() {
+    const tienePermisos = localStorage.getItem('permisos') === 'true';
+  
+    if (tienePermisos) {
+      this.router.navigate(['/homePermisos']);
+    } else {
+      this.router.navigate(['/home']);
+    }
+  }
+  
 
   irARegistrarVuelo() {
     this.router.navigate(['/register-flights']);
   }
 
+  verVuelo(vueloId: number) {
+    this.router.navigate(['/vuelo', vueloId]);
+  }
+  
   private loadVuelosUsuario(): void {
     const tripulanteId = Number(localStorage.getItem('tripulanteId'));
     if (tripulanteId) {
       this.vueloService.getVuelosByUser(tripulanteId).subscribe({
-        next: (data) => this.vuelosRecientes = data,
+        next: (data) => {
+          const hoy = new Date();
+          this.vuelosRecientes = data.filter((vuelo: any) => {
+            const fechaVuelo = new Date(vuelo.fecha);
+            return hoy < fechaVuelo
+          });
+        },
         error: (err) => console.error('Error cargando vuelos recientes:', err)
       });
     } else {
       console.warn('No se encontró el tripulanteId en localStorage');
     }
   }
+  
 }

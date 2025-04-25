@@ -1,0 +1,132 @@
+/* vuelos.component.scss */
+.container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 4rem 1rem 2rem;
+  }
+  
+  .user-panel {
+    width: 100%;
+    max-width: 1200px;
+    background: #1c1f26;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    border: 1px solid #3a3f4b;
+    color: #cdd0d5;
+    font-family: 'Segoe UI', sans-serif;
+    animation: panelEntrance 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+  
+  @keyframes panelEntrance {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #3a3f4b;
+    position: relative;
+  
+    h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #e2e5eb;
+      letter-spacing: -0.5px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+  
+  .nav-button {
+    background: #2d323d;
+    color: #d7dae0;
+    border: 1px solid #404654;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 1;
+    
+    &:hover {
+      background: #3a3f4b;
+      border-color: #4e5465;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+  }
+  
+  .back-button {
+    &::before {
+      content: '←';
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
+  }
+  
+  .new-flight-button {
+    &::before {
+      content: '✈';
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
+  }
+  
+  .recent-flights {
+    overflow-x: auto;
+    border-radius: 8px;
+    background: #191c22;
+    border: 1px solid #3a3f4b;
+  }
+  
+  .flight-table {
+    width: 100%;
+    min-width: 800px;
+    border-collapse: collapse;
+    
+    th, td {
+      padding: 1rem 1.2rem;
+      text-align: center;
+      border: 1px solid #2d3139;
+      transition: all 0.2s ease;
+    }
+  
+    th {
+      background: #272b33;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      color: #a0a7b5;
+      position: sticky;
+      top: 0;
+    }
+  
+    tr {
+      &:nth-child(even) {
+        background-color: #21242b;
+      }
+      
+      &:hover td {
+        background: #2b2f38;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+    }
+  
+    td {
+      color: #c9cdd4;
+      font-size: 0.95rem;
+      position: relative;
+    }
+  }

@@ -113,9 +113,17 @@ export class RegisterFlightComponent implements OnInit {
     }
   }
 
-  goBack(): void {
-    this.router.navigate(['/flights']);
+  
+  goBack() {
+    const tienePermisos = localStorage.getItem('permisos') === 'true';
+  
+    if (tienePermisos) {
+      this.router.navigate(['/homePermisos']);
+    } else {
+      this.router.navigate(['/home']);
+    }
   }
+  
 
   private loadAviones(): void {
     this.avionService.getAll().subscribe({

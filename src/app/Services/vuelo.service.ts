@@ -29,7 +29,10 @@ export class VueloService {
   getAllVuelos(): Observable<Vuelo[]> {
     return this.http.get<Vuelo[]>(this.baseUrl);
   }
-
+  getVueloById(id: number) {
+    return this.http.get(`${this.baseUrl}/${id}`);
+  }
+  
   getVuelosByUser(tripulanteId: number): Observable<Vuelo[]> {
     return this.http.get<Vuelo[]>(`${this.baseUrl}/user?tripulanteId=${tripulanteId}`);
   }

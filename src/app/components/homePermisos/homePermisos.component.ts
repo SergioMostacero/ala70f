@@ -52,6 +52,9 @@ export class HomePermisosComponent implements OnInit {
   irALogrosMedallas(): void {
     this.router.navigate(['/logros-medallas']);
   }
+  irALogrosHistorial(): void {
+    this.router.navigate(['/historial']);
+  }
 
 
   getNombreCompleto(): string {

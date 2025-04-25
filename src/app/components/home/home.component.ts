@@ -45,6 +45,9 @@ export class HomeComponent implements OnInit {
   verVuelos() {
     this.router.navigate(['/flights']);
   }
+  irALogrosHistorial(): void {
+    this.router.navigate(['/historial']);
+  }
   
   irALogrosMedallas(): void {
     this.router.navigate(['/logros-medallas']);

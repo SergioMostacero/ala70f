@@ -123,7 +123,12 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
   }
-
+  .link-itinerario {
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
   td {
     color: #c9cdd4;
     font-size: 0.95rem;

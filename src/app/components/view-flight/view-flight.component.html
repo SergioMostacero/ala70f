@@ -1,0 +1,13 @@
+<div class="container">
+    <div class="user-panel">
+      <div class="header-row">
+        <button class="nav-button back-button" (click)="goBack()">Volver</button>
+        <h1>
+          G45-{{ vuelo?.itinerarioDTO?.id }} {{ vuelo?.itinerarioDTO?.nombre }}
+        </h1>
+      </div>
+  
+      <div id="map" class="map-container"></div>
+    </div>
+  </div>
+  

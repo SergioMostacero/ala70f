@@ -9,9 +9,9 @@
       </div>
       <div class="grid-medallas">
         <div *ngFor="let medalla of medallas" class="medalla-card">
-          <img [src]="medalla.medallaURL" [alt]="medalla.nombre" class="medalla-imagen">
+          <!--<img [src]="medalla.medallaURL" [alt]="medalla.nombre" class="medalla-imagen">-->
           <h3>{{ medalla.nombre }}</h3>
-          <p>{{ medalla.descripcion }}</p>
+          <!--<p>{{ medalla.descripcion }}</p>-->
         </div>
       </div>
       <div class="button-group">
@@ -26,9 +26,9 @@
       <h2>Todas las Medallas Disponibles</h2>
       <div class="grid-medallas">
         <div *ngFor="let medalla of todasMedallas" class="medalla-card" [class.no-obtenida]="!tieneMedalla(medalla.id)">
-          <img [src]="medalla.medallaURL" [alt]="medalla.nombre" class="medalla-imagen">
+          <!--<img [src]="medalla.medallaURL" [alt]="medalla.nombre" class="medalla-imagen">-->
           <h3>{{ medalla.nombre }}</h3>
-          <p>{{ medalla.descripcion }}</p>
+          <!--<p>{{ medalla.descripcion }}</p>-->
           <div *ngIf="!tieneMedalla(medalla.id)" class="bloqueada">
             <span class="candado">🔒</span>
           </div>

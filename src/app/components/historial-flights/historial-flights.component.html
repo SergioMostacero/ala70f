@@ -1,0 +1,34 @@
+<!-- vuelos.component.html -->
+<div class="container">
+    <div class="user-panel">
+      <div class="header-row">
+        <button class="nav-button back-button" (click)="goBack()">
+          Volver
+        </button>
+        <h1>Historial de Vuelos</h1>
+      </div>
+  
+      <div class="recent-flights">
+        <table class="flight-table">
+          <thead>
+            <tr>
+              <th>Itinerario</th>
+              <th>Fecha</th>
+              <th>Salida</th>
+              <th>Llegada</th>
+              <th>Avión</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let vuelo of vuelosRecientes">
+              <td>{{ vuelo.itinerarioDTO?.nombre }}</td>
+              <td>{{ vuelo.fecha | date:'dd/MM/yyyy' }}</td>
+              <td>{{ vuelo.hora_salida }}</td>
+              <td>{{ vuelo.hora_llegada }}</td>
+              <td>{{ vuelo.avionDTO?.nombre }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

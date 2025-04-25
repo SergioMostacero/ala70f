@@ -54,6 +54,17 @@ export class RegisterUserComponent implements OnInit {
     this.cargarOpciones();
     
   }
+  
+  goBack() {
+    const tienePermisos = localStorage.getItem('permisos') === 'true';
+  
+    if (tienePermisos) {
+      this.router.navigate(['/homePermisos']);
+    } else {
+      this.router.navigate(['/home']);
+    }
+  }
+  
 
   cargarOpciones() {
     this.rangoService.getRangos().subscribe(data => {

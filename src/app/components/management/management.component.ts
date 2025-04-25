@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-management',
@@ -8,7 +9,9 @@ import { Router } from '@angular/router';
 })
 export class ManagementComponent {
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router
+  ) {}
 
   crearUsuario() {
     this.router.navigate(['/register']);
@@ -26,7 +29,16 @@ export class ManagementComponent {
     this.router.navigate(['/edit-oficio']); // Recuerda generar este componente
   }
 
-  volver() {
-    this.router.navigate(['/homePermisos']);
+  
+  goBack() {
+    const tienePermisos = localStorage.getItem('permisos') === 'true';
+  
+    if (tienePermisos) {
+      this.router.navigate(['/homePermisos']);
+    } else {
+      this.router.navigate(['/home']);
+    }
   }
+  
+  
 }
