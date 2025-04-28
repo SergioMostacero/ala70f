@@ -1,53 +1,104 @@
 /* register-user.component.scss */
 .register-container {
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 
 .register-panel {
   width: 100%;
-  max-width: 25rem;
-  padding: 2rem;
+  max-width: 35rem; // Aumentado para mejor espaciado
+  padding: 2.5rem;
+  margin: 2rem;
   background: #1c1f26;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   border: 1px solid #3a3f4b;
-  border-radius: 0.5rem;
-  text-align: center;
+  border-radius: 0.75rem;
   color: #cdd0d5;
 }
 
 .register-title {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #ffffff;
-  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #e8ebf0;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.section-title {
+  margin: 1.5rem 0 1rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #9fa4ad;
+  text-align: left;
+  border-bottom: 1px solid #3a3f4b;
+  padding-bottom: 0.5rem;
 }
 
 .register-inputs {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-}
-.register-inputs p {
-  text-align: left;        // Alinea el texto a la derecha
-  margin: 0.5rem 0 0 0;     // Reduce el margen inferior (puedes ajustarlo a gusto
-  color: #cdd0d5;           // Asegura que el color combine con el resto del texto
+  gap: 1rem;
+  
+  p {
+    margin: 0 0 0.25rem;
+    font-size: 0.9rem;
+    color: #9fa4ad;
+    font-weight: 300;
+  }
 }
 
 .register-input {
-  padding: 0.8rem;
+  width: 100%;
+  padding: 0.85rem 1.25rem;
   border: 1px solid #3a3f4b;
   background: #282c34;
   color: #ffffff;
-  border-radius: 0.3rem;
+  border-radius: 0.5rem;
   font-size: 1rem;
+  transition: all 0.3s ease;
   
   &:focus {
-      outline: none;
-      border-color: #555b6e;
+    outline: none;
+    border-color: #555b6e;
+    box-shadow: 0 0 0 3px rgba(85, 91, 110, 0.2);
+  }
+  
+  &::placeholder {
+    color: #5a5f6b;
+  }
+}
+
+select.register-input {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239fa4ad'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.2em;
+  padding-right: 2.5rem;
+}
+
+.permiso-row {
+  margin-top: 1.5rem;
+}
+
+.permission-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0 0;
+  color: #cdd0d5;
+  font-size: 0.95rem;
+  
+  input[type="checkbox"] {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: #3a3f4b;
+    cursor: pointer;
   }
 }
 
@@ -93,12 +144,4 @@
     color: #444;
   }
   
-}
-
-.permission-checkbox {
-  margin: 10px 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #666;
 }

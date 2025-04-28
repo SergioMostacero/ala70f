@@ -13,12 +13,6 @@
       <input type="date" placeholder="Antigüedad" [(ngModel)]="antiguedad" class="register-input">
       <p>Horas de vuelo:</p>
       <input type="number" placeholder="Horas de Vuelo" [(ngModel)]="horasVuelo" class="register-input">
-      <p>Permisos:</p>
-      <select Class="register-input">
-        <option  Type="text">No</option>
-        <option  Type="text">Sí</option>
-      </select>
-
     </div>
 
     <!-- ✅ Credenciales de Acceso -->
@@ -61,8 +55,7 @@
   <option *ngFor="let o of oficios" [ngValue]="o">{{ o.nombre }}</option>
 </select>
 
-<!-- Añadir un campo oculto o condicional para permisos -->
-<div *ngIf="currentTripulante?.permisos" class="register-inputs">
+<div class="register-inputs permiso-row">
   <label class="permission-checkbox">
     <input type="checkbox" [(ngModel)]="permisos"> 
     Otorgar permisos administrativos

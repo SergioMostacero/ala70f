@@ -114,7 +114,7 @@ export class RegisterUserComponent implements OnInit {
       antiguedad: this.antiguedad
                    ? formatDate(this.antiguedad, 'yyyy-MM-dd', 'en-GB')
                    : '',
-      permisos: false,
+      permisos: this.permisos,
       horas_totales: this.horasVuelo,
       grupoSanguineoDTO: { id: this.grupoSanguineoSeleccionado.id } as any,
       rangoDTO:          { id: this.rangoSeleccionado.id }          as any,
@@ -125,7 +125,7 @@ export class RegisterUserComponent implements OnInit {
     this.tripulantesService.createTripulantes(nuevoTripulante).subscribe({
       next: () => {
         alert('Registro exitoso!');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/home-permisos']);
       },
       error: (err) => {
         console.error('Error:', err);
