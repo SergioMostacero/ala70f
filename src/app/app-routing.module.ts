@@ -12,6 +12,7 @@ import { VuelosComponent } from './components/vuelos/vuelos.component';
 import { RegisterFlightComponent } from './components/register-flight/register-flight.component';
 import { HistorialFlightsComponent } from './components/historial-flights/historial-flights.component';
 import { ViewFlightComponent } from './components/view-flight/view-flight.component';
+import { ControllerMedallasComponent } from './components/controller-medallas/controller-medallas.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'register-flights', component: RegisterFlightComponent },
   { path: 'historial', component: HistorialFlightsComponent },
   { path: 'vuelo/:id', component: ViewFlightComponent }, // Asegúrate que el componente exista
+  { path: 'controller-medallas', component: ControllerMedallasComponent },
 //{ path: 'create-oficio', component: CreateOficioComponent },
 //{ path: 'edit-oficio', component: EditOficioComponent },
   { path: '**', redirectTo: 'login' }

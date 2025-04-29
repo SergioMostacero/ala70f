@@ -38,6 +38,8 @@ export class TripulantesService {
     );
   }
 
+  
+
 
   // Guardar usuario logueado
   setLoggedInUser(tripulante: Tripulantes): void {

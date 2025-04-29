@@ -40,6 +40,7 @@ export class LogrosMedallasComponent implements OnInit {
         .subscribe(medallas => this.medallas = medallas);
     }
   }
+
   
 
 

@@ -20,6 +20,9 @@ export class HistorialFlightsComponent implements OnInit {
     this.loadVuelosUsuario();
   }
 
+  verVuelo(vueloId: number) {
+    this.router.navigate(['/vuelo', vueloId]);
+  }
   
   goBack() {
     const tienePermisos = localStorage.getItem('permisos') === 'true';

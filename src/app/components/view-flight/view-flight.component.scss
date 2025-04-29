@@ -1,50 +1,106 @@
+/* Fondo y contenedor */
 .container {
+  background-color: #121212;  /* Fondo oscuro */
+  padding: 20px;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  padding: 4rem 1rem 2rem;
 }
 
 .user-panel {
-  width: 100%;
-  max-width: 1200px;
-  background: #1c1f26;
-  padding: 2rem;
-  border-radius: 12px;
-  border: 1px solid #3a3f4b;
-  color: #cdd0d5;
+  background-color: #1e1e1e;
+  color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .header-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #3a3f4b;
-  position: relative;
-
-  h1 {
-    margin: 0;
-    font-size: 1.6rem;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
 }
 
 .nav-button {
-  background: #2d323d;
-  color: #fff;
-  padding: 0.6rem 1.2rem;
+  background-color: #1d72b8;
+  color: white;
+  padding: 10px 20px;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
+  font-size: 14px;
 }
 
-.map-container {
-  height: 40rem;
-  width: 100%;
+.nav-button:hover {
+  background-color: #156ba3;
+}
+
+.flight-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.flight-details-card {
+  background-color: #2a2a2a;
   margin-top: 20px;
+  border-radius: 10px;
+  padding: 15px;
 }
 
+.flight-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.info-item {
+  flex: 1;
+  padding: 10px;
+  background-color: #3a3a3a;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.info-item strong {
+  font-weight: bold;
+  color: #1d72b8;
+}
+
+.itinerary-info {
+  margin-top: 30px;
+}
+
+.location-card {
+  background-color: #2a2a2a;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.location-card strong {
+  color: #fff;
+  font-size: 18px;
+}
+
+.location-card p {
+  color: #ddd;
+  font-size: 14px;
+}
+
+/* Mapa */
+.map-container {
+  margin-top: 30px;
+  height: 400px;  /* Ajusta la altura del mapa según lo necesites */
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+}

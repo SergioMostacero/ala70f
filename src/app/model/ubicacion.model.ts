@@ -1,6 +1,7 @@
 import { ItinerarioUbicacion } from "./Iitinerario-ubicacion.model";
 
 export interface Ubicacion {
+    orden: unknown;
     id: number;
     paisCodigo: string;
     pais: string;

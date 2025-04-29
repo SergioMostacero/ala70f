@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-management',
@@ -9,9 +8,7 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class ManagementComponent {
 
-  constructor(
-    private router: Router
-  ) {}
+  constructor(private router: Router) {}
 
   crearUsuario() {
     this.router.navigate(['/register']);
@@ -22,23 +19,23 @@ export class ManagementComponent {
   }
 
   crearOficio() {
-    this.router.navigate(['/create-oficio']); // Recuerda generar este componente
+    this.router.navigate(['/create-oficio']);
   }
 
   editarOficio() {
-    this.router.navigate(['/edit-oficio']); // Recuerda generar este componente
+    this.router.navigate(['/edit-oficio']);
   }
 
-  
+  goToMedallas() {
+    this.router.navigate(['/controller-medallas']);  // Navegar al controlador de medallas
+  }
+
   goBack() {
     const tienePermisos = localStorage.getItem('permisos') === 'true';
-  
     if (tienePermisos) {
       this.router.navigate(['/homePermisos']);
     } else {
       this.router.navigate(['/home']);
     }
   }
-  
-  
 }

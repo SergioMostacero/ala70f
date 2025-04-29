@@ -18,6 +18,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { RegisterFlightComponent } from './components/register-flight/register-flight.component';
 import { HistorialFlightsComponent } from './components/historial-flights/historial-flights.component';
 import { ViewFlightComponent } from './components/view-flight/view-flight.component';
+import { ControllerMedallasComponent } from './components/controller-medallas/controller-medallas.component';
+
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { ViewFlightComponent } from './components/view-flight/view-flight.compon
     VuelosComponent,
     RegisterFlightComponent,
     HistorialFlightsComponent,
-    ViewFlightComponent
+    ViewFlightComponent,
+    ControllerMedallasComponent
   ],
   imports: [
     BrowserModule,

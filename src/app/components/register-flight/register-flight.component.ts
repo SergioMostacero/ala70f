@@ -14,14 +14,15 @@ import { Router } from '@angular/router';
 })
 export class RegisterFlightComponent implements OnInit {
   vueloForm!: FormGroup;
-
+  itinerarioList: any[] = [];
   avionList: any[] = [];
   misionList: any[] = [];
-  itinerarioList: any[] = [];
   pilotosList: any[] = [];
   copilotosList: any[] = [];
   mecanicosList: any[] = [];
   tecnicoComList: any[] = [];
+  duracionItinerario: number = 0;  
+  horaLlegada: string = '';  
 
   constructor(
     private fb: FormBuilder,
@@ -48,7 +49,7 @@ export class RegisterFlightComponent implements OnInit {
     this.vueloForm = this.fb.group({
       fecha: ['', Validators.required],
       hora_salida: ['', Validators.required],
-      hora_llegada: ['', Validators.required],
+      hora_llegada: [{ value: '', disabled: true }],
       anticipo: ['', Validators.required],
       gasolina: ['', Validators.required],
       avionDTO: this.fb.group({ id: [null] }),
@@ -57,7 +58,41 @@ export class RegisterFlightComponent implements OnInit {
       piloto: [null, Validators.required],
       copiloto: [null],
       mecanico: [null],
-      tecnicoCom: [null],    });
+      tecnicoCom: [null],
+    });
+  }
+
+  onItinerarioChange(): void {
+    const itinerarioId = this.vueloForm.get('itinerarioDTO')?.value.id;
+    if (itinerarioId) {
+      this.itinerarioService.getById(itinerarioId).subscribe({
+        next: (data: any) => {
+          this.duracionItinerario = data.duracion;  
+          this.updateHoraLlegada();
+        },
+        error: (err: any) => {
+          console.error('Error cargando itinerario:', err);
+        }
+      });
+    }
+  }
+
+  updateHoraLlegada(): void {
+    const horaSalida = this.vueloForm.get('hora_salida')?.value;
+    if (horaSalida && this.duracionItinerario) {
+      const horaSalidaDate = new Date(`1970-01-01T${horaSalida}:00`);
+      horaSalidaDate.setHours(horaSalidaDate.getHours() + this.duracionItinerario);
+
+      const hours = String(horaSalidaDate.getHours()).padStart(2, '0');
+      const minutes = String(horaSalidaDate.getMinutes()).padStart(2, '0');
+      this.horaLlegada = `${hours}:${minutes}`;
+
+      this.vueloForm.get('hora_llegada')?.setValue(this.horaLlegada);
+    }
+  }
+
+  onHoraSalidaChange(): void {
+    this.updateHoraLlegada();
   }
 
   get avionFormGroup(): FormGroup {

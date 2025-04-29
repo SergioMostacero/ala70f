@@ -13,4 +13,7 @@ export class ItinerarioService {
   getAll(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
+  getById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
 }

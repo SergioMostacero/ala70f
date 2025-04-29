@@ -1,13 +1,62 @@
 <div class="container">
-    <div class="user-panel">
-      <div class="header-row">
-        <button class="nav-button back-button" (click)="goBack()">Volver</button>
-        <h1>
-          G45-{{ vuelo?.itinerarioDTO?.id }} {{ vuelo?.itinerarioDTO?.nombre }}
-        </h1>
+  <div class="user-panel">
+    <!-- Header -->
+    <div class="header-row">
+      <button class="nav-button back-button" (click)="goBack()">Volver</button>
+      <h1 class="flight-title">G45-{{ vuelo?.itinerarioDTO?.id }} - {{ vuelo?.itinerarioDTO?.nombre }}</h1>
+    </div>
+    
+    <!-- Información del vuelo -->
+    <div class="flight-details-card">
+      <div class="flight-info">
+        <div class="info-row">
+          <div class="info-item">
+            <strong>Itinerario:</strong>
+            <p>{{ vuelo?.itinerarioDTO?.nombre }}</p>
+          </div>
+          <div class="info-item">
+            <strong>Fecha de Vuelo:</strong>
+            <p>{{ vuelo?.fecha | date:'dd/MM/yyyy' }}</p>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-item">
+            <strong>Hora de Salida:</strong>
+            <p>{{ vuelo?.hora_salida }}</p>
+          </div>
+          <div class="info-item">
+            <strong>Hora de Llegada:</strong>
+            <p>{{ vuelo?.hora_llegada }}</p>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-item">
+            <strong>Avión:</strong>
+            <p>{{ vuelo?.avionDTO?.nombre }}</p>
+          </div>
+          <div class="info-item">
+            <strong>Anticipo:</strong>
+            <p>{{ vuelo?.anticipo }} horas</p>
+          </div>
+        </div>
       </div>
-  
-      <div id="map" class="map-container"></div>
+    </div>
+
+    <!-- Información del itinerario y las ubicaciones -->
+    <div class="itinerary-info">
+      <h2>Itinerario y Ubicaciones</h2>
+      <div *ngFor="let ubicacion of ubicaciones" class="location-card">
+        <strong>{{ ubicacion.ciudad }}</strong>
+        <p>{{ ubicacion.pais }} - {{ ubicacion.zonaHoraria }}</p>
+        <p>Coordenadas: {{ ubicacion.latitud }}, {{ ubicacion.longitud }}</p>
+      </div>
+    </div>
+
+    <!-- Mapa -->
+    <div class="map-container">
+      <div id="map" class="map"></div>
     </div>
   </div>
-  
+</div>
