@@ -1,0 +1,43 @@
+<!-- Gestión – estilo unificado -->
+<div class="container">
+  <div class="user-panel">
+
+    <!-- Cabecera -->
+    <header class="header-row">
+      <h1 class="flight-title">Gestión</h1>
+      <p class="user-info">Administración de usuarios y oficios</p>
+    </header>
+
+    <!-- Usuarios -->
+    <section class="section-card">
+      <h2 class="section-title">👤 Usuarios</h2>
+      <div class="button-group">
+        <button class="nav-button" (click)="crearUsuario()">Crear Usuario</button>
+        <button class="nav-button" (click)="editarUsuario()">Editar Usuario</button>
+      </div>
+    </section>
+
+    <!-- Oficios -->
+    <section class="section-card">
+      <h2 class="section-title">💼 Oficios</h2>
+      <div class="button-group">
+        <button class="nav-button" (click)="crearOficio()">Crear Oficio</button>
+        <button class="nav-button" (click)="editarOficio()">Editar Oficio</button>
+      </div>
+    </section>
+
+    <!-- Medallas -->
+    <section class="section-card">
+      <h2 class="section-title">🏆 Medallas</h2>
+      <div class="button-group">
+        <button class="nav-button" (click)="goToMedallas()">Control de Medallas</button>
+      </div>
+    </section>
+
+    <!-- Volver -->
+    <div class="button-group back-group">
+      <button class="nav-button back-button" (click)="goBack()">Volver</button>
+    </div>
+
+  </div>
+</div>

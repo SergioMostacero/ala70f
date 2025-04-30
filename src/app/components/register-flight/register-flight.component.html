@@ -1,109 +1,122 @@
-<div class="container-grid">
+<!-- Registrar Vuelo (estilo unificado) -->
+<div class="container">
   <div class="user-panel">
-    <h1>Registrar Vuelo</h1>
+    <!-- Cabecera -->
+    <div class="header-row">
+      <button class="nav-button back-button" (click)="goBack()">Volver</button>
+      <h1 class="flight-title">Registrar Vuelo</h1>
+    </div>
 
-    <!-- Formulario Reactivo -->
+    <!-- Formulario reactivo -->
     <form [formGroup]="vueloForm" (ngSubmit)="createVuelo()">
-      
+
+      <!-- Fecha y hora -->
       <div class="form-group">
-        <label for="fecha">Fecha y Hora:</label>
+        <label for="fecha">Fecha y Hora</label>
         <input id="fecha" type="date" formControlName="fecha" />
       </div>
 
-      <!-- Hora de Salida -->
+      <!-- Hora de salida -->
       <div class="form-group">
-        <label for="hora_salida">Hora de Salida:</label>
-        <input id="hora_salida" type="time" formControlName="hora_salida" (change)="onHoraSalidaChange()" />
+        <label for="hora_salida">Hora de Salida</label>
+        <input id="hora_salida" type="time" formControlName="hora_salida"
+               (change)="onHoraSalidaChange()" />
       </div>
 
-
-            <!-- Itinerario -->
-            <div class="form-group" [formGroup]="itinerarioFormGroup">
-              <label for="itinerarioSelect">Itinerario:</label>
-              <select id="itinerarioSelect" formControlName="id" (change)="onItinerarioChange()">
-                <option [ngValue]="null">-- Selecciona un Itinerario --</option>
-                <option *ngFor="let iti of itinerarioList" [ngValue]="iti.id">{{ iti.nombre }}</option>
-              </select>
-            </div>
-
-      <!-- Hora de Llegada (Automática) -->
-      <div class="form-group">
-        <label for="hora_llegada">Hora de Llegada:</label>
-        <input id="hora_llegada" type="time" formControlName="hora_llegada" [value]="horaLlegada" readonly />
+      <!-- Itinerario -->
+      <div class="form-group" [formGroup]="itinerarioFormGroup">
+        <label for="itinerarioSelect">Itinerario</label>
+        <select id="itinerarioSelect" formControlName="id"
+                (change)="onItinerarioChange()">
+          <option [ngValue]="null">-- Selecciona un Itinerario --</option>
+          <option *ngFor="let iti of itinerarioList" [ngValue]="iti.id">
+            {{ iti.nombre }}
+          </option>
+        </select>
       </div>
 
+      <!-- Hora de llegada (auto) -->
       <div class="form-group">
-        <label for="anticipo">Anticipo:</label>
+        <label for="hora_llegada">Hora de Llegada</label>
+        <input id="hora_llegada" type="time" formControlName="hora_llegada"
+               [value]="horaLlegada" readonly />
+      </div>
+
+      <!-- Anticipo y gasolina -->
+      <div class="form-group">
+        <label for="anticipo">Anticipo</label>
         <input id="anticipo" type="text" formControlName="anticipo" />
       </div>
 
       <div class="form-group">
-        <label for="gasolina">Gasolina:</label>
+        <label for="gasolina">Gasolina</label>
         <input id="gasolina" type="text" formControlName="gasolina" />
       </div>
 
       <!-- Avión -->
       <div class="form-group" [formGroup]="avionFormGroup">
-        <label for="avionSelect">Avión:</label>
+        <label for="avionSelect">Avión</label>
         <select id="avionSelect" formControlName="id">
           <option [ngValue]="null">-- Selecciona un Avión --</option>
-          <option *ngFor="let avion of avionList" [ngValue]="avion.id">{{ avion.nombre }}</option>
+          <option *ngFor="let avion of avionList" [ngValue]="avion.id">
+            {{ avion.nombre }}
+          </option>
         </select>
       </div>
 
       <!-- Misión -->
       <div class="form-group" [formGroup]="misionesFormGroup">
-        <label for="misionSelect">Misión:</label>
+        <label for="misionSelect">Misión</label>
         <select id="misionSelect" formControlName="id">
           <option [ngValue]="null">-- Selecciona una Misión --</option>
-          <option *ngFor="let mision of misionList" [ngValue]="mision.id">{{ mision.nombre }}</option>
+          <option *ngFor="let mision of misionList" [ngValue]="mision.id">
+            {{ mision.nombre }}
+          </option>
         </select>
       </div>
 
-      <!-- Piloto -->
+      <!-- Tripulación -->
       <div class="form-group">
-        <label for="tripulanteSelect">Piloto:</label>
+        <label for="tripulanteSelect">Piloto</label>
         <select id="tripulanteSelect" formControlName="piloto">
           <option [ngValue]="null">-- Selecciona un Piloto --</option>
-          <option *ngFor="let piloto of pilotosList" [ngValue]="piloto.id"> 
-            {{ piloto.nombre }} {{ piloto.apellidos }}
+          <option *ngFor="let p of pilotosList" [ngValue]="p.id">
+            {{ p.nombre }} {{ p.apellidos }}
           </option>
         </select>
       </div>
 
-      <!-- Copiloto -->
       <div class="form-group">
-        <label for="copilotoSelect">Copiloto:</label>
+        <label for="copilotoSelect">Copiloto</label>
         <select id="copilotoSelect" formControlName="copiloto">
           <option [ngValue]="null">-- Selecciona un Copiloto --</option>
-          <option *ngFor="let copiloto of copilotosList" [ngValue]="copiloto.id">
-            {{ copiloto.nombre }} {{ copiloto.apellidos }}
+          <option *ngFor="let c of copilotosList" [ngValue]="c.id">
+            {{ c.nombre }} {{ c.apellidos }}
           </option>
         </select>
       </div>
 
-      <!-- Mecánico -->
       <div class="form-group">
-        <label for="mecanicosSelect">Mecánico:</label>
+        <label for="mecanicosSelect">Mecánico</label>
         <select id="mecanicosSelect" formControlName="mecanico">
           <option [ngValue]="null">-- Selecciona un Mecánico --</option>
-          <option *ngFor="let mecanico of mecanicosList" [ngValue]="mecanico.id">
-            {{ mecanico.nombre }} {{ mecanico.apellidos }}
+          <option *ngFor="let m of mecanicosList" [ngValue]="m.id">
+            {{ m.nombre }} {{ m.apellidos }}
           </option>
         </select>
       </div>
 
-      <!-- Técnico de Comunicaciones -->
       <div class="form-group">
-        <label for="tecnicosComSelect">Técnico de Comunicaciones y Navegación:</label>
+        <label for="tecnicosComSelect">Téc. Comunicaciones y Nav.</label>
         <select id="tecnicosComSelect" formControlName="tecnicoCom">
           <option [ngValue]="null">-- Selecciona un Técnico --</option>
-          <option *ngFor="let tecnicoCom of tecnicoComList" [ngValue]="tecnicoCom.id">
-            {{ tecnicoCom.nombre }} {{ tecnicoCom.apellidos }}
+          <option *ngFor="let t of tecnicoComList" [ngValue]="t.id">
+            {{ t.nombre }} {{ t.apellidos }}
           </option>
         </select>
       </div>
 
+      <!-- Botones -->
       <div class="button-group">
         <button type="submit" class="nav-button" [disabled]="vueloForm.invalid">
           Crear Vuelo

@@ -19,7 +19,6 @@ export class MedallaService {
     return this.http.get<Medalla[]>(this.apiUrl);
   }
 
-    // Método para asignar medalla a un tripulante
   asignarMedalla(tripulanteId: number, medallaId: number): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/asignar-medalla/${tripulanteId}/${medallaId}`, {});
   }

@@ -74,6 +74,10 @@ export class TripulantesService {
     return this.http.get<Tripulantes[]>(this.baseUrl);
   }
 
+  getById(id: number): Observable<Tripulantes> {
+    return this.http.get<Tripulantes>(`${this.baseUrl}/${id}`);
+  }
+
   getPilotos(): Observable<Tripulantes[]> {
     return this.http.get<Tripulantes[]>(`${this.baseUrl}/pilotos`);
   }
@@ -91,8 +95,21 @@ export class TripulantesService {
   getTecnicosCom(): Observable<Tripulantes[]> {
     return this.http.get<Tripulantes[]>(`${this.baseUrl}/tecnicoscom`);
   }
-  
-  
+
+  updateTripulante(id: number, tripulanteData: Tripulantes): Observable<Tripulantes> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const payload = {
+      ...tripulanteData,
+      grupoSanguineoDTO: { id: tripulanteData.grupoSanguineoDTO.id },
+      rangoDTO:           { id: tripulanteData.rangoDTO.id },
+      oficioDTO:          { id: tripulanteData.oficioDTO.id },
+    };
+    return this.http.put<Tripulantes>(
+      `${this.baseUrl}/${id}`,
+      payload,
+      { headers }
+    );
+  }
 
   
   

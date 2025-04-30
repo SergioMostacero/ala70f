@@ -2,30 +2,23 @@
 .container {
   min-height: 100vh;
   padding: 20px;
+  background-color: #121212;               // fondo global
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background-color: #121212;               // mismo fondo global
 }
 
 /* ----------  PANEL PRINCIPAL  ---------- */
 .user-panel {
   width: 100%;
-  max-width: 38rem;
-  background-color: #1e1e1e;              // igual que flight-detail
+  max-width: 35rem;
+  background-color: #1e1e1e;               // igual a flight-detail
   color: #fff;
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, .4);
   animation: fadeInUp .6s ease-out forwards;
   font-family: 'Segoe UI', sans-serif;
-
-  .flight-title {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    flex: 1;
-  }
 }
 
 @keyframes fadeInUp {
@@ -41,6 +34,13 @@
   margin-bottom: 20px;
   padding-bottom: 15px;
   border-bottom: 2px solid #3a3a3a;
+
+  .flight-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    flex: 1;
+  }
 }
 
 /* ----------  BOTONES  ---------- */
@@ -64,25 +64,25 @@
 /* ----------  FORMULARIO  ---------- */
 form { width: 100%; }
 
-.form-group {
+.form-row {
   display: flex;
   flex-direction: column;
   margin-bottom: 1.5rem;
 
   label {
     margin-bottom: .5rem;
-    font-size: .95rem;
     color: #ddd;
+    font-size: .95rem;
   }
 
   input,
-  select {
+  textarea {
     padding: .8rem 1rem;
-    font-size: 1rem;
-    background-color: #3a3a3a;            // mismo gris que info-item
-    color: #fff;
+    background-color: #3a3a3a;            // gris card
     border: 1px solid #525252;
     border-radius: 5px;
+    font-size: 1rem;
+    color: #fff;
     transition: border-color .3s, box-shadow .3s;
 
     &:focus {
@@ -90,16 +90,18 @@ form { width: 100%; }
       border-color: #1d72b8;
       box-shadow: 0 0 0 3px rgba(29, 114, 184, .3);
     }
+
+    &::placeholder { color: #787878; }
   }
+
+  textarea { resize: vertical; }
 }
 
 /* ----------  GRUPO DE BOTONES  ---------- */
-.button-group {
+.buttons {
   display: flex;
   gap: 1rem;
   margin-top: 2rem;
 
-  .nav-button {
-    flex: 1;
-  }
+  .nav-button { flex: 1; }
 }

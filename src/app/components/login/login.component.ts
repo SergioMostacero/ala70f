@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TripulantesService } from '../../Services/tripulantes.service';
 import { Tripulantes } from '../../model/Tripulantes.model';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { NotificationService } from 'src/app/utils/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +38,8 @@ export class LoginComponent {
 
   constructor(
     private tripulantesService: TripulantesService,
-    private router: Router
+    private router: Router,
+    private notification: NotificationService
   ) {}
 
   ngOnInit() {
@@ -61,8 +63,7 @@ export class LoginComponent {
           }
         },
         error: (error) => {
-          console.error('Error:', error);
-          alert('Credenciales incorrectas');
+          this.notification.showMessage('Usuario incorrecto', 'error');
         }
       });
   }

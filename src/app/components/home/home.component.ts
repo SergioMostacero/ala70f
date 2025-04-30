@@ -4,6 +4,7 @@ import { TripulantesService } from '../../Services/tripulantes.service';
 import { Tripulantes } from '../../model/Tripulantes.model';
 import { GrupoSanguineoService } from '../../Services/grupo-sanguineo.service';
 import { OficioService } from '../../Services/oficio.service';
+import { NotificationService } from '../../utils/notification.service';
 
 @Component({
   selector: 'app-home',
@@ -13,20 +14,20 @@ import { OficioService } from '../../Services/oficio.service';
 export class HomeComponent implements OnInit {
   tripulante: Tripulantes | null = null;
   isLoading = true;
-  errorMessage: string | null = null;
 
   constructor(
     private router: Router,
     private tripulantesService: TripulantesService,
     private grupoSanguineoService: GrupoSanguineoService,
     private oficioService: OficioService,
+    private notification: NotificationService
   ) {}
 
   ngOnInit(): void {
     this.tripulante = this.tripulantesService.getLoggedInUser();
 
     if (!this.tripulante) {
-      this.errorMessage = 'No hay tripulante logueado. Redirigiendo...';
+      this.notification.showMessage('No hay tripulante logueado. Redirigiendo...', 'error');
       setTimeout(() => this.router.navigate(['/login']), 1500);
       return;
     }
@@ -34,7 +35,6 @@ export class HomeComponent implements OnInit {
     this.isLoading = false;
   }
 
-  // Resto de métodos permanecen igual
   getNombreCompleto(): string {
     return this.tripulante ? `${this.tripulante.nombre}` : '';
   }
@@ -42,9 +42,11 @@ export class HomeComponent implements OnInit {
   home() {
     this.router.navigate(['/register-flight']);
   }
+
   verVuelos() {
     this.router.navigate(['/flights']);
   }
+
   irALogrosHistorial(): void {
     this.router.navigate(['/historial']);
   }

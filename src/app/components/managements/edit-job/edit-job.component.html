@@ -1,0 +1,47 @@
+<!-- mismo “shell” oscuro que la pantalla de vuelos -->
+<div class="container">
+
+    <div class="user-panel">
+      
+      <form [formGroup]="form"
+            (ngSubmit)="submit()"
+            class="edit-job">
+  
+        <!-- Selector de oficios -->
+        <label class="full">
+          Oficio existente
+          <select #sel (change)="onSelect(sel.value)" [value]="oficio?.id ?? 0">
+            <option value="0">— Nuevo oficio —</option>
+            <option *ngFor="let o of oficios" [value]="o.id">{{ o.nombre }}</option>
+          </select>
+        </label>
+  
+        <h2>{{ oficio?.id ? 'Editar oficio' : 'Nuevo oficio' }}</h2>
+  
+        <!-- Campos -->
+        <label>
+          Nombre
+          <input formControlName="nombre" placeholder="Ej. Carpintero" />
+        </label>
+        <div *ngIf="form.get('nombre')?.invalid && form.get('nombre')?.touched" class="error">
+          El nombre es obligatorio (máx. 60 car.)
+        </div>
+  
+        <label>
+          Descripción
+          <textarea formControlName="descripcion" rows="4"
+                    placeholder="Describe brevemente el oficio"></textarea>
+        </label>
+        <div *ngIf="form.get('descripcion')?.invalid && form.get('descripcion')?.touched" class="error">
+          La descripción es obligatoria (máx. 255 car.)
+        </div>
+  
+        <button type="submit" [disabled]="loading || form.invalid">
+          {{ loading ? 'Guardando…' : (oficio?.id ? 'Actualizar' : 'Crear') }}
+        </button>
+      </form>
+  
+    </div>
+  
+  </div>
+  

@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { RangoService } from '../../Services/rango.service';
-import { GrupoSanguineoService } from '../../Services/grupo-sanguineo.service';
-import { OficioService } from '../../Services/oficio.service';
-import { Tripulantes } from '../../model/Tripulantes.model';
-import { Rango } from '../../model/rango.model';
-import { GrupoSanguineo } from '../../model/grupo-sanguineo.model';
-import { Oficio } from '../../model/oficio.model';
-import { TripulantesService } from '../../Services/tripulantes.service';
 import { formatDate } from '@angular/common';
+
+import { RangoService } from '../../../Services/rango.service';
+import { GrupoSanguineoService } from '../../../Services/grupo-sanguineo.service';
+import { OficioService } from '../../../Services/oficio.service';
+import { TripulantesService } from '../../../Services/tripulantes.service';
+import { NotificationService } from '../../../utils/notification.service';
+
+import { Tripulantes } from '../../../model/Tripulantes.model';
+import { Rango } from '../../../model/rango.model';
+import { GrupoSanguineo } from '../../../model/grupo-sanguineo.model';
+import { Oficio } from '../../../model/oficio.model';
 
 @Component({
   selector: 'app-register-user',
@@ -18,21 +20,18 @@ import { formatDate } from '@angular/common';
 })
 export class RegisterUserComponent implements OnInit {
   currentTripulante!: Tripulantes;
-  // Campos básicos
   nombre: string = '';
   apellidos: string = '';
-  antiguedad: Date | undefined ;
+  antiguedad: Date | undefined;
   horasVuelo: number = 0;
   permisos: boolean = false;
   email: string = '';
   contrasena: string = '';
 
-  // Relación con objetos seleccionados
   grupoSanguineoSeleccionado!: GrupoSanguineo;
   rangoSeleccionado!: Rango;
   oficioSeleccionado!: Oficio;
 
-  // Listas para selects
   rangos: Rango[] = [];
   gruposSanguineos: GrupoSanguineo[] = [];
   oficios: Oficio[] = [];
@@ -42,49 +41,38 @@ export class RegisterUserComponent implements OnInit {
     private rangoService: RangoService,
     private grupoSanguineoService: GrupoSanguineoService,
     private oficioService: OficioService,
+    private notification: NotificationService,
     private router: Router
   ) {}
+
+  ngOnInit() {
+    this.cargarOpciones();
+  }
 
   compareById(a: any, b: any): boolean {
     return a?.id === b?.id;
   }
-  
-  
-  ngOnInit() {
-    this.cargarOpciones();
-    
-  }
-  
+
   goBack() {
     const tienePermisos = localStorage.getItem('permisos') === 'true';
-  
-    if (tienePermisos) {
-      this.router.navigate(['/homePermisos']);
-    } else {
-      this.router.navigate(['/home']);
-    }
+    this.router.navigate([tienePermisos ? '/homePermisos' : '/home']);
   }
-  
 
   cargarOpciones() {
     this.rangoService.getRangos().subscribe(data => {
       this.rangos = data;
     });
-  
+
     this.grupoSanguineoService.getGruposSanguineos().subscribe(data => {
       this.gruposSanguineos = data;
     });
-  
+
     this.oficioService.getOficios().subscribe(data => {
       this.oficios = data;
     });
   }
-  
-
-  
 
   registrar() {
-    // Validación de campos obligatorios
     if (
       !this.nombre.trim() ||
       !this.apellidos.trim() ||
@@ -112,15 +100,14 @@ export class RegisterUserComponent implements OnInit {
       email: this.email,
       contrasena: this.contrasena,
       antiguedad: this.antiguedad
-                   ? formatDate(this.antiguedad, 'yyyy-MM-dd', 'en-GB')
-                   : '',
+        ? formatDate(this.antiguedad, 'yyyy-MM-dd', 'en-GB')
+        : '',
       permisos: this.permisos,
       horas_totales: this.horasVuelo,
       grupoSanguineoDTO: { id: this.grupoSanguineoSeleccionado.id } as any,
-      rangoDTO:          { id: this.rangoSeleccionado.id }          as any,
-      oficioDTO:         { id: this.oficioSeleccionado.id }         as any
+      rangoDTO: { id: this.rangoSeleccionado.id } as any,
+      oficioDTO: { id: this.oficioSeleccionado.id } as any
     };
-    
 
     this.tripulantesService.createTripulantes(nuevoTripulante).subscribe({
       next: () => {
@@ -128,8 +115,10 @@ export class RegisterUserComponent implements OnInit {
         this.router.navigate(['/home-permisos']);
       },
       error: (err) => {
-        console.error('Error:', err);
-        alert('Error al registrar: ' + err.error.message);
+        this.notification.showMessage(
+          err?.error?.message || 'Error al registrar usuario',
+          'error'
+        );
       }
     });
   }

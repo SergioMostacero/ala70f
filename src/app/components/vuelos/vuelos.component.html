@@ -1,59 +1,65 @@
-<!-- vuelos.component.html -->
+<!-- Mis Vuelos (estilo unificado) -->
 <div class="container">
   <div class="user-panel">
+    <!-- Encabezado -->
     <div class="header-row">
-      <button class="nav-button back-button" (click)="goBack()">
-        Volver
-      </button>
-      <h1>Mis Vuelos Recientes</h1>
-      <button *ngIf="mostrarBotonRegistro" 
-              class="nav-button new-flight-button"
-              (click)="irARegistrarVuelo()">
+      <button class="nav-button back-button" (click)="goBack()">Volver</button>
+
+      <h1 class="flight-title">Mis Vuelos Recientes</h1>
+
+      <button
+        *ngIf="mostrarBotonRegistro"
+        class="nav-button new-flight-button"
+        (click)="irARegistrarVuelo()"
+      >
         Nuevo Vuelo
       </button>
     </div>
 
-    <div class="recent-flights">
-      <table class="flight-table">
-        <thead>
-          <tr>
-            <th>Itinerario</th>
-            <th>Fecha</th>
-            <th>Salida</th>
-            <th>Llegada</th>
-            <th>Avión</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let vuelo of vuelosRecientes">
-            <td>
-              <a (click)="verVuelo(vuelo.id)" class="link-itinerario">
-                {{ vuelo.itinerarioDTO?.nombre }}
-              </a>
-            </td>
-            <td>
-              <a (click)="verVuelo(vuelo.id)" class="link-itinerario">
-                {{ vuelo.fecha | date:'dd/MM/yyyy' }}
-              </a>
-            </td>
-            <td>
-              <a (click)="verVuelo(vuelo.id)" class="link-itinerario">
-                {{ vuelo.hora_salida }}
-              </a>
-            </td>
-            <td>
-              <a (click)="verVuelo(vuelo.id)" class="link-itinerario">
-                {{ vuelo.hora_llegada }}
-              </a>
-            </td>
-            <td>
-              <a (click)="verVuelo(vuelo.id)" class="link-itinerario">
-                {{ vuelo.avionDTO?.nombre }}
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Tabla de vuelos -->
+    <div class="flight-details-card">
+      <div class="flight-info">
+        <table class="flight-table">
+          <thead>
+            <tr>
+              <th>Itinerario</th>
+              <th>Fecha</th>
+              <th>Salida</th>
+              <th>Llegada</th>
+              <th>Avión</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let vuelo of vuelosRecientes">
+              <td>
+                <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
+                  {{ vuelo.itinerarioDTO?.nombre }}
+                </a>
+              </td>
+              <td>
+                <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
+                  {{ vuelo.fecha | date : 'dd/MM/yyyy' }}
+                </a>
+              </td>
+              <td>
+                <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
+                  {{ vuelo.hora_salida }}
+                </a>
+              </td>
+              <td>
+                <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
+                  {{ vuelo.hora_llegada }}
+                </a>
+              </td>
+              <td>
+                <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
+                  {{ vuelo.avionDTO?.nombre }}
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

@@ -2,30 +2,23 @@
 .container {
   min-height: 100vh;
   padding: 20px;
+  background: #121212;                 // fondo global
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background-color: #121212;               // mismo fondo global
 }
 
 /* ----------  PANEL PRINCIPAL  ---------- */
 .user-panel {
   width: 100%;
-  max-width: 38rem;
-  background-color: #1e1e1e;              // igual que flight-detail
+  max-width: 35rem;
+  background: #1e1e1e;                 // gris panel
   color: #fff;
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, .4);
   animation: fadeInUp .6s ease-out forwards;
   font-family: 'Segoe UI', sans-serif;
-
-  .flight-title {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    flex: 1;
-  }
 }
 
 @keyframes fadeInUp {
@@ -43,9 +36,16 @@
   border-bottom: 2px solid #3a3a3a;
 }
 
+.flight-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  flex: 1;
+}
+
 /* ----------  BOTONES  ---------- */
 .nav-button {
-  background-color: #1d72b8;
+  background: #1d72b8;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -53,9 +53,10 @@
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
-  transition: background .3s;
+  transition: background .3s, transform .2s;
+  width: 100%;
 
-  &:hover:enabled { background-color: #156ba3; }
+  &:hover:enabled { background: #156ba3; transform: translateY(-2px); }
   &:disabled      { opacity: .5; cursor: not-allowed; }
 }
 
@@ -64,10 +65,10 @@
 /* ----------  FORMULARIO  ---------- */
 form { width: 100%; }
 
-.form-group {
+.form-row {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
 
   label {
     margin-bottom: .5rem;
@@ -78,11 +79,11 @@ form { width: 100%; }
   input,
   select {
     padding: .8rem 1rem;
-    font-size: 1rem;
-    background-color: #3a3a3a;            // mismo gris que info-item
-    color: #fff;
+    background: #3a3a3a;               // gris de tarjeta
     border: 1px solid #525252;
     border-radius: 5px;
+    font-size: 1rem;
+    color: #fff;
     transition: border-color .3s, box-shadow .3s;
 
     &:focus {
@@ -91,15 +92,38 @@ form { width: 100%; }
       box-shadow: 0 0 0 3px rgba(29, 114, 184, .3);
     }
   }
+
+  /* flecha custom para selects */
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%239fa4ad' viewBox='0 0 24 24'%3e%3cpath d='M7 10l5 5 5-5'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+    padding-right: 2.5rem;
+  }
+}
+
+/* ----------  CHECKBOX  ---------- */
+.checkbox-row {
+  flex-direction: row;
+  align-items: center;
+  gap: .75rem;
+
+  input[type='checkbox'] {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: #1d72b8;
+  }
+
+  label { margin: 0; }
 }
 
 /* ----------  GRUPO DE BOTONES  ---------- */
-.button-group {
+.buttons {
   display: flex;
   gap: 1rem;
   margin-top: 2rem;
 
-  .nav-button {
-    flex: 1;
-  }
+  .nav-button { flex: 1; }
 }

@@ -1,40 +1,53 @@
-<div class="medallas-container">
-    <h1>Logros y Medallas</h1>
+<!-- La misma estructura general que la pantalla de vuelo -->
+<div class="container">
+  <div class="user-panel medallas-panel">
     
+    <!-- Header -->
+    <div class="header-row">
+      <button class="nav-button back-button" (click)="goBack()">Volver</button>
+      <h1 class="flight-title">Logros y Medallas</h1>
+    </div>
+
     <!-- Medallas obtenidas -->
     <div class="seccion-medallas">
       <h2>Tus Medallas Obtenidas</h2>
+
       <div *ngIf="medallas.length === 0" class="sin-medallas">
         <p>Aún no has obtenido ninguna medalla</p>
       </div>
+
       <div class="grid-medallas">
         <div *ngFor="let medalla of medallas" class="medalla-card">
-          <!--<img [src]="medalla.medallaURL" [alt]="medalla.nombre" class="medalla-imagen">-->
+          <!-- <img [src]="medalla.medallaURL" [alt]="medalla.nombre" class="medalla-imagen"> -->
           <h3>{{ medalla.nombre }}</h3>
-          <!--<p>{{ medalla.descripcion }}</p>-->
+          <!-- <p>{{ medalla.descripcion }}</p> -->
         </div>
       </div>
+
       <div class="button-group">
-        <button type="button" class="nav-button" (click)="goBack()">
-          Volver
-        </button>
+        <button type="button" class="nav-button" (click)="goBack()">Volver</button>
       </div>
     </div>
-  
-    <!-- Todas las medallas disponibles -->
+
+    <!-- Todas las medallas -->
     <div class="seccion-medallas">
       <h2>Todas las Medallas Disponibles</h2>
+
       <div class="grid-medallas">
-        <div *ngFor="let medalla of todasMedallas" class="medalla-card" [class.no-obtenida]="!tieneMedalla(medalla.id)">
-          <!--<img [src]="medalla.medallaURL" [alt]="medalla.nombre" class="medalla-imagen">-->
+        <div *ngFor="let medalla of todasMedallas"
+             class="medalla-card"
+             [class.no-obtenida]="!tieneMedalla(medalla.id)">
+
+          <!-- <img [src]="medalla.medallaURL" [alt]="medalla.nombre" class="medalla-imagen"> -->
           <h3>{{ medalla.nombre }}</h3>
-          <!--<p>{{ medalla.descripcion }}</p>-->
+          <!-- <p>{{ medalla.descripcion }}</p> -->
+
           <div *ngIf="!tieneMedalla(medalla.id)" class="bloqueada">
             <span class="candado">🔒</span>
           </div>
         </div>
       </div>
     </div>
+
   </div>
-
-
+</div>

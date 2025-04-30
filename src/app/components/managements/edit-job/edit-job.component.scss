@@ -1,0 +1,90 @@
+/* ---------- fondo y centrado general ---------- */
+.container {
+    background-color: #121212;            // mismo fondo oscuro
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;              // centra horizontalmente
+    align-items: center;                  // centra verticalmente
+    padding: 20px;
+  }
+  
+  /* ---------- panel / tarjeta ---------- */
+  .user-panel {
+    background-color: #1e1e1e;
+    color: #fff;
+    border-radius: 10px;
+    padding: 30px 24px;
+    max-width: 500px;
+    width: 100%;                          // para que el flex-box pueda centrar
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+  }
+  
+  /* ---------- formulario ---------- */
+  .edit-job {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  
+  /* Encabezado */
+  .edit-job h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    text-align: center;
+  }
+  
+  /* Etiquetas y controles */
+  .edit-job label {
+    display: block;
+    font-weight: 600;
+  }
+  
+  .edit-job label.full { margin-bottom: 4px; }
+  
+  .edit-job select,
+  .edit-job input,
+  .edit-job textarea {
+    width: 100%;
+    padding: .45rem .6rem;
+    border: 1px solid #3d3d3d;
+    border-radius: 6px;
+    background: #2a2a2a;
+    color: #eee;
+    font-size: 14px;
+  
+    &:focus {
+      outline: none;
+      border-color: #1d72b8;
+    }
+  }
+  
+  /* Mensajes de error */
+  .edit-job .error {
+    color: #dc3545;
+    font-size: .78rem;
+    margin-top: -6px;
+    margin-bottom: 6px;
+  }
+  
+  /* Botón guardar */
+  .edit-job button {
+    width: 100%;
+    padding: .65rem;
+    border: none;
+    border-radius: 6px;
+    background: #1d72b8;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .25s;
+  
+    &:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+  
+    &:hover:not(:disabled) {
+      background: #156ba3;
+    }
+  }
+  

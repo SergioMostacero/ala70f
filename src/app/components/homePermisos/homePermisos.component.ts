@@ -5,7 +5,7 @@ import { Tripulantes } from '../../model/Tripulantes.model';
 import { GrupoSanguineoService } from '../../Services/grupo-sanguineo.service';
 import { OficioService } from '../../Services/oficio.service';
 import { RangoService } from 'src/app/Services/rango.service';
-
+import { NotificationService } from '../../utils/notification.service';
 @Component({
   selector: 'app-homePermisos',
   templateUrl: './homePermisos.component.html',
@@ -20,13 +20,14 @@ export class HomePermisosComponent implements OnInit {
     private router: Router,
     private tripulantesService: TripulantesService,
     private grupoSanguineoService: GrupoSanguineoService,
-    private rangoService: RangoService
+    private rangoService: RangoService,
+    private notification: NotificationService
   ) {}
 
   ngOnInit(): void {
     this.tripulante = this.tripulantesService.getLoggedInUser();
     if (!this.tripulante) {
-      this.errorMessage = 'No hay tripulante logueado. Redirigiendo...';
+      this.notification.showMessage('No hay tripulante logueado. Redirigiendo...', 'error');
       setTimeout(() => this.router.navigate(['/login']), 1500);
       return;
     }

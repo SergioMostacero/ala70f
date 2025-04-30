@@ -1,8 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { VueloService } from '../../Services/vuelo.service';
 import { UbicacionService } from '../../Services/ubicacion.service';
+import { NotificationService } from '../../utils/notification.service';
+
 import { Ubicacion } from '../../model/ubicacion.model';
+
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
@@ -28,6 +32,7 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
   constructor(
     private vueloService: VueloService,
     private ubicacionService: UbicacionService,
+    private notification: NotificationService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -38,10 +43,9 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.map) {
-      this.map.setTarget('');  
+      this.map.setTarget('');
     }
   }
-  
 
   goBack() {
     const tienePermisos = localStorage.getItem('permisos') === 'true';
@@ -53,25 +57,22 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
     if (id) {
       this.vueloService.getVueloById(+id).subscribe({
         next: (data) => {
-          console.log('Vuelo cargado:', data);  // Asegúrate de que los datos del vuelo sean correctos
           this.vuelo = data;
-          const itinerarioId = this.vuelo.itinerarioDTO?.id;  // Usamos itinerarioDTO.id
-          
+          const itinerarioId = this.vuelo.itinerarioDTO?.id;
           if (itinerarioId) {
-            this.loadUbicacionesYMapa(itinerarioId);  // Usamos el itinerarioId
+            this.loadUbicacionesYMapa(itinerarioId);
           } else {
-            console.error('Error: itinerario_id no encontrado');
+            this.notification.showMessage('Itinerario no encontrado', 'error');
           }
         },
-        error: (err) => console.error('Error cargando vuelo:', err)
+        error: () => {
+          this.notification.showMessage('Error cargando vuelo', 'error');
+        }
       });
     } else {
-      console.error('Error: ID de vuelo no encontrado');
+      this.notification.showMessage('ID de vuelo no encontrado', 'error');
     }
   }
-  
-  
-  
 
   private loadUbicacionesYMapa(itinerarioId: number): void {
     this.ubicacionService.getUbicacionesByItinerarioId(itinerarioId).subscribe({
@@ -79,35 +80,32 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
         this.ubicaciones = ubicaciones;
         this.initMapConUbicaciones(ubicaciones);
       },
-      error: (err) => console.error('Error cargando ubicaciones:', err)
+      error: () => {
+        this.notification.showMessage('Error cargando ubicaciones', 'error');
+      }
     });
   }
 
   private initMapConUbicaciones(ubicaciones: Ubicacion[]): void {
     if (ubicaciones.length === 0) return;
-  
-    // Creamos un array para almacenar las coordenadas y los marcadores
+
     const features: Feature[] = [];
     const coordinates: [number, number][] = [];
-  
-    // Iteramos sobre todas las ubicaciones y agregamos marcadores
+
     for (const u of ubicaciones) {
       const coord = fromLonLat([parseFloat(u.longitud), parseFloat(u.latitud)]);
       coordinates.push([parseFloat(u.longitud), parseFloat(u.latitud)]);
-  
+
       const marker = new Feature({
         geometry: new Point(coord),
-        name: u.ciudad // O u.nombre si lo prefieres
+        name: u.ciudad
       });
-  
+
       features.push(marker);
     }
-  
-    // Capa de los marcadores
+
     const markerLayer = new VectorLayer({
-      source: new VectorSource({
-        features: features
-      }),
+      source: new VectorSource({ features }),
       style: new Style({
         image: new Icon({
           src: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
@@ -116,16 +114,13 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
         })
       })
     });
-  
-    // Línea entre todas las ubicaciones
+
     const routeLine = new Feature({
-      geometry: new LineString(coordinates.map(coord => fromLonLat(coord)))
+      geometry: new LineString(coordinates.map(c => fromLonLat(c)))
     });
-  
+
     const routeLayer = new VectorLayer({
-      source: new VectorSource({
-        features: [routeLine]
-      }),
+      source: new VectorSource({ features: [routeLine] }),
       style: new Style({
         stroke: new Stroke({
           color: '#007bff',
@@ -133,23 +128,23 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
         })
       })
     });
-  
-    // Centrar el mapa en la primera ubicación
-    const center = fromLonLat([parseFloat(ubicaciones[0].longitud), parseFloat(ubicaciones[0].latitud)]);
-  
+
+    const center = fromLonLat([
+      parseFloat(ubicaciones[0].longitud),
+      parseFloat(ubicaciones[0].latitud)
+    ]);
+
     this.map = new Map({
       target: 'map',
       layers: [
-        new TileLayer({
-          source: new OSM()
-        }),
+        new TileLayer({ source: new OSM() }),
         routeLayer,
         markerLayer
       ],
       view: new View({
-        center: center,   // Centrar en la primera ubicación
-        zoom: 5            // Zoom ajustable según tu preferencia
+        center,
+        zoom: 5
       })
     });
   }
-}  
+}

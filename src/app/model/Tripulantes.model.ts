@@ -24,4 +24,5 @@ export interface Tripulantes {
 
   medallasDTO?: any[];
   vuelosDTO?:   any[];
+  
 }

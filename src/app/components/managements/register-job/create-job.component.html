@@ -1,0 +1,41 @@
+<!-- Crear Oficio – estilos unificados -->
+<div class="container">
+  <div class="user-panel">
+    <!-- Cabecera -->
+    <div class="header-row">
+      <button class="nav-button back-button" (click)="goBack()">Volver</button>
+      <h1 class="flight-title">Crear Oficio</h1>
+    </div>
+
+    <!-- Formulario reactivo -->
+    <form [formGroup]="jobForm" (ngSubmit)="onSubmit()">
+      <!-- Nombre -->
+      <div class="form-row">
+        <label for="nombre">Nombre del oficio</label>
+        <input id="nombre"
+               type="text"
+               formControlName="nombre"
+               placeholder="Ej: Piloto" />
+      </div>
+
+      <!-- Descripción -->
+      <div class="form-row">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion"
+                  rows="3"
+                  formControlName="descripcion"
+                  placeholder="Breve descripción del oficio"></textarea>
+      </div>
+
+      <!-- Botones -->
+      <div class="buttons">
+        <button class="nav-button" type="submit" [disabled]="jobForm.invalid">
+          Guardar
+        </button>
+        <button class="nav-button" type="button" (click)="goBack()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

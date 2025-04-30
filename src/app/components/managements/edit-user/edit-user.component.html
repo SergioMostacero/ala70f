@@ -1,0 +1,105 @@
+<!-- Editar Usuario – estilo unificado -->
+<div class="container">
+  <div class="user-panel">
+
+    <!-- Cabecera -->
+    <div class="header-row">
+      <button class="nav-button back-button" (click)="goBack()">Volver</button>
+      <h1 class="flight-title">Editar Usuario</h1>
+    </div>
+
+    <!-- Selector de usuario -->
+    <div class="form-row">
+      <label for="usuario">Selecciona un usuario</label>
+      <select id="usuario"
+              [(ngModel)]="selectedUserId"
+              [ngModelOptions]="{standalone:true}"
+              (ngModelChange)="onUserSelected()">
+        <option [ngValue]="null">-- Elegir usuario --</option>
+        <option *ngFor="let u of usuarios" [ngValue]="u.id">
+          {{ u.nombre }} {{ u.apellidos }} ({{ u.email }})
+        </option>
+      </select>
+    </div>
+
+    <!-- Formulario reactivo -->
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-row">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" type="text" formControlName="nombre" />
+      </div>
+
+      <div class="form-row">
+        <label for="apellidos">Apellidos</label>
+        <input id="apellidos" type="text" formControlName="apellidos" />
+      </div>
+
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" />
+      </div>
+
+      <div class="form-row">
+        <label for="contrasena">Contraseña</label>
+        <input id="contrasena" type="password" formControlName="contrasena" />
+      </div>
+
+      <div class="form-row">
+        <label for="antiguedad">Antigüedad</label>
+        <input id="antiguedad" type="date" formControlName="antiguedad" />
+      </div>
+
+      <div class="form-row">
+        <label for="horasVuelo">Horas de vuelo</label>
+        <input id="horasVuelo" type="number" formControlName="horas_totales" />
+      </div>
+
+      <div class="form-row checkbox-row">
+        <input id="permisos" type="checkbox" formControlName="permisos" />
+        <label for="permisos">Permisos</label>
+      </div>
+
+      <!-- Selects anidados -->
+      <div class="form-row" formGroupName="grupoSanguineoDTO">
+        <label for="grupo">Grupo sanguíneo</label>
+        <select id="grupo" formControlName="id">
+          <option [ngValue]="null">-- Elegir grupo --</option>
+          <option *ngFor="let g of gruposSanguineos" [ngValue]="g.id">
+            {{ g.tipo }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-row" formGroupName="rangoDTO">
+        <label for="rango">Rango</label>
+        <select id="rango" formControlName="id">
+          <option [ngValue]="null">-- Elegir rango --</option>
+          <option *ngFor="let r of rangos" [ngValue]="r.id">
+            {{ r.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-row" formGroupName="oficioDTO">
+        <label for="oficio">Oficio</label>
+        <select id="oficio" formControlName="id">
+          <option [ngValue]="null">-- Elegir oficio --</option>
+          <option *ngFor="let o of oficios" [ngValue]="o.id">
+            {{ o.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Botones -->
+      <div class="buttons">
+        <button class="nav-button" type="submit" [disabled]="userForm.invalid">
+          Guardar
+        </button>
+        <button class="nav-button" type="button" (click)="goBack()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

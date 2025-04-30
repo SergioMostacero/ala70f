@@ -19,15 +19,15 @@ export class ManagementComponent {
   }
 
   crearOficio() {
-    this.router.navigate(['/create-oficio']);
+    this.router.navigate(['/create-job']);
   }
 
   editarOficio() {
-    this.router.navigate(['/edit-oficio']);
+    this.router.navigate(['/edit-job']);
   }
 
   goToMedallas() {
-    this.router.navigate(['/controller-medallas']);  // Navegar al controlador de medallas
+    this.router.navigate(['/controller-medallas']);  
   }
 
   goBack() {

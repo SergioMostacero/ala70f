@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VueloService } from '../../Services/vuelo.service';
 import { Router } from '@angular/router';
-import { AppComponent } from 'src/app/app.component';
+import { NotificationService } from '../../utils/notification.service';
 
 @Component({
   selector: 'app-historial-flights',
@@ -13,8 +13,9 @@ export class HistorialFlightsComponent implements OnInit {
 
   constructor(
     private vueloService: VueloService,
-    private router: Router
-    ) {}
+    private router: Router,
+    private notification: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.loadVuelosUsuario();
@@ -33,27 +34,27 @@ export class HistorialFlightsComponent implements OnInit {
       this.router.navigate(['/home']);
     }
   }
-  
 
-private loadVuelosUsuario(): void {
-  const tripulanteId = Number(localStorage.getItem('tripulanteId'));
-  if (tripulanteId) {
-    this.vueloService.getVuelosByUser(tripulanteId).subscribe({
-      next: (data) => {
-        const hoy = new Date();
-        this.vuelosRecientes = data.filter((vuelo: any) => {
-          const fechaVuelo = new Date(vuelo.fecha);
-          return hoy > fechaVuelo
-        });
-      },
-      error: (err) => console.error('Error cargando vuelos recientes:', err)
-    });
-  } else {
-    console.warn('No se encontró el tripulanteId en localStorage');
+  private loadVuelosUsuario(): void {
+    const tripulanteId = Number(localStorage.getItem('tripulanteId'));
+    if (tripulanteId) {
+      this.vueloService.getVuelosByUser(tripulanteId).subscribe({
+        next: (data) => {
+          const hoy = new Date();
+          this.vuelosRecientes = data.filter((vuelo: any) => {
+            const fechaVuelo = new Date(vuelo.fecha);
+            return hoy > fechaVuelo;
+          });
+        },
+        error: (err) => {
+          const errorMessage = err.error?.message || 'Error al cargar el historial de vuelos';
+          this.notification.showMessage(`${errorMessage}`, 'error');
+        }
+      });
+    } else {
+      const message = 'Sesión expirada o no autenticado';
+      this.notification.showMessage(message, 'error');
+      setTimeout(() => this.router.navigate(['/login']), 2000);
+    }
   }
 }
-
-
-
-}
-

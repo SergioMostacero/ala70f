@@ -4,7 +4,8 @@ import { VueloService } from '../../Services/vuelo.service';
 import { ItinerarioService } from '../../Services/itinerario.service';
 import { MisionService } from '../../Services/mision.service';
 import { AvionService } from '../../Services/avion.service';
-import { TripulantesService } from '../../Services/tripulantes.service'; 
+import { TripulantesService } from '../../Services/tripulantes.service';
+import { NotificationService } from '../../utils/notification.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,8 +22,8 @@ export class RegisterFlightComponent implements OnInit {
   copilotosList: any[] = [];
   mecanicosList: any[] = [];
   tecnicoComList: any[] = [];
-  duracionItinerario: number = 0;  
-  horaLlegada: string = '';  
+  duracionItinerario: number = 0;
+  horaLlegada: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -31,6 +32,7 @@ export class RegisterFlightComponent implements OnInit {
     private misionService: MisionService,
     private avionService: AvionService,
     private tripulantesService: TripulantesService,
+    private notification: NotificationService,
     private router: Router
   ) {}
 
@@ -67,11 +69,11 @@ export class RegisterFlightComponent implements OnInit {
     if (itinerarioId) {
       this.itinerarioService.getById(itinerarioId).subscribe({
         next: (data: any) => {
-          this.duracionItinerario = data.duracion;  
+          this.duracionItinerario = data.duracion;
           this.updateHoraLlegada();
         },
-        error: (err: any) => {
-          console.error('Error cargando itinerario:', err);
+        error: () => {
+          this.notification.showMessage('Error cargando itinerario', 'error');
         }
       });
     }
@@ -109,38 +111,32 @@ export class RegisterFlightComponent implements OnInit {
 
   createVuelo(): void {
     if (this.vueloForm.valid) {
-      // Obtener ID del usuario logueado
       const currentUserId = Number(localStorage.getItem('tripulanteId'));
-      
-      // Obtener IDs de los tripulantes seleccionados
-      const pilotoId = this.vueloForm.get('piloto')!.value; // Usar ! para indicar que no es null
+      const pilotoId = this.vueloForm.get('piloto')!.value;
       const copilotoId = this.vueloForm.get('copiloto')!.value;
       const mecanicoId = this.vueloForm.get('mecanico')!.value;
       const tecnicoComId = this.vueloForm.get('tecnicoCom')!.value;
-  
-      // Agrupar IDs únicos (incluyendo al usuario actual)
+
       const tripulanteIds = new Set<number>();
       if (currentUserId) tripulanteIds.add(currentUserId);
       if (pilotoId) tripulanteIds.add(pilotoId);
       if (copilotoId) tripulanteIds.add(copilotoId);
       if (mecanicoId) tripulanteIds.add(mecanicoId);
       if (tecnicoComId) tripulanteIds.add(tecnicoComId);
-  
-      // Construir el payload con tripulantesDTO
+
       const vueloData = {
         ...this.vueloForm.value,
-        tripulantesDTO: Array.from(tripulanteIds).map(id => ({ id })) 
+        tripulantesDTO: Array.from(tripulanteIds).map(id => ({ id }))
       };
-  
+
       this.vueloService.createVuelo(vueloData).subscribe({
         next: () => {
           alert('¡Vuelo creado con éxito!');
           this.vueloForm.reset();
-          this.router.navigate(['/flights']); 
+          this.router.navigate(['/flights']);
         },
-        error: (err) => {
-          console.error('Error al crear el vuelo:', err);
-          alert('No se pudo crear el vuelo');
+        error: () => {
+          this.notification.showMessage('No se pudo crear el vuelo', 'error');
         }
       });
     } else {
@@ -148,74 +144,65 @@ export class RegisterFlightComponent implements OnInit {
     }
   }
 
-  
-  goBack() {
+  goBack(): void {
     const tienePermisos = localStorage.getItem('permisos') === 'true';
-  
     if (tienePermisos) {
       this.router.navigate(['/homePermisos']);
     } else {
       this.router.navigate(['/home']);
     }
   }
-  
 
   private loadAviones(): void {
     this.avionService.getAll().subscribe({
       next: (data) => this.avionList = data,
-      error: (err) => {
-        console.error('Error cargando aviones:', err);
-        alert('No se pudieron cargar los aviones');
+      error: () => {
+        this.notification.showMessage('No se pudieron cargar los aviones', 'error');
       }
     });
   }
 
   private loadPilotos(): void {
-  this.tripulantesService.getPilotos().subscribe({
-    next: (data) => this.pilotosList = data,
-    error: (err) => {
-      console.error('Error cargando pilotos:', err);
-      alert('No se pudieron cargar los pilotos');
-    }
-  });
-}
+    this.tripulantesService.getPilotos().subscribe({
+      next: (data) => this.pilotosList = data,
+      error: () => {
+        this.notification.showMessage('No se pudieron cargar los pilotos', 'error');
+      }
+    });
+  }
 
-private loadCopilotos(): void {
-  this.tripulantesService.getCoPilotos().subscribe({
-    next: (data) => this.copilotosList = data,
-    error: (err) => {
-      console.error('Error cargando copilotos:', err);
-      alert('No se pudieron cargar los copilotos');
-    }
-  });
-}
+  private loadCopilotos(): void {
+    this.tripulantesService.getCoPilotos().subscribe({
+      next: (data) => this.copilotosList = data,
+      error: () => {
+        this.notification.showMessage('No se pudieron cargar los copilotos', 'error');
+      }
+    });
+  }
 
-private loadMecanicos(): void {
-  this.tripulantesService.getMecanicos().subscribe({
-    next: (data) => this.mecanicosList = data,
-    error: (err) => {
-      console.error('Error cargando mecanicos:', err);
-      alert('No se pudieron cargar los mecanicos');
-    }
-  });
-}
+  private loadMecanicos(): void {
+    this.tripulantesService.getMecanicos().subscribe({
+      next: (data) => this.mecanicosList = data,
+      error: () => {
+        this.notification.showMessage('No se pudieron cargar los mecánicos', 'error');
+      }
+    });
+  }
 
-private loadTecnicosCom(): void {
-  this.tripulantesService.getTecnicosCom().subscribe({
-    next: (data) => this.tecnicoComList = data,
-    error: (err) => {
-      console.error('Error cargando tecnicos de comunicaciones y navegación:', err);
-      alert('No se pudieron cargar los tecnicos de comunicaciones y navegación');
-    }
-  });
-}
+  private loadTecnicosCom(): void {
+    this.tripulantesService.getTecnicosCom().subscribe({
+      next: (data) => this.tecnicoComList = data,
+      error: () => {
+        this.notification.showMessage('No se pudieron cargar los técnicos de comunicaciones y navegación', 'error');
+      }
+    });
+  }
 
   private loadMisiones(): void {
     this.misionService.getAll().subscribe({
       next: (data) => this.misionList = data,
-      error: (err) => {
-        console.error('Error cargando misiones:', err);
-        alert('No se pudieron cargar las misiones');
+      error: () => {
+        this.notification.showMessage('No se pudieron cargar las misiones', 'error');
       }
     });
   }
@@ -223,9 +210,8 @@ private loadTecnicosCom(): void {
   private loadItinerarios(): void {
     this.itinerarioService.getAll().subscribe({
       next: (data) => this.itinerarioList = data,
-      error: (err) => {
-        console.error('Error cargando itinerarios:', err);
-        alert('No se pudieron cargar los itinerarios');
+      error: () => {
+        this.notification.showMessage('No se pudieron cargar los itinerarios', 'error');
       }
     });
   }
