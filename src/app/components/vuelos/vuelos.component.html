@@ -23,8 +23,9 @@
           <thead>
             <tr>
               <th>Itinerario</th>
-              <th>Fecha</th>
+              <th>Fecha Salida</th>
               <th>Salida</th>
+              <th>Fecha Llegada</th>
               <th>Llegada</th>
               <th>Avión</th>
             </tr>
@@ -38,12 +39,17 @@
               </td>
               <td>
                 <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
-                  {{ vuelo.fecha | date : 'dd/MM/yyyy' }}
+                  {{ vuelo.fecha_salida | date : 'dd/MM/yyyy' }}
                 </a>
               </td>
               <td>
                 <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
                   {{ vuelo.hora_salida }}
+                </a>
+              </td>
+              <td>
+                <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
+                  {{ vuelo.fecha_llegada | date : 'dd/MM/yyyy' }}
                 </a>
               </td>
               <td>

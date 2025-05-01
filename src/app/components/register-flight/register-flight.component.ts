@@ -49,9 +49,15 @@ export class RegisterFlightComponent implements OnInit {
 
   private initForm(): void {
     this.vueloForm = this.fb.group({
-      fecha: ['', Validators.required],
-      hora_salida: ['', Validators.required],
-      hora_llegada: [{ value: '', disabled: true }],
+      fecha_salida: ['', Validators.required],
+      hora_salida: ['', [
+        Validators.required,
+        Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      ]],
+      hora_llegada: [{ value: '', disabled: true }, [
+        Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/)
+      ]],
+      fecha_llegada: ['', Validators.required],
       anticipo: ['', Validators.required],
       gasolina: ['', Validators.required],
       avionDTO: this.fb.group({ id: [null] }),
@@ -81,15 +87,21 @@ export class RegisterFlightComponent implements OnInit {
 
   updateHoraLlegada(): void {
     const horaSalida = this.vueloForm.get('hora_salida')?.value;
-    if (horaSalida && this.duracionItinerario) {
-      const horaSalidaDate = new Date(`1970-01-01T${horaSalida}:00`);
-      horaSalidaDate.setHours(horaSalidaDate.getHours() + this.duracionItinerario);
+    const fechaSalida = this.vueloForm.get('fecha_salida')?.value;
+  
+    if (horaSalida && this.duracionItinerario && fechaSalida) {
+      const salidaDate = new Date(`${fechaSalida}T${horaSalida}:00`);
+      const duracionMs = this.duracionItinerario * 60 * 60 * 1000; // horas a milisegundos
+      const llegadaDate = new Date(salidaDate.getTime() + duracionMs);
 
-      const hours = String(horaSalidaDate.getHours()).padStart(2, '0');
-      const minutes = String(horaSalidaDate.getMinutes()).padStart(2, '0');
+      const hours = String(llegadaDate.getHours()).padStart(2, '0');
+      const minutes = String(llegadaDate.getMinutes()).padStart(2, '0');
       this.horaLlegada = `${hours}:${minutes}`;
-
       this.vueloForm.get('hora_llegada')?.setValue(this.horaLlegada);
+      
+      const fechaLlegadaStr = llegadaDate.toISOString().split('T')[0];
+      this.vueloForm.get('fecha_llegada')?.setValue(fechaLlegadaStr);
+      
     }
   }
 
@@ -109,110 +121,98 @@ export class RegisterFlightComponent implements OnInit {
     return this.vueloForm.get('itinerarioDTO') as FormGroup;
   }
 
-  createVuelo(): void {
-    if (this.vueloForm.valid) {
-      const currentUserId = Number(localStorage.getItem('tripulanteId'));
-      const pilotoId = this.vueloForm.get('piloto')!.value;
-      const copilotoId = this.vueloForm.get('copiloto')!.value;
-      const mecanicoId = this.vueloForm.get('mecanico')!.value;
-      const tecnicoComId = this.vueloForm.get('tecnicoCom')!.value;
+createVuelo(): void {
+  if (this.vueloForm.valid) {
+    const currentUserId = Number(localStorage.getItem('tripulanteId'));
+    const pilotoId = this.vueloForm.get('piloto')!.value;
+    const copilotoId = this.vueloForm.get('copiloto')!.value;
+    const mecanicoId = this.vueloForm.get('mecanico')!.value;
+    const tecnicoComId = this.vueloForm.get('tecnicoCom')!.value;
 
-      const tripulanteIds = new Set<number>();
-      if (currentUserId) tripulanteIds.add(currentUserId);
-      if (pilotoId) tripulanteIds.add(pilotoId);
-      if (copilotoId) tripulanteIds.add(copilotoId);
-      if (mecanicoId) tripulanteIds.add(mecanicoId);
-      if (tecnicoComId) tripulanteIds.add(tecnicoComId);
+    const tripulanteIds = new Set<number>();
+    if (currentUserId) tripulanteIds.add(currentUserId);
+    if (pilotoId) tripulanteIds.add(pilotoId);
+    if (copilotoId) tripulanteIds.add(copilotoId);
+    if (mecanicoId) tripulanteIds.add(mecanicoId);
+    if (tecnicoComId) tripulanteIds.add(tecnicoComId);
 
-      const vueloData = {
-        ...this.vueloForm.value,
-        tripulantesDTO: Array.from(tripulanteIds).map(id => ({ id }))
-      };
+    this.vueloForm.get('fecha_llegada')?.enable();
 
-      this.vueloService.createVuelo(vueloData).subscribe({
-        next: () => {
-          alert('¡Vuelo creado con éxito!');
-          this.vueloForm.reset();
-          this.router.navigate(['/flights']);
-        },
-        error: () => {
-          this.notification.showMessage('No se pudo crear el vuelo', 'error');
-        }
-      });
-    } else {
-      alert('Por favor, completa todos los campos');
-    }
+    const vueloData = {
+      ...this.vueloForm.getRawValue(),
+      tripulantesDTO: Array.from(tripulanteIds).map(id => ({ id }))
+    };
+
+    this.vueloForm.get('fecha_llegada')?.disable();
+
+    this.vueloService.createVuelo(vueloData).subscribe({
+      next: () => {
+        alert('¡Vuelo creado con éxito!');
+        this.vueloForm.reset();
+        this.router.navigate(['/flights']);
+      },
+      error: () => {
+        this.notification.showMessage('No se pudo crear el vuelo', 'error');
+      }
+    });
+  } else {
+    alert('Por favor, completa todos los campos');
   }
+}
+
 
   goBack(): void {
     const tienePermisos = localStorage.getItem('permisos') === 'true';
-    if (tienePermisos) {
-      this.router.navigate(['/homePermisos']);
-    } else {
-      this.router.navigate(['/home']);
-    }
+    this.router.navigate([tienePermisos ? '/homePermisos' : '/home']);
   }
 
+  // Cargas de datos
   private loadAviones(): void {
     this.avionService.getAll().subscribe({
       next: (data) => this.avionList = data,
-      error: () => {
-        this.notification.showMessage('No se pudieron cargar los aviones', 'error');
-      }
+      error: () => this.notification.showMessage('No se pudieron cargar los aviones', 'error')
     });
   }
 
   private loadPilotos(): void {
     this.tripulantesService.getPilotos().subscribe({
       next: (data) => this.pilotosList = data,
-      error: () => {
-        this.notification.showMessage('No se pudieron cargar los pilotos', 'error');
-      }
+      error: () => this.notification.showMessage('No se pudieron cargar los pilotos', 'error')
     });
   }
 
   private loadCopilotos(): void {
     this.tripulantesService.getCoPilotos().subscribe({
       next: (data) => this.copilotosList = data,
-      error: () => {
-        this.notification.showMessage('No se pudieron cargar los copilotos', 'error');
-      }
+      error: () => this.notification.showMessage('No se pudieron cargar los copilotos', 'error')
     });
   }
 
   private loadMecanicos(): void {
     this.tripulantesService.getMecanicos().subscribe({
       next: (data) => this.mecanicosList = data,
-      error: () => {
-        this.notification.showMessage('No se pudieron cargar los mecánicos', 'error');
-      }
+      error: () => this.notification.showMessage('No se pudieron cargar los mecánicos', 'error')
     });
   }
 
   private loadTecnicosCom(): void {
     this.tripulantesService.getTecnicosCom().subscribe({
       next: (data) => this.tecnicoComList = data,
-      error: () => {
-        this.notification.showMessage('No se pudieron cargar los técnicos de comunicaciones y navegación', 'error');
-      }
+      error: () => this.notification.showMessage('No se pudieron cargar los técnicos', 'error')
     });
   }
 
   private loadMisiones(): void {
     this.misionService.getAll().subscribe({
       next: (data) => this.misionList = data,
-      error: () => {
-        this.notification.showMessage('No se pudieron cargar las misiones', 'error');
-      }
+      error: () => this.notification.showMessage('No se pudieron cargar las misiones', 'error')
     });
   }
 
   private loadItinerarios(): void {
     this.itinerarioService.getAll().subscribe({
       next: (data) => this.itinerarioList = data,
-      error: () => {
-        this.notification.showMessage('No se pudieron cargar los itinerarios', 'error');
-      }
+      error: () => this.notification.showMessage('No se pudieron cargar los itinerarios', 'error')
     });
   }
 }

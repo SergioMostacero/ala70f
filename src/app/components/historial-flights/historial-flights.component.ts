@@ -9,30 +9,28 @@ import { NotificationService } from '../../utils/notification.service';
   styleUrls: ['./historial-flights.component.scss']
 })
 export class HistorialFlightsComponent implements OnInit {
-  vuelosRecientes: any[] = [];
+  historialVuelos: any[] = [];
 
   constructor(
     private vueloService: VueloService,
-    private router: Router,
-    private notification: NotificationService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadVuelosUsuario();
   }
 
-  verVuelo(vueloId: number) {
-    this.router.navigate(['/vuelo', vueloId]);
-  }
-  
   goBack() {
     const tienePermisos = localStorage.getItem('permisos') === 'true';
-  
-    if (tienePermisos) {
-      this.router.navigate(['/homePermisos']);
-    } else {
-      this.router.navigate(['/home']);
-    }
+    this.router.navigate([tienePermisos ? '/homePermisos' : '/home']);
+  }
+
+  irARegistrarVuelo() {
+    this.router.navigate(['/register-flights']);
+  }
+
+  verVuelo(vueloId: number) {
+    this.router.navigate(['/vuelo', vueloId]);
   }
 
   private loadVuelosUsuario(): void {
@@ -41,20 +39,21 @@ export class HistorialFlightsComponent implements OnInit {
       this.vueloService.getVuelosByUser(tripulanteId).subscribe({
         next: (data) => {
           const hoy = new Date();
-          this.vuelosRecientes = data.filter((vuelo: any) => {
-            const fechaVuelo = new Date(vuelo.fecha);
-            return hoy > fechaVuelo;
+          this.historialVuelos = data.filter((vuelo: any) => {
+            // Convertimos fecha_salida a Date (asegúrate de que sea YYYY-MM-DD)
+            if (vuelo.fecha_salida) {
+              const fechaVuelo = new Date(vuelo.fecha_salida);
+              return fechaVuelo < hoy;
+            }
+            return false;
           });
         },
-        error: (err) => {
-          const errorMessage = err.error?.message || 'Error al cargar el historial de vuelos';
-          this.notification.showMessage(`${errorMessage}`, 'error');
-        }
+        error: (err) => console.error('Error cargando vuelos recientes:', err)
       });
     } else {
-      const message = 'Sesión expirada o no autenticado';
-      this.notification.showMessage(message, 'error');
-      setTimeout(() => this.router.navigate(['/login']), 2000);
+      console.warn('No se encontró el tripulanteId en localStorage');
     }
   }
+  
+  
 }

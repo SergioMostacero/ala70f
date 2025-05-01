@@ -12,15 +12,13 @@
 
       <!-- Fecha y hora -->
       <div class="form-group">
-        <label for="fecha">Fecha y Hora</label>
-        <input id="fecha" type="date" formControlName="fecha" />
+        <label for="fecha_salida">Fecha Salida</label>
+        <input id="fecha_salida" type="date" formControlName="fecha_salida" />
       </div>
-
-      <!-- Hora de salida -->
+      
       <div class="form-group">
-        <label for="hora_salida">Hora de Salida</label>
-        <input id="hora_salida" type="time" formControlName="hora_salida"
-               (change)="onHoraSalidaChange()" />
+        <label for="hora_salida">Hora de Salida (Hora Local de salida)</label>
+        <input id="hora_salida" type="time" formControlName="hora_salida" (change)="onHoraSalidaChange()" />
       </div>
 
       <!-- Itinerario -->
@@ -35,11 +33,14 @@
         </select>
       </div>
 
-      <!-- Hora de llegada (auto) -->
       <div class="form-group">
-        <label for="hora_llegada">Hora de Llegada</label>
-        <input id="hora_llegada" type="time" formControlName="hora_llegada"
-               [value]="horaLlegada" readonly />
+        <label for="fecha_llegada">Fecha de Llegada</label>
+        <input id="fecha_llegada" type="date" formControlName="fecha_llegada" readonly />
+      </div>
+      
+      <div class="form-group">
+        <label for="hora_llegada">Hora de Llegada (Hora Local de salida)</label>
+        <input id="hora_llegada" type="time" formControlName="hora_llegada" readonly />
       </div>
 
       <!-- Anticipo y gasolina -->

@@ -14,23 +14,17 @@ export class VuelosComponent implements OnInit {
   constructor(
     private vueloService: VueloService,
     private router: Router
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.loadVuelosUsuario();
     this.mostrarBotonRegistro = localStorage.getItem('permisos') === 'true';
   }
-  
+
   goBack() {
     const tienePermisos = localStorage.getItem('permisos') === 'true';
-  
-    if (tienePermisos) {
-      this.router.navigate(['/homePermisos']);
-    } else {
-      this.router.navigate(['/home']);
-    }
+    this.router.navigate([tienePermisos ? '/homePermisos' : '/home']);
   }
-  
 
   irARegistrarVuelo() {
     this.router.navigate(['/register-flights']);
@@ -39,7 +33,7 @@ export class VuelosComponent implements OnInit {
   verVuelo(vueloId: number) {
     this.router.navigate(['/vuelo', vueloId]);
   }
-  
+
   private loadVuelosUsuario(): void {
     const tripulanteId = Number(localStorage.getItem('tripulanteId'));
     if (tripulanteId) {
@@ -47,8 +41,12 @@ export class VuelosComponent implements OnInit {
         next: (data) => {
           const hoy = new Date();
           this.vuelosRecientes = data.filter((vuelo: any) => {
-            const fechaVuelo = new Date(vuelo.fecha);
-            return hoy < fechaVuelo
+            // Convertimos fecha_salida a Date (asegúrate de que sea YYYY-MM-DD)
+            if (vuelo.fecha_salida) {
+              const fechaVuelo = new Date(vuelo.fecha_salida);
+              return fechaVuelo >= hoy;
+            }
+            return false;
           });
         },
         error: (err) => console.error('Error cargando vuelos recientes:', err)
@@ -57,5 +55,6 @@ export class VuelosComponent implements OnInit {
       console.warn('No se encontró el tripulanteId en localStorage');
     }
   }
+  
   
 }

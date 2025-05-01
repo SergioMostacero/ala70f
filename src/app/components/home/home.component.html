@@ -9,26 +9,26 @@
         </p>
   
         <p class="user-info">
-          Rango:
+          RANGO:
           {{ tripulante.rangoDTO.nombre || 'No especificado' }}
         </p>
         <p class="user-info">
-          Grupo Sanguíneo:
+          GRUPO SANGUÍNEO:
           {{ tripulante.grupoSanguineoDTO.tipo }}
         </p>
         <p class="user-info">
-          Antigüedad:
+          ANTIGUEDAD:
           {{ tripulante.antiguedad || 'No especificado'}}
         </p>
         <p class="user-info">
-          Horas totales de vuelo:
+          HORAS DE VUELO:
           {{ tripulante.horas_totales || 'No especificado'}}
         </p>
       </div>
   
       <div class="nav-buttons">
         <button class="nav-button" (click)="irALogrosMedallas()">MEDALLAS/LOGROS</button>
-        <button class="nav-button" (click)="verVuelos()">Vuelos</button>   
+        <button class="nav-button" (click)="verVuelos()">PROXIMOS VUELOS</button>   
         <button class="nav-button" (click)="irALogrosHistorial()">HISTORIAL DE VUELOS</button>
         <button class="nav-button">TUS DESTINOS</button>
       </div>
