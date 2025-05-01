@@ -30,6 +30,9 @@ export class ManagementComponent {
     this.router.navigate(['/controller-medallas']);  
   }
 
+  crearItinerario() {
+    this.router.navigate(['/create-itinerary']);
+  }
   goBack() {
     const tienePermisos = localStorage.getItem('permisos') === 'true';
     if (tienePermisos) {

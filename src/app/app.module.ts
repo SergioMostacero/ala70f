@@ -22,6 +22,7 @@ import { ViewFlightComponent } from './components/view-flight/view-flight.compon
 import { ControllerMedallasComponent } from './components/managements/controller-medallas/controller-medallas.component';
 import { CreateJobComponent } from './components/managements/register-job/create-job.component';
 import { EditJobComponent } from './components/managements/edit-job/edit-job.component';
+import { CreateItineraryComponent } from './components/managements/create-itinerary/create-itinerary.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { EditJobComponent } from './components/managements/edit-job/edit-job.com
     ControllerMedallasComponent,
     EditUserComponent,
     CreateJobComponent,
-    EditJobComponent
+    EditJobComponent,
+    CreateItineraryComponent
   ],
   imports: [
     BrowserModule,
