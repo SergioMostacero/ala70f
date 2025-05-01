@@ -51,7 +51,15 @@ export class ControllerMedallasComponent implements OnInit {
       }
     });
   }
-
+  goBack() {
+    const tienePermisos = localStorage.getItem('permisos') === 'true';
+  
+    if (tienePermisos) {
+      this.router.navigate(['/homePermisos']);
+    } else {
+      this.router.navigate(['/home']);
+    }
+  }
   asignarMedalla(): void {
     if (!this.selectedTripulanteId || !this.selectedMedallaId) {
       this.notification.showMessage('Debes seleccionar un tripulante y una medalla', 'error');

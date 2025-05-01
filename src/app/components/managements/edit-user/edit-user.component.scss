@@ -29,19 +29,24 @@
 /* ----------  CABECERA  ---------- */
 .header-row {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #3a3a3a;
+  gap: 10px;
+  padding-bottom: 20px;
+
+  .nav-button {
+    align-self: flex-start; // El botón se queda alineado a la izquierda
+  }
+
+  .flight-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 auto;
+    text-align: center;
+    color: #ffffff;
+  }
 }
 
-.flight-title {
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-  flex: 1;
-}
 
 /* ----------  BOTONES  ---------- */
 .nav-button {
