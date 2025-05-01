@@ -1,0 +1,27 @@
+<form [formGroup]="itineraryForm" (ngSubmit)="onSubmit()">
+    <div class="field">
+      <label>Duración</label>
+      <input formControlName="duracion" placeholder="Ej. 3 días" />
+    </div>
+  
+    <div formArrayName="pasos">
+      <div *ngFor="let paso of pasos.controls; let i = index" [formGroupName]="i" class="paso">
+        <label>Paso {{ i + 1 }}</label>
+        <select formControlName="ubicacionId">
+          <option [ngValue]="null">-- Seleccionar ubicación --</option>
+          <option *ngFor="let u of ubicaciones" [ngValue]="u.id">
+            {{ u.ciudad }} ({{ u.pais }})
+          </option>
+        </select>
+        <button type="button" (click)="removePaso(i)" [disabled]="pasos.length === 1">
+          🗑️
+        </button>
+      </div>
+    </div>
+  
+    <div class="actions">
+      <button type="button" (click)="addPaso()">+ Agregar escala</button>
+      <button type="submit" [disabled]="itineraryForm.invalid">Crear itinerario</button>
+    </div>
+  </form>
+  

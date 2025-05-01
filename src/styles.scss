@@ -1,25 +1,20 @@
-
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-// Plus imports for other components in your app.
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
+// ------------------------------------------
+// 2) Core styles de Angular Material
+// ------------------------------------------
 @include mat.core();
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
+// ------------------------------------------
+// 3) Definición de paletas
+// ------------------------------------------
 $frontAla70-primary: mat.define-palette(mat.$indigo-palette);
 $frontAla70-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
 $frontAla70-warn: mat.define-palette(mat.$red-palette);
 
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
+// ------------------------------------------
+// 4) Creación de tu tema (light)
+// ------------------------------------------
 $frontAla70-theme: mat.define-light-theme((
   color: (
     primary: $frontAla70-primary,
@@ -28,51 +23,54 @@ $frontAla70-theme: mat.define-light-theme((
   )
 ));
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
+// ------------------------------------------
+// 5) Incluir estilos de todos los componentes
+// ------------------------------------------
 @include mat.all-component-themes($frontAla70-theme);
-
-/* ---------- Reseteo básico ---------- */
-html, body {
-  height: 100%;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background: #121212;          /* fondo base oscuro */
-  color: #e0e0e0;               /* texto gris claro */
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: #121212;
+  color: #e0e0e0;
   font-family: Inter, Roboto, sans-serif;
 }
 
-/* ---------- Contenedor raíz ---------- */
-:host {
-  display: block;
-  height: 100vh;                /* ocupa todo el alto de la ventana */
-  width: 100%;
-  background: #121212;
-  outline: none !important;   /* <-- el foco por defecto */
-  border: 0            /* mismo color que <body> para evitar “bordes” */
-}
-
-/* ---------- Relleno automático para la vista cargada en el router ---------- */
-/* (::ng-deep es la forma rápida de aplicar estilo a lo que el router inserta) */
-:host ::ng-deep router-outlet + * {
-  display: block;
-  min-height: 100%;             /* evita que asome el fondo blanco si el
-                                   componente interno no llena la pantalla */
-}
-
-/* ---------- Barra de scroll en navegadores WebKit ---------- */
+// Scrollbar oscuro (WebKit)
 ::-webkit-scrollbar {
   width: 8px;
-  background: #1c1c1c;
+  background: #1a1a1a;
 }
-
 ::-webkit-scrollbar-thumb {
   background: #444;
   border-radius: 4px;
 }
 
-/* ---------- Ejemplo de enlaces en modo oscuro ---------- */
+// Contenedor raíz Angular
+app-root {
+  display: block;
+  height: 100vh;
+  width: 100%;
+  outline: none !important;
+  border: 0;
+}
+
+// Asegurar que el router-outlet o el div animado llenen la pantalla
+app-root > div,
+:host ::ng-deep router-outlet + * {
+  display: block;
+  min-height: 100%;
+}
+
+// Enlaces
 a {
   color: #64b5f6;
   text-decoration: none;
@@ -80,55 +78,13 @@ a {
 a:hover {
   text-decoration: underline;
 }
-/* ---------------- Reset global ---------------- */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0.5;
-  padding: 0;
-}
 
-/* ---------------- Tema oscuro base ---------------- */
-html,
-body {
-  height: 100%;
-  background: #121212;     // gris-negro uniforme
-  color: #e0e0e0;          // texto gris claro
-  font-family: Inter, Roboto, sans-serif;
-}
-
-/* ---------------- Contenedor Angular ---------------- */
-app-root {
-  display: block;
-  height: 100%;
-  outline: none;           // ⬅️ quita el reborde blanco de foco
-  border: 0;
-}
-
-/* ---------------- Relleno de la vista inyectada por el router ---------------- */
-app-root > div,            /* tu div con [@routeAnimations] */
-router-outlet + * {        /* primer componente que inyecta el router */
-  min-height: 100%;
-  display: block;
-}
-
-/* ---------------- Scrollbar oscura (WebKit) ---------------- */
-::-webkit-scrollbar        { width: 8px;  background: #1a1a1a; }
-::-webkit-scrollbar-thumb  { background: #444; border-radius: 4px; }
-
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-
-// MDC-based components (Angular Material 15+)
+// Snakbars personalizados (Material 15+)
 .success-snackbar {
-  --mdc-snackbar-container-color: #4CAF50;
-  --mdc-snackbar-supporting-text-color: white;
+  --mdc-snackbar-container-color: #4caf50;
+  --mdc-snackbar-supporting-text-color: #fff;
 }
-
 .error-snackbar {
   --mdc-snackbar-container-color: #f44336;
-  --mdc-snackbar-supporting-text-color: white;
+  --mdc-snackbar-supporting-text-color: #fff;
 }
