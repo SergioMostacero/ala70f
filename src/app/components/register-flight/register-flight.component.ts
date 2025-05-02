@@ -88,22 +88,24 @@ export class RegisterFlightComponent implements OnInit {
   updateHoraLlegada(): void {
     const horaSalida = this.vueloForm.get('hora_salida')?.value;
     const fechaSalida = this.vueloForm.get('fecha_salida')?.value;
+    const duracion = this.duracionItinerario; // ahora será un string tipo "HH:mm:ss"
   
-    if (horaSalida && this.duracionItinerario && fechaSalida) {
+    if (horaSalida && duracion && fechaSalida) {
+      const [durH, durM] = duracion.toString().split(':').map(Number);
       const salidaDate = new Date(`${fechaSalida}T${horaSalida}:00`);
-      const duracionMs = this.duracionItinerario * 60 * 60 * 1000; // horas a milisegundos
-      const llegadaDate = new Date(salidaDate.getTime() + duracionMs);
-
-      const hours = String(llegadaDate.getHours()).padStart(2, '0');
-      const minutes = String(llegadaDate.getMinutes()).padStart(2, '0');
+      salidaDate.setHours(salidaDate.getHours() + durH);
+      salidaDate.setMinutes(salidaDate.getMinutes() + durM);
+  
+      const hours = String(salidaDate.getHours()).padStart(2, '0');
+      const minutes = String(salidaDate.getMinutes()).padStart(2, '0');
       this.horaLlegada = `${hours}:${minutes}`;
       this.vueloForm.get('hora_llegada')?.setValue(this.horaLlegada);
-      
-      const fechaLlegadaStr = llegadaDate.toISOString().split('T')[0];
+  
+      const fechaLlegadaStr = salidaDate.toISOString().split('T')[0];
       this.vueloForm.get('fecha_llegada')?.setValue(fechaLlegadaStr);
-      
     }
   }
+  
 
   onHoraSalidaChange(): void {
     this.updateHoraLlegada();

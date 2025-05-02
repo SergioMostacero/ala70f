@@ -12,7 +12,7 @@ export class NotificationService {
       duration: type === 'success' ? 3000 : 5000,
       panelClass: [`${type}-snackbar`],
       horizontalPosition: 'right',
-      verticalPosition: 'bottom'
+      verticalPosition: 'top'
     });
   }
 }

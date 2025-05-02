@@ -38,7 +38,23 @@
           </div>
           <div class="info-item">
             <strong>Anticipo:</strong>
-            <p>{{ vuelo?.anticipo }} horas</p>
+            <p>{{ vuelo?.anticipo }}€</p>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-item">
+            <strong>Dursción:</strong>
+            <p>{{ vuelo?.itinerarioDTO?.duracion.slice(0, 5)}} Horas</p>
+          </div>
+          <div class="info-item">
+            <strong>Combustible:</strong>
+            <p>{{ vuelo?.gasolina }} Tm</p>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-item">
+            <strong>Misión:</strong>
+            <p>{{ vuelo?.misionDTO?.nombre }}</p>
           </div>
         </div>
       </div>
