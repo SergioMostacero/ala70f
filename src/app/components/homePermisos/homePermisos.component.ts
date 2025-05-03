@@ -70,7 +70,10 @@ export class HomePermisosComponent implements OnInit {
   verVuelos() {
     this.router.navigate(['/flights']);
   }
-  
+
+  irADestinos(){
+    this.router.navigate(['/destinos'])
+  }
 
   registrar() {
     this.router.navigate(['/register'], { 

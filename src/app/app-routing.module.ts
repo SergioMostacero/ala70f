@@ -16,6 +16,7 @@ import { ControllerMedallasComponent } from './components/managements/controller
 import { CreateJobComponent } from './components/managements/register-job/create-job.component';
 import { EditJobComponent } from './components/managements/edit-job/edit-job.component';
 import { CreateItineraryComponent } from './components/managements/create-itinerary/create-itinerary.component';
+import { DestinosComponent } from './components/destinos/destinos.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -34,7 +35,8 @@ const routes: Routes = [
   { path: 'controller-medallas', component: ControllerMedallasComponent },
   { path: 'create-job', component: CreateJobComponent },
   { path: 'edit-job', component: EditJobComponent },
-  { path: "create-itinerary", component: CreateItineraryComponent},
+  { path: 'create-itinerary', component: CreateItineraryComponent},
+  { path: 'destinos', component: DestinosComponent},
   { path: '**', redirectTo: 'login' }
 ];
 

@@ -23,6 +23,7 @@ import { ControllerMedallasComponent } from './components/managements/controller
 import { CreateJobComponent } from './components/managements/register-job/create-job.component';
 import { EditJobComponent } from './components/managements/edit-job/edit-job.component';
 import { CreateItineraryComponent } from './components/managements/create-itinerary/create-itinerary.component';
+import { DestinosComponent } from './components/destinos/destinos.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { CreateItineraryComponent } from './components/managements/create-itiner
     EditUserComponent,
     CreateJobComponent,
     EditJobComponent,
-    CreateItineraryComponent
+    CreateItineraryComponent,
+    DestinosComponent
   ],
   imports: [
     BrowserModule,

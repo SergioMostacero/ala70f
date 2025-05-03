@@ -1,0 +1,28 @@
+<div class="container">
+    <div *ngIf="ubicaciones.length > 0; else noDestinos">
+    <div class="container">
+        <div class="user-panel">
+        <h1 class="title">Tus Destinos Visitados</h1>
+        
+        <div class="map-container">
+            <div id="map-destinos" class="map"></div>
+        </div>
+    
+        <div class="location-list">
+            <div *ngFor="let ubicacion of ubicaciones" class="location-card">
+            <strong>{{ ubicacion.ciudad }}</strong>
+            <p>{{ ubicacion.pais }} - {{ ubicacion.zonaHoraria }}</p>
+            <p>Coordenadas: {{ ubicacion.latitud }}, {{ ubicacion.longitud }}</p>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #noDestinos>
+    <div class="no-results">
+        <h3>No hay destinos registrados</h3>
+        <p>Empieza a viajar para ver tus destinos aquí</p>
+    </div>
+</ng-template>
+</div>

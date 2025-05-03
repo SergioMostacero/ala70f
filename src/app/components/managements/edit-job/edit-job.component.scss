@@ -1,90 +1,141 @@
-/* ---------- fondo y centrado general ---------- */
+/* ----------  FONDO Y CONTENEDOR  ---------- */
 .container {
-    background-color: #121212;            // mismo fondo oscuro
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;              // centra horizontalmente
-    align-items: center;                  // centra verticalmente
-    padding: 20px;
-  }
-  
-  /* ---------- panel / tarjeta ---------- */
-  .user-panel {
-    background-color: #1e1e1e;
-    color: #fff;
-    border-radius: 10px;
-    padding: 30px 24px;
-    max-width: 500px;
-    width: 100%;                          // para que el flex-box pueda centrar
-    box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
-  }
-  
-  /* ---------- formulario ---------- */
-  .edit-job {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-  
-  /* Encabezado */
-  .edit-job h2 {
-    margin: 0;
-    font-size: 1.4rem;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #121212;               // fondo global
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* ----------  PANEL PRINCIPAL  ---------- */
+.user-panel {
+  width: 100%;
+  max-width: 35rem;
+  background-color: #1e1e1e;               // igual a flight-detail
+  color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .4);
+  animation: fadeInUp .6s ease-out forwards;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+@keyframes fadeInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ----------  CABECERA  ---------- */
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #3a3a3a;
+
+  .flight-title {
+    font-size: 24px;
+    font-weight: bold;
     text-align: center;
+    flex: 1;
   }
-  
-  /* Etiquetas y controles */
-  .edit-job label {
-    display: block;
-    font-weight: 600;
+}
+
+/* ----------  BOTONES  ---------- */
+.nav-button {
+  background-color: #1d72b8;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background .3s;
+
+  &:hover:enabled { background-color: #156ba3; }
+  &:disabled      { opacity: .5; cursor: not-allowed; }
+}
+
+.back-button::before { content: '←'; margin-right: .5rem; font-weight: 700; }
+
+/* ----------  FORMULARIO  ---------- */
+form { width: 100%; }
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+
+  label {
+    margin-bottom: .5rem;
+    color: #ddd;
+    font-size: .95rem;
   }
-  
-  .edit-job label.full { margin-bottom: 4px; }
-  
-  .edit-job select,
-  .edit-job input,
-  .edit-job textarea {
-    width: 100%;
-    padding: .45rem .6rem;
-    border: 1px solid #3d3d3d;
-    border-radius: 6px;
-    background: #2a2a2a;
-    color: #eee;
-    font-size: 14px;
-  
+
+  input,
+  textarea {
+    padding: .8rem 1rem;
+    background-color: #3a3a3a;            // gris card
+    border: 1px solid #525252;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #fff;
+    transition: border-color .3s, box-shadow .3s;
+
     &:focus {
       outline: none;
       border-color: #1d72b8;
+      box-shadow: 0 0 0 3px rgba(29, 114, 184, .3);
     }
+
+    &::placeholder { color: #787878; }
   }
-  
-  /* Mensajes de error */
-  .edit-job .error {
-    color: #dc3545;
-    font-size: .78rem;
-    margin-top: -6px;
-    margin-bottom: 6px;
+
+  textarea { resize: vertical; }
+}
+
+/* ----------  GRUPO DE BOTONES  ---------- */
+.buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+
+  .nav-button { flex: 1; }
+}
+/* ----------  SELECT (selector de oficio existente)  ---------- */
+.form-row.full-select {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+
+  label {
+    margin-bottom: .5rem;
+    color: #ddd;
+    font-size: .95rem;
   }
-  
-  /* Botón guardar */
-  .edit-job button {
-    width: 100%;
-    padding: .65rem;
-    border: none;
-    border-radius: 6px;
-    background: #1d72b8;
+
+  select {
+    padding: .8rem 1rem;
+    background-color: #3a3a3a;            // gris card
+    border: 1px solid #525252;
+    border-radius: 5px;
+    font-size: 1rem;
     color: #fff;
-    font-weight: 600;
+    transition: border-color .3s, box-shadow .3s;
     cursor: pointer;
-    transition: background .25s;
-  
-    &:disabled {
-      opacity: .6;
-      cursor: not-allowed;
+
+    &:focus {
+      outline: none;
+      border-color: #1d72b8;
+      box-shadow: 0 0 0 3px rgba(29, 114, 184, .3);
     }
-  
-    &:hover:not(:disabled) {
-      background: #156ba3;
+
+    option {
+      background-color: #1e1e1e;
+      color: #fff;
     }
   }
-  
+}

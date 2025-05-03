@@ -1,75 +1,78 @@
-<div class="register-container" @routeAnimations>
-  <div class="register-panel">
-    <h2 class="register-title">Registro de Usuario</h2>
-
-    <!-- ✅ Datos Personales -->
-    <h3 class="section-title">Datos Personales</h3>
-    <div class="register-inputs">
-      <p>Nombre:</p>
-      <input type="text" placeholder="Nombre" [(ngModel)]="nombre" class="register-input">
-      <p>Apellidos:</p>
-      <input type="text" placeholder="Apellidos" [(ngModel)]="apellidos" class="register-input">
-      <p>Antigüedad:</p>
-      <input type="date" placeholder="Antigüedad" [(ngModel)]="antiguedad" class="register-input">
-      <p>Horas de vuelo:</p>
-      <input type="number" placeholder="Horas de Vuelo" [(ngModel)]="horasVuelo" class="register-input">
+<div class="container">
+  <div class="user-panel" @routeAnimations>
+    <!-- Cabecera -->
+    <div class="header-row">
+      <button class="nav-button back-button" (click)="goBack()">Home</button>
+      <h1 class="register-title">Registro de Usuario</h1>
     </div>
 
-    <!-- ✅ Credenciales de Acceso -->
-    <h3 class="section-title">Acceso</h3>
-    <div class="register-inputs">
-      <p>Email:</p>
-      <input type="email" placeholder="Email" [(ngModel)]="email" class="register-input">
-      <p>Contraseña:</p>
-      <input type="password" placeholder="Contraseña" [(ngModel)]="contrasena" class="register-input">
-    </div>
+    <!-- Formulario de registro (template-driven) -->
+    <form #registerForm="ngForm" (ngSubmit)="registrar()">
 
-    <!-- ✅ Información Profesional -->
-    <h3 class="section-title">Información Profesional</h3>
-    <div class="register-inputs">
-<!-- Grupo Sanguíneo -->
- 
-<p>Grupo Sanguíneo:</p>
+      <!-- Datos Personales -->
+      <h3 class="section-title">Datos Personales</h3>
+      <div class="form-row">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" name="nombre" type="text" [(ngModel)]="nombre" required />
+      </div>
+      <div class="form-row">
+        <label for="apellidos">Apellidos</label>
+        <input id="apellidos" name="apellidos" type="text" [(ngModel)]="apellidos" required />
+      </div>
+      <div class="form-row">
+        <label for="antiguedad">Antigüedad</label>
+        <input id="antiguedad" name="antiguedad" type="date" [(ngModel)]="antiguedad" required />
+      </div>
+      <div class="form-row">
+        <label for="horasVuelo">Horas de vuelo</label>
+        <input id="horasVuelo" name="horasVuelo" type="number" [(ngModel)]="horasVuelo" required />
+      </div>
 
-<select
-  id="grupoSanguineo"
-  class="register-input"
-  [(ngModel)]="grupoSanguineoSeleccionado"
-  [compareWith]="compareById">
-  <option [ngValue]="null" disabled selected hidden>Grupo Sanguíneo</option>
-  <option *ngFor="let gs of gruposSanguineos" [ngValue]="gs">
-    {{ gs.tipo }}
-  </option>
-</select>
+      <!-- Acceso -->
+      <h3 class="section-title">Acceso</h3>
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" [(ngModel)]="email" required />
+      </div>
+      <div class="form-row">
+        <label for="contrasena">Contraseña</label>
+        <input id="contrasena" name="contrasena" type="password" [(ngModel)]="contrasena" required />
+      </div>
 
-<!-- Rango y Oficio -->
-<p>Rango:</p>
-<select [(ngModel)]="rangoSeleccionado" class="register-input">
-  <option [ngValue]="null" disabled selected hidden>Rango</option>
-  <option *ngFor="let r of rangos" [ngValue]="r">{{ r.nombre }}</option>
-</select>
+      <!-- Información Profesional -->
+      <h3 class="section-title">Información Profesional</h3>
+      <div class="form-row">
+        <label for="grupoSanguineo">Grupo Sanguíneo</label>
+        <select id="grupoSanguineo" name="grupoSanguineo" [(ngModel)]="grupoSanguineoSeleccionado" [compareWith]="compareById" required>
+          <option [ngValue]="null">-- Elegir grupo --</option>
+          <option *ngFor="let gs of gruposSanguineos" [ngValue]="gs">{{ gs.tipo }}</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="rango">Rango</label>
+        <select id="rango" name="rango" [(ngModel)]="rangoSeleccionado" required>
+          <option [ngValue]="null">-- Elegir rango --</option>
+          <option *ngFor="let r of rangos" [ngValue]="r">{{ r.nombre }}</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="oficio">Oficio</label>
+        <select id="oficio" name="oficio" [(ngModel)]="oficioSeleccionado" required>
+          <option [ngValue]="null">-- Elegir oficio --</option>
+          <option *ngFor="let o of oficios" [ngValue]="o">{{ o.nombre }}</option>
+        </select>
+      </div>
+      <div class="form-row checkbox-row">
+        <input id="permisos" name="permisos" type="checkbox" [(ngModel)]="permisos" />
+        <label for="permisos">Otorgar permisos administrativos</label>
+      </div>
 
-<p>Oficio:</p>
-<select [(ngModel)]="oficioSeleccionado" class="register-input">
-  <option [ngValue]="null" disabled selected hidden>Oficio</option>
-  <option *ngFor="let o of oficios" [ngValue]="o">{{ o.nombre }}</option>
-</select>
+      <!-- Botones -->
+      <div class="buttons register-buttons">
+        <button class="nav-button register-button" type="submit" [disabled]="registerForm.invalid">Registrar</button>
+        <button class="nav-button home-button" type="button" (click)="goBack()">Cancelar</button>
+      </div>
 
-<div class="register-inputs permiso-row">
-  <label class="permission-checkbox">
-    <input type="checkbox" [(ngModel)]="permisos"> 
-    Otorgar permisos administrativos
-  </label>
-</div>
-
-
-      
-    </div>
-
-    <!-- ✅ Botones -->
-    <div class="register-buttons">
-      <button class="register-button" (click)="registrar()">REGISTRAR</button>
-      <button class="home-button" (click)="goBack()">← Home</button>
-    </div>
+    </form>
   </div>
 </div>

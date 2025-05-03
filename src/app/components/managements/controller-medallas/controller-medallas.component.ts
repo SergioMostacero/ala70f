@@ -55,7 +55,7 @@ export class ControllerMedallasComponent implements OnInit {
     const tienePermisos = localStorage.getItem('permisos') === 'true';
   
     if (tienePermisos) {
-      this.router.navigate(['/homePermisos']);
+      this.router.navigate(['/management']);
     } else {
       this.router.navigate(['/home']);
     }

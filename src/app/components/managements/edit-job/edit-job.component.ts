@@ -10,12 +10,8 @@ import { OficioService } from '../../../Services/oficio.service';
 })
 export class EditJobComponent implements OnInit {
   oficios: Oficio[] = [];
-
-
   oficio?: Oficio;
-
   @Output() saved = new EventEmitter<Oficio>();
-
   form!: FormGroup;
   loading = false;
 
@@ -29,6 +25,10 @@ export class EditJobComponent implements OnInit {
     this.loadOficios();            
   }
 
+  /** Nuevo método para el botón Volver */
+  goBack(): void {
+    window.history.back();
+  }
 
   private buildForm(oficio?: Oficio): void {
     this.form = this.fb.group({
@@ -54,7 +54,6 @@ export class EditJobComponent implements OnInit {
       this.buildForm(this.oficio);      
     }
   }
-
 
   submit(): void {
     if (this.form.invalid) { this.form.markAllAsTouched(); return; }

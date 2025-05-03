@@ -1,47 +1,48 @@
-<!-- mismo “shell” oscuro que la pantalla de vuelos -->
 <div class="container">
+  <div class="user-panel" @routeAnimations>
 
-    <div class="user-panel">
-      
-      <form [formGroup]="form"
-            (ngSubmit)="submit()"
-            class="edit-job">
-  
-        <!-- Selector de oficios -->
-        <label class="full">
-          Oficio existente
-          <select #sel (change)="onSelect(sel.value)" [value]="oficio?.id ?? 0">
-            <option value="0">— Nuevo oficio —</option>
-            <option *ngFor="let o of oficios" [value]="o.id">{{ o.nombre }}</option>
-          </select>
-        </label>
-  
-        <h2>{{ oficio?.id ? 'Editar oficio' : 'Nuevo oficio' }}</h2>
-  
-        <!-- Campos -->
-        <label>
-          Nombre
-          <input formControlName="nombre" placeholder="Ej. Carpintero" />
-        </label>
+    <!-- Cabecera -->
+    <div class="header-row">
+      <button class="nav-button back-button" (click)="goBack()">Volver</button>
+      <h1 class="flight-title">{{ oficio?.id ? 'Editar Oficio' : 'Nuevo Oficio' }}</h1>
+    </div>
+
+    <!-- Formulario de oficio -->
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <!-- Selector de oficio existente -->
+      <div class="form-row full-select">
+        <label for="existing">Oficio existente</label>
+        <select id="existing" #existingSel (change)="onSelect(existingSel.value)" [value]="oficio?.id ?? 0">
+          <option value="0">— Nuevo oficio —</option>
+          <option *ngFor="let o of oficios" [value]="o.id">{{ o.nombre }}</option>
+        </select>
+      </div>
+
+      <!-- Campos -->
+      <div class="form-row">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" formControlName="nombre" placeholder="Ej. Carpintero" />
         <div *ngIf="form.get('nombre')?.invalid && form.get('nombre')?.touched" class="error">
           El nombre es obligatorio (máx. 60 car.)
         </div>
-  
-        <label>
-          Descripción
-          <textarea formControlName="descripcion" rows="4"
-                    placeholder="Describe brevemente el oficio"></textarea>
-        </label>
+      </div>
+
+      <div class="form-row">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" formControlName="descripcion" rows="4" placeholder="Describe brevemente el oficio"></textarea>
         <div *ngIf="form.get('descripcion')?.invalid && form.get('descripcion')?.touched" class="error">
           La descripción es obligatoria (máx. 255 car.)
         </div>
-  
-        <button type="submit" [disabled]="loading || form.invalid">
+      </div>
+
+      <!-- Botón enviar -->
+      <div class="buttons">
+        <button class="nav-button" type="submit" [disabled]="loading || form.invalid">
           {{ loading ? 'Guardando…' : (oficio?.id ? 'Actualizar' : 'Crear') }}
         </button>
-      </form>
-  
-    </div>
-  
+      </div>
+    </form>
+
   </div>
-  
+</div>
