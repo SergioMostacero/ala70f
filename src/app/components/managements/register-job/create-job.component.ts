@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { OficioService } from '../../../Services/oficio.service';
 import { NotificationService } from '../../../utils/notification.service';
 import { Oficio } from '../../../model/oficio.model';
+import { RouteEncoderService } from '../../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-create-job',
@@ -16,6 +17,7 @@ export class CreateJobComponent {
   jobForm: FormGroup;
 
   constructor(
+    private encoder: RouteEncoderService,
     private fb: FormBuilder,
     private oficioService: OficioService,
     private notification: NotificationService,
@@ -38,7 +40,7 @@ export class CreateJobComponent {
     this.oficioService.createOficio(payload).subscribe({
       next: () => {
         this.notification.showMessage('Oficio creado con éxito', 'success');
-        this.router.navigate(['/management']);
+        this.router.navigate([this.encoder.encode('management')]);
       },
       error: () =>
         this.notification.showMessage('Error creando oficio', 'error')
@@ -46,6 +48,13 @@ export class CreateJobComponent {
   }
 
   goBack(): void {
-    this.router.navigate(['/management']);
+    const encoder = new RouteEncoderService();
+    const tienePermisos = localStorage.getItem('permisos') === 'true';
+    
+    const ruta = tienePermisos 
+      ? encoder.encode('management') 
+      : encoder.encode('home');
+  
+    this.router.navigate([ruta]);
   }
 }

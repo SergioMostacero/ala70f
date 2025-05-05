@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VueloService } from '../../Services/vuelo.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../utils/notification.service';
+import { RouteEncoderService } from '../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-historial-flights',
@@ -12,6 +13,7 @@ export class HistorialFlightsComponent implements OnInit {
   historialVuelos: any[] = [];
 
   constructor(
+    private encoder: RouteEncoderService,
     private vueloService: VueloService,
     private router: Router
   ) {}
@@ -20,17 +22,25 @@ export class HistorialFlightsComponent implements OnInit {
     this.loadVuelosUsuario();
   }
 
-  goBack() {
+  goBack(): void {
+    const encoder = new RouteEncoderService();
     const tienePermisos = localStorage.getItem('permisos') === 'true';
-    this.router.navigate([tienePermisos ? '/homePermisos' : '/home']);
+    
+    const ruta = tienePermisos 
+      ? encoder.encode('homePermisos') 
+      : encoder.encode('home');
+  
+    this.router.navigate([ruta]);
   }
 
   irARegistrarVuelo() {
-    this.router.navigate(['/register-flights']);
+    this.router.navigate([this.encoder.encode('register-flights')]);
   }
 
+
   verVuelo(vueloId: number) {
-    this.router.navigate(['/vuelo', vueloId]);
+    const encodedPath = this.encoder.encode('vuelo');
+    this.router.navigate([encodedPath, vueloId]); // Mantener ID legible
   }
 
   private loadVuelosUsuario(): void {

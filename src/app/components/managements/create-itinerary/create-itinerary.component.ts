@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormArray, Validators, ValidatorFn, AbstractCon
 import { ItinerarioService } from '../../../Services/itinerario.service';
 import { UbicacionService } from '../../../Services/ubicacion.service';
 import { Router } from '@angular/router';
+import { RouteEncoderService } from '../../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-create-itinerary',
@@ -14,6 +15,7 @@ export class CreateItineraryComponent implements OnInit {
   ubicaciones: any[] = [];
 
   constructor(
+    private encoder: RouteEncoderService,
     private fb: FormBuilder,
     private itinerarioService: ItinerarioService,
     private ubicacionService: UbicacionService,
@@ -91,10 +93,17 @@ export class CreateItineraryComponent implements OnInit {
     };
 
     this.itinerarioService.create(dto)
-      .subscribe(() => this.router.navigate(['/management']));
+      .subscribe(() => this.router.navigate([this.encoder.encode('management')]));
   }
 
-  goBack() {
-    this.router.navigate(['/management']);
+  goBack(): void {
+    const encoder = new RouteEncoderService();
+    const tienePermisos = localStorage.getItem('permisos') === 'true';
+    
+    const ruta = tienePermisos 
+      ? encoder.encode('management') 
+      : encoder.encode('home');
+  
+    this.router.navigate([ruta]);
   }
 }

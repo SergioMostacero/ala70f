@@ -12,6 +12,7 @@ import { Tripulantes } from '../../../model/Tripulantes.model';
 import { Rango } from '../../../model/rango.model';
 import { GrupoSanguineo } from '../../../model/grupo-sanguineo.model';
 import { Oficio } from '../../../model/oficio.model';
+import { RouteEncoderService } from '../../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-register-user',
@@ -37,6 +38,7 @@ export class RegisterUserComponent implements OnInit {
   oficios: Oficio[] = [];
 
   constructor(
+    private encoder: RouteEncoderService,
     private tripulantesService: TripulantesService,
     private rangoService: RangoService,
     private grupoSanguineoService: GrupoSanguineoService,
@@ -53,9 +55,15 @@ export class RegisterUserComponent implements OnInit {
     return a?.id === b?.id;
   }
 
-  goBack() {
+  goBack(): void {
+    const encoder = new RouteEncoderService();
     const tienePermisos = localStorage.getItem('permisos') === 'true';
-    this.router.navigate([tienePermisos ? '/homePermisos' : '/home']);
+    
+    const ruta = tienePermisos 
+      ? encoder.encode('management') 
+      : encoder.encode('home');
+  
+    this.router.navigate([ruta]);
   }
 
   cargarOpciones() {
@@ -112,7 +120,7 @@ export class RegisterUserComponent implements OnInit {
     this.tripulantesService.createTripulantes(nuevoTripulante).subscribe({
       next: () => {
         alert('Registro exitoso!');
-        this.router.navigate(['/home-permisos']);
+        this.router.navigate([this.encoder.encode('home-permisos')]);
       },
       error: (err) => {
         this.notification.showMessage(

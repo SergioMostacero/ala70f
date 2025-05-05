@@ -7,6 +7,7 @@ import { AvionService } from '../../Services/avion.service';
 import { TripulantesService } from '../../Services/tripulantes.service';
 import { NotificationService } from '../../utils/notification.service';
 import { Router } from '@angular/router';
+import { RouteEncoderService } from '../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-register-flight',
@@ -26,6 +27,7 @@ export class RegisterFlightComponent implements OnInit {
   horaLlegada: string = '';
 
   constructor(
+    private encoder: RouteEncoderService,
     private fb: FormBuilder,
     private vueloService: VueloService,
     private itinerarioService: ItinerarioService,
@@ -151,7 +153,7 @@ createVuelo(): void {
       next: () => {
         alert('¡Vuelo creado con éxito!');
         this.vueloForm.reset();
-        this.router.navigate(['/flights']);
+        this.router.navigate([this.encoder.encode('flights')]);
       },
       error: () => {
         this.notification.showMessage('No se pudo crear el vuelo', 'error');
@@ -163,10 +165,16 @@ createVuelo(): void {
 }
 
 
-  goBack(): void {
-    const tienePermisos = localStorage.getItem('permisos') === 'true';
-    this.router.navigate([tienePermisos ? '/homePermisos' : '/home']);
-  }
+goBack(): void {
+  const encoder = new RouteEncoderService();
+  const tienePermisos = localStorage.getItem('permisos') === 'true';
+  
+  const ruta = tienePermisos 
+    ? encoder.encode('homePermisos') 
+    : encoder.encode('home');
+
+  this.router.navigate([ruta]);
+}
 
   // Cargas de datos
   private loadAviones(): void {

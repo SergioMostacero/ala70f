@@ -14,6 +14,7 @@ import { fromLonLat } from 'ol/proj';
 import { Icon, Stroke, Style } from 'ol/style';
 import { LineString } from 'ol/geom';
 import { Router } from '@angular/router';
+import { RouteEncoderService } from '../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-destinos',
@@ -29,6 +30,7 @@ export class DestinosComponent implements OnInit, OnDestroy {
     private ubicacionService: UbicacionService,
     private notification: NotificationService,
     private router: Router,
+    private encoder: RouteEncoderService
   ) {}
 
   // Añadir métodos faltantes
@@ -207,7 +209,13 @@ ngOnDestroy(): void {
 }
 
 goBack(): void {
+  const encoder = new RouteEncoderService();
   const tienePermisos = localStorage.getItem('permisos') === 'true';
-  this.router.navigate([tienePermisos ? '/homePermisos' : '/home']);
+  
+  const ruta = tienePermisos 
+    ? encoder.encode('homePermisos') 
+    : encoder.encode('home');
+
+  this.router.navigate([ruta]);
 }
 }

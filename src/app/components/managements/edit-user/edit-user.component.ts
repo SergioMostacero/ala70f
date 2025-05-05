@@ -10,6 +10,7 @@ import { Tripulantes } from '../../../model/Tripulantes.model';
 import { Rango } from '../../../model/rango.model';
 import { GrupoSanguineo } from '../../../model/grupo-sanguineo.model';
 import { Oficio } from '../../../model/oficio.model';
+import { RouteEncoderService } from '../../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-edit-user',
@@ -26,6 +27,7 @@ export class EditUserComponent implements OnInit {
   isLoaded = false;
 
   constructor(
+    private encoder: RouteEncoderService,
     private fb: FormBuilder,
     private tripService: TripulantesService,
     private rangoService: RangoService,
@@ -141,7 +143,7 @@ export class EditUserComponent implements OnInit {
     this.tripService.updateTripulante(this.selectedUserId, updatedUser).subscribe({ 
       next: () => {
         this.notification.showMessage('Usuario actualizado con éxito', 'success');
-        this.router.navigate(['/management']);
+        this.router.navigate([this.encoder.encode('management')]);
       },
       error: (err) => {
         const errorMessage = err?.error?.message || 'Error actualizando usuario';
@@ -151,7 +153,13 @@ export class EditUserComponent implements OnInit {
   }
 
   goBack(): void {
+    const encoder = new RouteEncoderService();
     const tienePermisos = localStorage.getItem('permisos') === 'true';
-    this.router.navigate([tienePermisos ? '/management' : '/home']);
+    
+    const ruta = tienePermisos 
+      ? encoder.encode('management') 
+      : encoder.encode('home');
+  
+    this.router.navigate([ruta]);
   }
 }

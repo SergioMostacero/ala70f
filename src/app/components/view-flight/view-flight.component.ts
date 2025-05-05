@@ -18,6 +18,7 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { fromLonLat } from 'ol/proj';
 import { Icon, Style, Stroke } from 'ol/style';
+import { RouteEncoderService } from '../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-view-flight',
@@ -30,6 +31,7 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
   map!: Map;
 
   constructor(
+    private encoder: RouteEncoderService,
     private vueloService: VueloService,
     private ubicacionService: UbicacionService,
     private notification: NotificationService,
@@ -47,10 +49,16 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
     }
   }
 
-  goBack() {
-    const tienePermisos = localStorage.getItem('permisos') === 'true';
-    this.router.navigate([tienePermisos ? '/homePermisos' : '/home']);
-  }
+  goBack(): void {
+  const encoder = new RouteEncoderService();
+  const tienePermisos = localStorage.getItem('permisos') === 'true';
+  
+  const ruta = tienePermisos 
+    ? encoder.encode('homePermisos') 
+    : encoder.encode('home');
+
+  this.router.navigate([ruta]);
+}
 
   private loadVuelo(): void {
     const id = this.route.snapshot.paramMap.get('id');

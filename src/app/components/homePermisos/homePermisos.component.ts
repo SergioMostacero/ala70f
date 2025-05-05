@@ -6,6 +6,7 @@ import { GrupoSanguineoService } from '../../Services/grupo-sanguineo.service';
 import { OficioService } from '../../Services/oficio.service';
 import { RangoService } from 'src/app/Services/rango.service';
 import { NotificationService } from '../../utils/notification.service';
+import { RouteEncoderService } from '../../Services/route-encoder.service';
 @Component({
   selector: 'app-homePermisos',
   templateUrl: './homePermisos.component.html',
@@ -17,6 +18,7 @@ export class HomePermisosComponent implements OnInit {
   errorMessage: string | null = null;
 
   constructor(
+    private encoder: RouteEncoderService,
     private router: Router,
     private tripulantesService: TripulantesService,
     private grupoSanguineoService: GrupoSanguineoService,
@@ -28,7 +30,7 @@ export class HomePermisosComponent implements OnInit {
     this.tripulante = this.tripulantesService.getLoggedInUser();
     if (!this.tripulante) {
       this.notification.showMessage('No hay tripulante logueado. Redirigiendo...', 'error');
-      setTimeout(() => this.router.navigate(['/login']), 1500);
+      setTimeout(() => this.router.navigate([this.encoder.encode('login'), 1500]));
       return;
     }
     if (this.tripulante.grupoSanguineoDTO?.id) {
@@ -51,10 +53,10 @@ export class HomePermisosComponent implements OnInit {
 
   
   irALogrosMedallas(): void {
-    this.router.navigate(['/logros-medallas']);
+    this.router.navigate([this.encoder.encode('logros-medallas')]);
   }
   irALogrosHistorial(): void {
-    this.router.navigate(['/historial']);
+    this.router.navigate([this.encoder.encode('historial')]);
   }
 
 
@@ -64,22 +66,27 @@ export class HomePermisosComponent implements OnInit {
 
 
   verGestion() {
-    this.router.navigate(['/management']);
+    this.router.navigate([this.encoder.encode('management')]);
   }
   
   verVuelos() {
-    this.router.navigate(['/flights']);
+    this.router.navigate([this.encoder.encode('flights')]);
   }
 
   irADestinos(){
-    this.router.navigate(['/destinos'])
+    this.router.navigate([this.encoder.encode('destinos')]);
   }
 
-  registrar() {
-    this.router.navigate(['/register'], { 
-      state: { 
-        currentTripulante: this.tripulante 
-      } 
-    });
+  registrar(): void {
+    const encodedRoute = this.encoder.encode('register');
+    
+    this.router.navigate(
+      [encodedRoute], 
+      { 
+        state: {
+          currentTripulante: (this.tripulante)
+        }
+      }
+    );
   }
 }

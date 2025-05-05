@@ -4,6 +4,7 @@ import { MedallaService } from '../../Services/medalla.service';
 import { Tripulantes } from '../../model/Tripulantes.model';
 import { Medalla } from '../../model/medalla.model';
 import { Router } from '@angular/router';
+import { RouteEncoderService } from '../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-logros-medallas',
@@ -16,6 +17,7 @@ export class LogrosMedallasComponent implements OnInit {
     todasMedallas: Medalla[] = [];
 
   constructor(
+    private encoder: RouteEncoderService,
     private tripulantesService: TripulantesService,
     private medallaService: MedallaService,
     private router: Router
@@ -31,7 +33,7 @@ export class LogrosMedallasComponent implements OnInit {
     this.tripulante = this.tripulantesService.getLoggedInUser();
   
     if (!this.tripulante) {
-      this.router.navigate(['/login']);
+      this.router.navigate([this.encoder.encode('login')]);
       return;
     }
   
@@ -55,8 +57,14 @@ export class LogrosMedallasComponent implements OnInit {
 
   
   goBack(): void {
+    const encoder = new RouteEncoderService();
     const tienePermisos = localStorage.getItem('permisos') === 'true';
-    this.router.navigate([tienePermisos ? '/homePermisos' : '/home']);
+    
+    const ruta = tienePermisos 
+      ? encoder.encode('homePermisos') 
+      : encoder.encode('home');
+  
+    this.router.navigate([ruta]);
   }
   
 }

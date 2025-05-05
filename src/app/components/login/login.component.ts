@@ -4,6 +4,7 @@ import { TripulantesService } from '../../Services/tripulantes.service';
 import { Tripulantes } from '../../model/Tripulantes.model';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { NotificationService } from 'src/app/utils/notification.service';
+import { RouteEncoderService } from '../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-login',
@@ -37,6 +38,7 @@ export class LoginComponent {
   loading: boolean = true;
 
   constructor(
+    private encoder: RouteEncoderService,
     private tripulantesService: TripulantesService,
     private router: Router,
     private notification: NotificationService
@@ -65,9 +67,9 @@ login() {
               // Redirección después de 500ms para asegurar persistencia
               setTimeout(() => {
                   if (tripulante.permisos) {
-                      this.router.navigate(['/homePermisos']);
+                      this.router.navigate([this.encoder.encode('homePermisos')]);
                   } else {
-                      this.router.navigate(['/home']);
+                      this.router.navigate([this.encoder.encode('home')]);
                   }
               }, 500);
           },

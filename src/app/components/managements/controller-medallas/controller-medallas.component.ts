@@ -4,6 +4,8 @@ import { MedallaService } from '../../../Services/medalla.service';
 import { Router } from '@angular/router';
 import { Tripulantes } from '../../../model/Tripulantes.model';
 import { NotificationService } from '../../../utils/notification.service';
+import { RouteEncoderService } from '../../../Services/route-encoder.service';
+
 
 @Component({
   selector: 'app-controller-medallas',
@@ -17,6 +19,7 @@ export class ControllerMedallasComponent implements OnInit {
   selectedMedallaId: number | null = null;
 
   constructor(
+    private encoder: RouteEncoderService,
     private tripulantesService: TripulantesService,
     private medallaService: MedallaService,
     private router: Router,
@@ -51,14 +54,15 @@ export class ControllerMedallasComponent implements OnInit {
       }
     });
   }
-  goBack() {
+  goBack(): void {
+    const encoder = new RouteEncoderService();
     const tienePermisos = localStorage.getItem('permisos') === 'true';
+    
+    const ruta = tienePermisos 
+      ? encoder.encode('management') 
+      : encoder.encode('home');
   
-    if (tienePermisos) {
-      this.router.navigate(['/management']);
-    } else {
-      this.router.navigate(['/home']);
-    }
+    this.router.navigate([ruta]);
   }
   asignarMedalla(): void {
     if (!this.selectedTripulanteId || !this.selectedMedallaId) {

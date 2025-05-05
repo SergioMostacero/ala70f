@@ -21,10 +21,5 @@ export class AppComponent {
   prepareRoute(outlet: RouterOutlet) {
     return outlet?.activatedRouteData?.['animation'];
   }
-  
-  goBack(): void {
-    const tienePermisos = localStorage.getItem('permisos') === 'true';
-    this.router.navigate([tienePermisos ? '/homePermisos' : '/home']);
-  }
-  
+
 }

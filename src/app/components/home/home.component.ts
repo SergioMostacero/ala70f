@@ -5,6 +5,7 @@ import { Tripulantes } from '../../model/Tripulantes.model';
 import { GrupoSanguineoService } from '../../Services/grupo-sanguineo.service';
 import { OficioService } from '../../Services/oficio.service';
 import { NotificationService } from '../../utils/notification.service';
+import { RouteEncoderService } from '../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,7 @@ export class HomeComponent implements OnInit {
   isLoading = true;
 
   constructor(
+    private encoder: RouteEncoderService,
     private router: Router,
     private tripulantesService: TripulantesService,
     private grupoSanguineoService: GrupoSanguineoService,
@@ -28,7 +30,7 @@ export class HomeComponent implements OnInit {
 
     if (!this.tripulante) {
       this.notification.showMessage('No hay tripulante logueado. Redirigiendo...', 'error');
-      setTimeout(() => this.router.navigate(['/login']), 1500);
+      setTimeout(() => this.router.navigate([this.encoder.encode('login'), 1500]));
       return;
     }
 
@@ -40,22 +42,22 @@ export class HomeComponent implements OnInit {
   }
 
   home() {
-    this.router.navigate(['/register-flight']);
+    this.router.navigate([this.encoder.encode('register-flight')]);
   }
 
   verVuelos() {
-    this.router.navigate(['/flights']);
+    this.router.navigate([this.encoder.encode('flights')]);
   }
 
   irALogrosHistorial(): void {
-    this.router.navigate(['/historial']);
+    this.router.navigate([this.encoder.encode('historial')]);
   }
   
   irALogrosMedallas(): void {
-    this.router.navigate(['/logros-medallas']);
+    this.router.navigate([this.encoder.encode('logros-medallas')]);
   }
 
   irADestinos(){
-    this.router.navigate(['/destinos'])
+    this.router.navigate([this.encoder.encode('destinos')]);
   }
 }

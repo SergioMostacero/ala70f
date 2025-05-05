@@ -17,26 +17,34 @@ import { CreateJobComponent } from './components/managements/register-job/create
 import { EditJobComponent } from './components/managements/edit-job/edit-job.component';
 import { CreateItineraryComponent } from './components/managements/create-itinerary/create-itinerary.component';
 import { DestinosComponent } from './components/destinos/destinos.component';
+import { RouteEncoderService } from './Services/route-encoder.service';
 
+
+const encoder = new RouteEncoderService();
+const encodedVuelo = encoder.encode('vuelo');
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent, data: { animation: 'login' } },
-  { path: 'register', component: RegisterUserComponent, data: { animation: 'register' } },
-  { path: 'home', component: HomeComponent, data: { animation: 'home' } },
-  { path: 'homePermisos', component: HomePermisosComponent, data: { animation: 'homePermisos' } },
-  { path: 'logros-medallas', component: LogrosMedallasComponent },
-  { path: 'management', component: ManagementComponent },
-  { path: 'create-user', component: RegisterUserComponent },
-  { path: 'edit-user', component: EditUserComponent },
-  { path: 'flights', component: VuelosComponent },
-  { path: 'register-flights', component: RegisterFlightComponent },
-  { path: 'historial', component: HistorialFlightsComponent },
-  { path: 'vuelo/:id', component: ViewFlightComponent }, // Asegúrate que el componente exista
-  { path: 'controller-medallas', component: ControllerMedallasComponent },
-  { path: 'create-job', component: CreateJobComponent },
-  { path: 'edit-job', component: EditJobComponent },
-  { path: 'create-itinerary', component: CreateItineraryComponent},
-  { path: 'destinos', component: DestinosComponent},
+  { path: '', redirectTo: encoder.encode('login'), pathMatch: 'full' },
+  { path: encoder.encode('login'), component: LoginComponent, data: { animation: 'login' } },
+  { path: encoder.encode('register'), component: RegisterUserComponent, data: { animation: 'register' } },
+  { path: encoder.encode('home'), component: HomeComponent, data: { animation: 'home' } },
+  { path: encoder.encode('homePermisos'), component: HomePermisosComponent, data: { animation: 'homePermisos' } },
+  { path: encoder.encode('logros-medallas'), component: LogrosMedallasComponent },
+  { path: encoder.encode('management'), component: ManagementComponent },
+  { path: encoder.encode('create-user'), component: RegisterUserComponent },
+  { path: encoder.encode('edit-user'), component: EditUserComponent },
+  { path: encoder.encode('flights'), component: VuelosComponent },
+  { path: encoder.encode('register-flights'), component: RegisterFlightComponent },
+  { path: encoder.encode('historial'), component: HistorialFlightsComponent },
+  { path: encoder.encode('vuelo/:id'), component: ViewFlightComponent }, // Asegúrate que el componente exista
+  { path: encoder.encode('controller-medallas'), component: ControllerMedallasComponent },
+  { path: encoder.encode('create-job'), component: CreateJobComponent },
+  { path: encoder.encode('edit-job'), component: EditJobComponent },
+  { path: encoder.encode('create-itinerary'), component: CreateItineraryComponent},
+  { path: encoder.encode('destinos'), component: DestinosComponent},
+  { path: `${encodedVuelo}/:id`, 
+    component: ViewFlightComponent,
+    data: { originalPath: 'vuelo' }
+  },
   { path: '**', redirectTo: 'login' }
 ];
 

@@ -2,6 +2,8 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Oficio } from '../../../model/oficio.model';
 import { OficioService } from '../../../Services/oficio.service';
+import { RouteEncoderService } from '../../../Services/route-encoder.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-job',
@@ -16,6 +18,8 @@ export class EditJobComponent implements OnInit {
   loading = false;
 
   constructor(
+    private router: Router,
+    private encoder: RouteEncoderService,
     private fb: FormBuilder,
     private oficioService: OficioService
   ) {}
@@ -25,9 +29,15 @@ export class EditJobComponent implements OnInit {
     this.loadOficios();            
   }
 
-  /** Nuevo método para el botón Volver */
   goBack(): void {
-    window.history.back();
+    const encoder = new RouteEncoderService();
+    const tienePermisos = localStorage.getItem('permisos') === 'true';
+    
+    const ruta = tienePermisos 
+      ? encoder.encode('management') 
+      : encoder.encode('home');
+  
+    this.router.navigate([ruta]);
   }
 
   private buildForm(oficio?: Oficio): void {
