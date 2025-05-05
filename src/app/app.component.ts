@@ -22,14 +22,9 @@ export class AppComponent {
     return outlet?.activatedRouteData?.['animation'];
   }
   
-  goBack() {
+  goBack(): void {
     const tienePermisos = localStorage.getItem('permisos') === 'true';
-  
-    if (tienePermisos) {
-      this.router.navigate(['/homePermisos']);
-    } else {
-      this.router.navigate(['/home']);
-    }
+    this.router.navigate([tienePermisos ? '/homePermisos' : '/home']);
   }
   
 }

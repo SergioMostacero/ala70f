@@ -47,24 +47,33 @@ export class LoginComponent {
       this.loading = false;
     }, 2000);
   }
-
-  login() {
-    this.tripulantesService.loginTripulantes(this.email, this.contrasena)
+  
+  // Modificar el éxito del login
+login() {
+  this.tripulantesService.loginTripulantes(this.email, this.contrasena)
       .subscribe({
-        next: (tripulante: Tripulantes) => {
-          localStorage.setItem('tripulanteId', tripulante.id?.toString() || '');
-          localStorage.setItem('permisos', tripulante.permisos ? 'true' : 'false');
-          this.tripulantesService.setLoggedInUser(tripulante);
-
-          if (tripulante.permisos) {
-            this.router.navigate(['/homePermisos']);
-          } else {
-            this.router.navigate(['/home']);
+          next: (tripulante: Tripulantes) => {
+              // Guardar todos los datos necesarios
+              const userData = {
+                  idTripulante: tripulante.id,
+                  permisos: tripulante.permisos,
+                  nombre: tripulante.nombre
+              };
+              
+              localStorage.setItem('usuarioLogeado', JSON.stringify(userData));
+              
+              // Redirección después de 500ms para asegurar persistencia
+              setTimeout(() => {
+                  if (tripulante.permisos) {
+                      this.router.navigate(['/homePermisos']);
+                  } else {
+                      this.router.navigate(['/home']);
+                  }
+              }, 500);
+          },
+          error: (error) => {
+              this.notification.showMessage('Credenciales incorrectas', 'error');
           }
-        },
-        error: (error) => {
-          this.notification.showMessage('Usuario incorrecto', 'error');
-        }
       });
-  }
+}
 }

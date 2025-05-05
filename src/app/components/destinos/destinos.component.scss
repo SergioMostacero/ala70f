@@ -1,75 +1,191 @@
+// destinos.component.scss
 .container {
-    background-color: #121212;
-    padding: 20px;
-    min-height: 100vh;
-  }
-  
-  .user-panel {
-    background-color: #1e1e1e;
-    color: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .title {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 24px;
-    color: #1d72b8;
-  }
-  
-  .map-container {
-    height: 60vh;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 30px;
-  }
-  
-  .map {
-    height: 100%;
-    width: 100%;
-  }
-  
-  .location-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-  }
-  
-  .location-card {
-    background-color: #2a2a2a;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    
-    strong {
-      color: #fff;
-      font-size: 16px;
-      display: block;
-      margin-bottom: 8px;
-    }
-    
-    p {
-      color: #ddd;
-      font-size: 14px;
-      margin: 4px 0;
-    }
-  }
-  .no-results {
-    text-align: center;
-    padding: 2rem;
-    color: #666;
-    
-    h3 {
-        margin-bottom: 1rem;
-    }
+  padding: 20px;
+}
+
+.user-panel {
+  background: #2b2f38;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin: 1rem auto;
+  max-width: 1200px;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .map-container {
-    height: 400px;
-    margin: 1rem 0;
+  width: 100%;
+  height: 600px;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background: #34495e;
+  position: relative;
+  
+  .map {
+    width: 100%;
+    height: 100%;
     border-radius: 8px;
-    overflow: hidden;
+  }
+}
+
+.stats-box {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin: 2rem 0;
+  
+  .stat-item {
+    text-align: center;
+    padding: 1.5rem;
+    background: #444957;
+    border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 200px;
+    
+    .stat-number {
+      display: block;
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: #3498db;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      color: #fff;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+.location-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+
+  .location-card {
+    background: #444957;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .location-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+
+      i {
+        color: #e74c3c;
+        font-size: 1.2rem;
+      }
+    }
+
+    .location-details {
+      p {
+        margin: 0.5rem 0;
+        color: #ffffff;
+
+        strong {
+          color: #cacaca;
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  border-radius: 8px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 4rem 0;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin: 20px 0;
+
+  .empty-state-img {
+    width: 200px;
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+  }
+
+  h3 {
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: #fff;
+  }
+}
+// destinos.component.scss
+.header-section {
+  position: relative; // Añadir posición relativa
+  margin-bottom: 2rem;
+  text-align: center; // Centrar contenido
+
+  .title {
+    margin: 0 auto; // Centrar horizontalmente
+    text-align: center;
+    width: fit-content; // Ajustar ancho al contenido
+  }
+}
+
+.btn-back {
+  position: absolute; // Posicionamiento absoluto
+  left: 0; // Alinear a la izquierda
+  top: 50%; // Centrar verticalmente
+  transform: translateY(-50%); // Ajuste fino de centrado vertical
+  // Mantener resto de estilos
+  background-color: #3498db;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  
+  &:hover {
+    background-color: darken(#3498db, 10%);
+    transform: translateY(-50%) translateY(-2px); // Mantener centrado vertical + efecto hover
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  }
+  
+  i {
+    font-size: 0.9rem;
+  }
 }

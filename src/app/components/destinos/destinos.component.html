@@ -1,28 +1,53 @@
+<!-- destinos.component.html -->
 <div class="container">
-    <div *ngIf="ubicaciones.length > 0; else noDestinos">
-    <div class="container">
-        <div class="user-panel">
-        <h1 class="title">Tus Destinos Visitados</h1>
-        
-        <div class="map-container">
-            <div id="map-destinos" class="map"></div>
-        </div>
-    
-        <div class="location-list">
-            <div *ngFor="let ubicacion of ubicaciones" class="location-card">
-            <strong>{{ ubicacion.ciudad }}</strong>
-            <p>{{ ubicacion.pais }} - {{ ubicacion.zonaHoraria }}</p>
-            <p>Coordenadas: {{ ubicacion.latitud }}, {{ ubicacion.longitud }}</p>
-            </div>
-        </div>
-        </div>
+  
+  <div class="user-panel">
+    <div class="header-section">
+      <h1 class="title">Historial de Destinos</h1>
+      <button (click)="goBack()" class="btn-back">
+        <i class="fas fa-arrow-left"></i> Volver
+      </button>
     </div>
-</div>
+    <!-- Loading overlay -->
+    <div *ngIf="isLoading" class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Cargando tus destinos...</p>
+    </div>
 
-<ng-template #noDestinos>
-    <div class="no-results">
-        <h3>No hay destinos registrados</h3>
-        <p>Empieza a viajar para ver tus destinos aquí</p>
+    <div *ngIf="!isLoading && ubicaciones.length > 0">
+      <div class="map-container">
+          <div id="map-destinos" class="map"></div>
+      </div>
+
+      <div class="stats-box">
+          <div class="stat-item">
+              <span class="stat-number">{{ ubicaciones.length }}</span>
+              <span class="stat-label">Destinos únicos</span>
+          </div>
+          <div class="stat-item">
+              <span class="stat-number">{{ getTotalPaises() }}</span>
+              <span class="stat-label">Países visitados</span>
+          </div>
+      </div>
+
+      <div class="location-list">
+          <div *ngFor="let ubicacion of ubicaciones" class="location-card">
+              <div class="location-header">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <h3>{{ ubicacion.ciudad }}</h3>
+              </div>
+              <div class="location-details">
+                  <p><strong>País:</strong> {{ ubicacion.pais }}</p>
+                  <p><strong>Zona Horaria:</strong> {{ ubicacion.zonaHoraria }}</p>
+                  <p><strong>Coordenadas:</strong> 
+                      <span class="coordinates">
+                          {{ formatCoordinate(ubicacion.latitud) }}, 
+                          {{ formatCoordinate(ubicacion.longitud) }}
+                      </span>
+                  </p>
+              </div>
+          </div>
+      </div>
     </div>
-</ng-template>
+  </div>
 </div>

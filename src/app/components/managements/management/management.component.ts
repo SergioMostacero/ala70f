@@ -33,12 +33,8 @@ export class ManagementComponent {
   crearItinerario() {
     this.router.navigate(['/create-itinerary']);
   }
-  goBack() {
+  goBack(): void {
     const tienePermisos = localStorage.getItem('permisos') === 'true';
-    if (tienePermisos) {
-      this.router.navigate(['/homePermisos']);
-    } else {
-      this.router.navigate(['/home']);
-    }
+    this.router.navigate([tienePermisos ? '/homePermisos' : '/home']);
   }
 }
