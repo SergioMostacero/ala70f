@@ -31,16 +31,18 @@
         <input id="nombre"
                type="text"
                formControlName="nombre"
-               maxlength="50"
                pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+"
                placeholder="Ej. María-José" />
-        <small *ngIf="userForm.get('nombre')?.hasError('required') && userForm.get('nombre')?.touched">
+        <small *ngIf="
+             userForm.get('nombre')?.invalid &&
+             (userForm.get('nombre')?.dirty || userForm.get('nombre')?.touched)
+           ">
           El nombre es obligatorio.
         </small>
-        <small *ngIf="userForm.get('nombre')?.hasError('maxlength')">
-          Máximo 50 caracteres.
-        </small>
-        <small *ngIf="userForm.get('nombre')?.hasError('pattern')">
+        <small *ngIf="
+             userForm.get('nombre')?.hasError('pattern') &&
+             (userForm.get('nombre')?.dirty || userForm.get('nombre')?.touched)
+           ">
           Solo letras, espacios, guiones y apóstrofes.
         </small>
       </div>
@@ -54,13 +56,16 @@
                maxlength="100"
                pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+"
                placeholder="Ej. Pérez García" />
-        <small *ngIf="userForm.get('apellidos')?.hasError('required')">
+        <small *ngIf="
+             userForm.get('apellidos')?.invalid &&
+             (userForm.get('apellidos')?.dirty || userForm.get('apellidos')?.touched)
+           ">
           Los apellidos son obligatorios.
         </small>
-        <small *ngIf="userForm.get('apellidos')?.hasError('maxlength')">
-          Máximo 100 caracteres.
-        </small>
-        <small *ngIf="userForm.get('apellidos')?.hasError('pattern')">
+        <small *ngIf="
+             userForm.get('apellidos')?.hasError('pattern') &&
+             (userForm.get('apellidos')?.dirty || userForm.get('apellidos')?.touched)
+           ">
           Solo letras, espacios, guiones y apóstrofes.
         </small>
       </div>
@@ -72,11 +77,16 @@
                type="email"
                formControlName="email"
                placeholder="ejemplo@dominio.com" />
-        <small *ngIf="userForm.get('email')?.hasError('required')">
-          El email es obligatorio.
-        </small>
-        <small *ngIf="userForm.get('email')?.hasError('email')">
-          Formato de email inválido.
+        <small *ngIf="
+             userForm.get('email')?.invalid &&
+             (userForm.get('email')?.dirty || userForm.get('email')?.touched)
+           ">
+          <ng-container *ngIf="userForm.get('email')?.hasError('required')">
+            El email es obligatorio.
+          </ng-container>
+          <ng-container *ngIf="userForm.get('email')?.hasError('email')">
+            Formato de email inválido.
+          </ng-container>
         </small>
       </div>
 
@@ -88,14 +98,18 @@
                formControlName="contrasena"
                minlength="8"
                placeholder="Mín. 8 car., 1 mayús, 1 dígito" />
-        <small *ngIf="userForm.get('contrasena')?.hasError('required')">
-          La contraseña es obligatoria.
-        </small>
-        <small *ngIf="userForm.get('contrasena')?.hasError('minlength')">
-          Debe tener al menos 8 caracteres.
-        </small>
-        <small *ngIf="userForm.get('contrasena')?.hasError('pattern')">
-          Debe incluir mayúsculas, minúsculas y números.
+        <small *ngIf="
+             userForm.get('contrasena')?.invalid &&
+             (userForm.get('contrasena')?.dirty || userForm.get('contrasena')?.touched)
+           ">
+          <ng-container *ngIf="userForm.get('contrasena')?.hasError('required')">
+            La contraseña es obligatoria.
+          </ng-container>
+          <ng-container *ngIf="userForm.get('contrasena')?.hasError('minlength')">
+            Debe tener al menos 8 caracteres.
+          </ng-container>
+            Mín. 1 mayús., 1 minús., 1 dígito.
+
         </small>
       </div>
 
@@ -105,7 +119,10 @@
         <input id="antiguedad"
                type="date"
                formControlName="antiguedad" />
-        <small *ngIf="userForm.get('antiguedad')?.hasError('required')">
+        <small *ngIf="
+             userForm.get('antiguedad')?.invalid &&
+             (userForm.get('antiguedad')?.dirty || userForm.get('antiguedad')?.touched)
+           ">
           La antigüedad es obligatoria.
         </small>
       </div>
@@ -117,11 +134,16 @@
                type="number"
                formControlName="horas_totales"
                min="0" />
-        <small *ngIf="userForm.get('horas_totales')?.hasError('required')">
-          Las horas de vuelo son obligatorias.
-        </small>
-        <small *ngIf="userForm.get('horas_totales')?.hasError('min')">
-          No puede ser negativo.
+        <small *ngIf="
+             userForm.get('horas_totales')?.invalid &&
+             (userForm.get('horas_totales')?.dirty || userForm.get('horas_totales')?.touched)
+           ">
+          <ng-container *ngIf="userForm.get('horas_totales')?.hasError('required')">
+            Las horas de vuelo son obligatorias.
+          </ng-container>
+          <ng-container *ngIf="userForm.get('horas_totales')?.hasError('min')">
+            No puede ser negativo.
+          </ng-container>
         </small>
       </div>
 
@@ -142,7 +164,10 @@
             {{ g.tipo }}
           </option>
         </select>
-        <small *ngIf="userForm.get('grupoSanguineoDTO.id')?.hasError('required')">
+        <small *ngIf="
+             userForm.get('grupoSanguineoDTO.id')?.invalid &&
+             (userForm.get('grupoSanguineoDTO.id')?.dirty || userForm.get('grupoSanguineoDTO.id')?.touched)
+           ">
           Debes elegir un grupo.
         </small>
       </div>
@@ -156,7 +181,10 @@
             {{ r.nombre }}
           </option>
         </select>
-        <small *ngIf="userForm.get('rangoDTO.id')?.hasError('required')">
+        <small *ngIf="
+             userForm.get('rangoDTO.id')?.invalid &&
+             (userForm.get('rangoDTO.id')?.dirty || userForm.get('rangoDTO.id')?.touched)
+           ">
           Debes elegir un rango.
         </small>
       </div>
@@ -170,7 +198,10 @@
             {{ o.nombre }}
           </option>
         </select>
-        <small *ngIf="userForm.get('oficioDTO.id')?.hasError('required')">
+        <small *ngIf="
+             userForm.get('oficioDTO.id')?.invalid &&
+             (userForm.get('oficioDTO.id')?.dirty || userForm.get('oficioDTO.id')?.touched)
+           ">
           Debes elegir un oficio.
         </small>
       </div>

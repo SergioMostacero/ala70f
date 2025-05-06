@@ -1,78 +1,109 @@
 <div class="container">
   <div class="user-panel" @routeAnimations>
+
     <!-- Cabecera -->
     <div class="header-row">
       <button class="nav-button back-button" (click)="goBack()">Volver</button>
       <h1 class="register-title">Registro de Usuario</h1>
     </div>
 
-    <!-- Formulario de registro (template-driven) -->
-    <form #registerForm="ngForm" (ngSubmit)="registrar()">
+    <!-- Formulario reactivo -->
+    <form [formGroup]="registerForm" (ngSubmit)="registrar()">
 
-      <!-- Datos Personales -->
+      <!-- ▸ Datos personales -->
       <h3 class="section-title">Datos Personales</h3>
+
       <div class="form-row">
-        <label for="nombre">Nombre</label>
-        <input id="nombre" name="nombre" type="text" [(ngModel)]="nombre" required />
-      </div>
-      <div class="form-row">
-        <label for="apellidos">Apellidos</label>
-        <input id="apellidos" name="apellidos" type="text" [(ngModel)]="apellidos" required />
-      </div>
-      <div class="form-row">
-        <label for="antiguedad">Antigüedad</label>
-        <input id="antiguedad" name="antiguedad" type="date" [(ngModel)]="antiguedad" required />
-      </div>
-      <div class="form-row">
-        <label for="horasVuelo">Horas de vuelo</label>
-        <input id="horasVuelo" name="horasVuelo" type="number" [(ngModel)]="horasVuelo" required />
+        <label>Nombre</label>
+        <input type="text" formControlName="nombre" maxlength="60" />
+        <small *ngIf="registerForm.get('nombre')?.hasError('pattern')">
+          Solo letras y tildes.
+        </small>
       </div>
 
-      <!-- Acceso -->
+      <div class="form-row">
+        <label>Apellidos</label>
+        <input type="text" formControlName="apellidos" maxlength="100" />
+      </div>
+
+      <div class="form-row">
+        <label>Antigüedad</label>
+        <input type="date" formControlName="antiguedad" />
+      </div>
+
+      <div class="form-row">
+        <label>Horas de vuelo</label>
+        <input type="number" formControlName="horas_totales" min="0" />
+      </div>
+
+      <!-- ▸ Acceso -->
       <h3 class="section-title">Acceso</h3>
+
       <div class="form-row">
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" [(ngModel)]="email" required />
-      </div>
-      <div class="form-row">
-        <label for="contrasena">Contraseña</label>
-        <input id="contrasena" name="contrasena" type="password" [(ngModel)]="contrasena" required />
+        <label>Email</label>
+        <input type="email" formControlName="email" />
+        <small *ngIf="registerForm.get('email')?.hasError('email')">
+          Formato de email inválido.
+        </small>
       </div>
 
-      <!-- Información Profesional -->
+      <div class="form-row">
+        <label>Contraseña</label>
+        <input type="password" formControlName="contrasena" minlength="8" />
+        <small *ngIf="registerForm.get('contrasena')?.hasError('pattern')">
+          Mín. 8 car., 1 mayús., 1 minús., 1 dígito.
+        </small>
+      </div>
+
+      <!-- ▸ Información profesional -->
       <h3 class="section-title">Información Profesional</h3>
-      <div class="form-row">
-        <label for="grupoSanguineo">Grupo Sanguíneo</label>
-        <select id="grupoSanguineo" name="grupoSanguineo" [(ngModel)]="grupoSanguineoSeleccionado" [compareWith]="compareById" required>
+
+      <div class="form-row" formGroupName="grupoSanguineoDTO">
+        <label>Grupo sanguíneo</label>
+        <select formControlName="id">
           <option [ngValue]="null">-- Elegir grupo --</option>
-          <option *ngFor="let gs of gruposSanguineos" [ngValue]="gs">{{ gs.tipo }}</option>
+          <option *ngFor="let g of gruposSanguineos" [ngValue]="g.id">
+            {{ g.tipo }}
+          </option>
         </select>
       </div>
-      <div class="form-row">
-        <label for="rango">Rango</label>
-        <select id="rango" name="rango" [(ngModel)]="rangoSeleccionado" required>
+
+      <div class="form-row" formGroupName="rangoDTO">
+        <label>Rango</label>
+        <select formControlName="id">
           <option [ngValue]="null">-- Elegir rango --</option>
-          <option *ngFor="let r of rangos" [ngValue]="r">{{ r.nombre }}</option>
+          <option *ngFor="let r of rangos" [ngValue]="r.id">
+            {{ r.nombre }}
+          </option>
         </select>
       </div>
-      <div class="form-row">
-        <label for="oficio">Oficio</label>
-        <select id="oficio" name="oficio" [(ngModel)]="oficioSeleccionado" required>
+
+      <div class="form-row" formGroupName="oficioDTO">
+        <label>Oficio</label>
+        <select formControlName="id">
           <option [ngValue]="null">-- Elegir oficio --</option>
-          <option *ngFor="let o of oficios" [ngValue]="o">{{ o.nombre }}</option>
+          <option *ngFor="let o of oficios" [ngValue]="o.id">
+            {{ o.nombre }}
+          </option>
         </select>
       </div>
+
       <div class="form-row checkbox-row">
-        <input id="permisos" name="permisos" type="checkbox" [(ngModel)]="permisos" />
-        <label for="permisos">Otorgar permisos administrativos</label>
+        <input type="checkbox" formControlName="permisos" />
+        <label>Otorgar permisos administrativos</label>
       </div>
 
       <!-- Botones -->
       <div class="buttons register-buttons">
-        <button class="nav-button register-button" type="submit" [disabled]="registerForm.invalid">Registrar</button>
-        <button class="nav-button home-button" type="button" (click)="goBack()">Cancelar</button>
+        <button class="nav-button register-button"
+                type="submit"
+                [disabled]="registerForm.invalid">
+          Registrar
+        </button>
+        <button class="nav-button home-button" type="button" (click)="goBack()">
+          Cancelar
+        </button>
       </div>
-
     </form>
   </div>
 </div>

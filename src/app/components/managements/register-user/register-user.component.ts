@@ -1,4 +1,6 @@
+// register-user.component.ts
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 
@@ -7,12 +9,12 @@ import { GrupoSanguineoService } from '../../../Services/grupo-sanguineo.service
 import { OficioService } from '../../../Services/oficio.service';
 import { TripulantesService } from '../../../Services/tripulantes.service';
 import { NotificationService } from '../../../utils/notification.service';
+import { RouteEncoderService } from '../../../Services/route-encoder.service';
 
-import { Tripulantes } from '../../../model/Tripulantes.model';
 import { Rango } from '../../../model/rango.model';
 import { GrupoSanguineo } from '../../../model/grupo-sanguineo.model';
 import { Oficio } from '../../../model/oficio.model';
-import { RouteEncoderService } from '../../../Services/route-encoder.service';
+import { Tripulantes } from '../../../model/Tripulantes.model';
 
 @Component({
   selector: 'app-register-user',
@@ -20,114 +22,110 @@ import { RouteEncoderService } from '../../../Services/route-encoder.service';
   styleUrls: ['./register-user.component.scss']
 })
 export class RegisterUserComponent implements OnInit {
-  currentTripulante!: Tripulantes;
-  nombre: string = '';
-  apellidos: string = '';
-  antiguedad: Date | undefined;
-  horasVuelo: number = 0;
-  permisos: boolean = false;
-  email: string = '';
-  contrasena: string = '';
-
-  grupoSanguineoSeleccionado!: GrupoSanguineo;
-  rangoSeleccionado!: Rango;
-  oficioSeleccionado!: Oficio;
-
+  /** ---------- Catálogos para los <select> ---------- */
   rangos: Rango[] = [];
   gruposSanguineos: GrupoSanguineo[] = [];
   oficios: Oficio[] = [];
 
+  /** ---------- Formulario reactivo ---------- */
+  registerForm!: FormGroup;
+
   constructor(
+    private fb: FormBuilder,
     private encoder: RouteEncoderService,
-    private tripulantesService: TripulantesService,
     private rangoService: RangoService,
     private grupoSanguineoService: GrupoSanguineoService,
     private oficioService: OficioService,
+    private tripulantesService: TripulantesService,
     private notification: NotificationService,
     private router: Router
   ) {}
 
-  ngOnInit() {
-    this.cargarOpciones();
+  ngOnInit(): void {
+    this.initForm();         
+    this.cargarOpciones();    
   }
 
-  compareById(a: any, b: any): boolean {
-    return a?.id === b?.id;
-  }
-
-  goBack(): void {
-    const encoder = new RouteEncoderService();
-    const tienePermisos = localStorage.getItem('permisos') === 'true';
-    
-    const ruta = tienePermisos 
-      ? encoder.encode('management') 
-      : encoder.encode('home');
-  
-    this.router.navigate([ruta]);
-  }
-
-  cargarOpciones() {
-    this.rangoService.getRangos().subscribe(data => {
-      this.rangos = data;
+  private initForm(): void {
+    this.registerForm = this.fb.group({
+      nombre: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)   // solo letras+tildes :contentReference[oaicite:0]{index=0}
+        ]
+      ],
+      apellidos: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(100),                           // longitud :contentReference[oaicite:1]{index=1}
+          Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)
+        ]
+      ],
+      email: [
+        '',
+        [Validators.required, Validators.email]
+      ],
+      contrasena: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/)  // 1 mayús, 1 minús, 1 dígito :contentReference[oaicite:2]{index=2}
+        ]
+      ],
+      antiguedad: [null, Validators.required],
+      horas_totales: [
+        0,
+        [Validators.required, Validators.min(0)]
+      ],
+      permisos: [false],
+      grupoSanguineoDTO: this.fb.group({ id: [null, Validators.required] }),
+      rangoDTO:           this.fb.group({ id: [null, Validators.required] }),
+      oficioDTO:          this.fb.group({ id: [null, Validators.required] })
     });
-
-    this.grupoSanguineoService.getGruposSanguineos().subscribe(data => {
-      this.gruposSanguineos = data;
-    });
-
-    this.oficioService.getOficios().subscribe(data => {
-      this.oficios = data;
-    });
   }
 
-  registrar() {
-    if (
-      !this.nombre.trim() ||
-      !this.apellidos.trim() ||
-      !this.antiguedad ||
-      !this.horasVuelo ||
-      !this.email.trim() ||
-      !this.contrasena.trim()
-    ) {
-      alert('Por favor completa todos los campos obligatorios.');
+ private cargarOpciones(): void {
+    this.rangoService.getRangos().subscribe(r => (this.rangos = r));
+    this.grupoSanguineoService.getGruposSanguineos().subscribe(g => (this.gruposSanguineos = g));
+    this.oficioService.getOficios().subscribe(o => (this.oficios = o));
+  }
+
+ registrar(): void {
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();   // fuerza visualización de errores
+      this.notification.showMessage('Completa todos los campos obligatorios', 'error');
       return;
     }
 
-    if (
-      !this.grupoSanguineoSeleccionado ||
-      !this.rangoSeleccionado ||
-      !this.oficioSeleccionado
-    ) {
-      alert('Por favor selecciona grupo sanguíneo, rango y oficio.');
-      return;
-    }
-
+    const raw = this.registerForm.value;
     const nuevoTripulante: Tripulantes = {
-      nombre: this.nombre,
-      apellidos: this.apellidos,
-      email: this.email,
-      contrasena: this.contrasena,
-      antiguedad: this.antiguedad
-        ? formatDate(this.antiguedad, 'yyyy-MM-dd', 'en-GB')
-        : '',
-      permisos: this.permisos,
-      horas_totales: this.horasVuelo,
-      grupoSanguineoDTO: { id: this.grupoSanguineoSeleccionado.id } as any,
-      rangoDTO: { id: this.rangoSeleccionado.id } as any,
-      oficioDTO: { id: this.oficioSeleccionado.id } as any
+      ...raw,
+      antiguedad: formatDate(raw.antiguedad, 'yyyy-MM-dd', 'en-GB'),
+      grupoSanguineoDTO: { id: raw.grupoSanguineoDTO.id } as any,
+      rangoDTO:          { id: raw.rangoDTO.id }          as any,
+      oficioDTO:         { id: raw.oficioDTO.id }         as any
     };
 
     this.tripulantesService.createTripulantes(nuevoTripulante).subscribe({
       next: () => {
-        alert('Registro exitoso!');
+        this.notification.showMessage('Registro exitoso', 'success');
         this.router.navigate([this.encoder.encode('homePermisos')]);
       },
-      error: (err) => {
-        this.notification.showMessage(
-          err?.error?.message || 'Error al registrar usuario',
-          'error'
-        );
+      error: err => {
+        this.notification.showMessage(err?.error?.message || 'Error al registrar', 'error');
       }
     });
+  }
+
+  compareById = (a: any, b: any) => a?.id === b?.id;
+
+  goBack(): void {
+    const ruta = localStorage.getItem('permisos') === 'true'
+      ? this.encoder.encode('management')
+      : this.encoder.encode('home');
+    this.router.navigate([ruta]);
   }
 }
