@@ -123,9 +123,6 @@ export class RegisterUserComponent implements OnInit {
   compareById = (a: any, b: any) => a?.id === b?.id;
 
   goBack(): void {
-    const ruta = localStorage.getItem('permisos') === 'true'
-      ? this.encoder.encode('management')
-      : this.encoder.encode('home');
-    this.router.navigate([ruta]);
+    this.router.navigate([ this.encoder.encode('management') ]);
   }
 }

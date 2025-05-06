@@ -201,13 +201,6 @@ ngOnDestroy(): void {
 }
 
 goBack(): void {
-  const encoder = new RouteEncoderService();
-  const tienePermisos = localStorage.getItem('permisos') === 'true';
-  
-  const ruta = tienePermisos 
-    ? encoder.encode('homePermisos') 
-    : encoder.encode('home');
-
-  this.router.navigate([ruta]);
+  this.router.navigate([ this.encoder.encode('homePermisos') ]);
 }
 }

@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
 import { HomePermisosComponent } from './components/homePermisos/homePermisos.component'; 
 import { LoginComponent } from './components/login/login.component';
 import { RegisterUserComponent } from './components/managements/register-user/register-user.component';
@@ -28,7 +27,6 @@ import { DestinosComponent } from './components/destinos/destinos.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     HomePermisosComponent,
     LoginComponent,
     RegisterUserComponent,

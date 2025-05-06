@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterUserComponent } from './components/managements/register-user/register-user.component';
-import { HomeComponent } from './components/home/home.component';
 import { HomePermisosComponent } from './components/homePermisos/homePermisos.component';
 import { LogrosMedallasComponent } from './components/logros-medallas/logrosMedallas.componet';
 import { ManagementComponent } from './components/managements/management/management.component';
@@ -26,7 +25,6 @@ const routes: Routes = [
   { path: '', redirectTo: encoder.encode('login'), pathMatch: 'full' },
   { path: encoder.encode('login'), component: LoginComponent, data: { animation: 'login' } },
   { path: encoder.encode('register'), component: RegisterUserComponent, data: { animation: 'register' } },
-  { path: encoder.encode('home'), component: HomeComponent, data: { animation: 'home' } },
   { path: encoder.encode('homePermisos'), component: HomePermisosComponent, data: { animation: 'homePermisos' } },
   { path: encoder.encode('logros-medallas'), component: LogrosMedallasComponent },
   { path: encoder.encode('management'), component: ManagementComponent },

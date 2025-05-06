@@ -97,13 +97,6 @@ export class CreateItineraryComponent implements OnInit {
   }
 
   goBack(): void {
-    const encoder = new RouteEncoderService();
-    const tienePermisos = localStorage.getItem('permisos') === 'true';
-    
-    const ruta = tienePermisos 
-      ? encoder.encode('management') 
-      : encoder.encode('home');
-  
-    this.router.navigate([ruta]);
+    this.router.navigate([ this.encoder.encode('management') ]);
   }
 }

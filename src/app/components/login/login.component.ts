@@ -76,14 +76,9 @@ login() {
               localStorage.setItem('usuarioLogeado', JSON.stringify(userData));
               localStorage.setItem('permisos', String(tripulante.permisos)); 
               // Redirección después de 500ms para asegurar persistencia
-              setTimeout(() => {
-                  if (tripulante.permisos) {
-                      this.router.navigate([this.encoder.encode('homePermisos')]);
-                  } else {
-                      this.router.navigate([this.encoder.encode('home')]);
-                  }
-              }, 500);
-          },
+              setTimeout(() => {           
+                      this.router.navigate([this.encoder.encode('homePermisos')])
+              ;}, 500);},
           error: (error) => {
               this.notification.showMessage('Credenciales incorrectas', 'error');
           }

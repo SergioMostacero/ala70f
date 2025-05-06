@@ -27,7 +27,7 @@
 
     <!-- Botones de navegación -->
     <div class="nav-buttons">
-      <button class="nav-button" (click)="verGestion()">GESTIÓN</button>
+      <button class="nav-button" *ngIf="tienePermisos" (click)="verGestion()">GESTIÓN</button>
       <button class="nav-button" (click)="verVuelos()">VUELOS</button>   
       <button class="nav-button" (click)="irALogrosMedallas()">MEDALLAS/LOGROS</button>
       <button class="nav-button" (click)="irALogrosHistorial()">HISTORIAL DE VUELOS</button>
