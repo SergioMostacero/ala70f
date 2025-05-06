@@ -74,7 +74,7 @@ login() {
 
               };
               localStorage.setItem('usuarioLogeado', JSON.stringify(userData));
-              
+              localStorage.setItem('permisos', String(tripulante.permisos)); 
               // Redirección después de 500ms para asegurar persistencia
               setTimeout(() => {
                   if (tripulante.permisos) {

@@ -8,10 +8,9 @@
       <h1 class="flight-title">Mis Vuelos Recientes</h1>
 
       <button
-        *ngIf="mostrarBotonRegistro"
-        class="nav-button new-flight-button"
-        (click)="irARegistrarVuelo()"
-      >
+      class="nav-button register-flight-btn"
+      *ngIf="mostrarBotonRegistro"
+      (click)="irARegistrarVuelo()">
         Nuevo Vuelo
       </button>
     </div>
