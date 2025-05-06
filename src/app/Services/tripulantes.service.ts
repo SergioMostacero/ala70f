@@ -48,12 +48,12 @@ export class TripulantesService {
   }
 
   // Recuperar usuario logueado
+  // tripulantes.service.ts
   getLoggedInUser(): Tripulantes | null {
-    if (!this.loggedInTripulante) {
-      this.loadFromStorage();
-    }
-    return this.loggedInTripulante;
+    const raw = localStorage.getItem('usuarioLogeado');
+    return raw ? JSON.parse(raw) as Tripulantes : null;
   }
+
 
   // Cargar desde localStorage
   private loadFromStorage(): void {

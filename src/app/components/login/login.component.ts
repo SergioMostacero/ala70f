@@ -57,11 +57,22 @@ login() {
           next: (tripulante: Tripulantes) => {
               // Guardar todos los datos necesarios
               const userData = {
-                  idTripulante: tripulante.id,
-                  permisos: tripulante.permisos,
-                  nombre: tripulante.nombre
+                id: tripulante.id,            
+                permisos: tripulante.permisos,
+                nombre: tripulante.nombre,
+                apellidos: tripulante.apellidos,
+                email: tripulante.email,
+                contrasena: tripulante.contrasena,
+                antiguedad: tripulante.antiguedad,
+                horas_totales: tripulante.horas_totales,
+                grupo_sanguineo: tripulante.grupoSanguineoDTO,
+                rango: tripulante.rangoDTO,
+                oficio: tripulante.oficioDTO,
+                medallas: tripulante.medallasDTO,
+                vuelos: tripulante.vuelosDTO
+                
+
               };
-              
               localStorage.setItem('usuarioLogeado', JSON.stringify(userData));
               
               // Redirección después de 500ms para asegurar persistencia

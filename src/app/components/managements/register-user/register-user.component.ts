@@ -120,7 +120,7 @@ export class RegisterUserComponent implements OnInit {
     this.tripulantesService.createTripulantes(nuevoTripulante).subscribe({
       next: () => {
         alert('Registro exitoso!');
-        this.router.navigate([this.encoder.encode('home-permisos')]);
+        this.router.navigate([this.encoder.encode('homePermisos')]);
       },
       error: (err) => {
         this.notification.showMessage(

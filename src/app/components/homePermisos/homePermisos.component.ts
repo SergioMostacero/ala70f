@@ -27,29 +27,37 @@ export class HomePermisosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.tripulante = this.tripulantesService.getLoggedInUser();
-    if (!this.tripulante) {
-      this.notification.showMessage('No hay tripulante logueado. Redirigiendo...', 'error');
-      setTimeout(() => this.router.navigate([this.encoder.encode('login'), 1500]));
+    const stub = this.tripulantesService.getLoggedInUser();
+  
+    // 1) Validar que haya stub *y* que tenga un id
+    if (!stub || stub.id == null) {
+      this.notification.showMessage(
+        'No hay tripulante logueado. Redirigiendo…',
+        'error'
+      );
+      setTimeout(() => {
+        this.router.navigate([this.encoder.encode('login')]);
+      }, 1500);
       return;
     }
-    if (this.tripulante.grupoSanguineoDTO?.id) {
-      this.grupoSanguineoService.getGrupoSanguineoById(this.tripulante.grupoSanguineoDTO.id)
-        .subscribe(gs => {
-          this.tripulante!.grupoSanguineoDTO = gs;
-        });
-    }
-
-    // Cargar detalles del rango
-    if (this.tripulante.rangoDTO?.id) {
-      this.rangoService.getRangoById(this.tripulante.rangoDTO.id)
-        .subscribe(rango => {
-          this.tripulante!.rangoDTO = rango;
-        });
-    }
-
-    this.isLoading = false;
+  
+    // 2) Ya sabemos que stub.id es un number
+    this.tripulantesService.getById(stub.id).subscribe({
+      next: full => {
+        this.tripulante = full;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.notification.showMessage(
+          'No se pudo cargar datos de usuario',
+          'error'
+        );
+        this.router.navigate([this.encoder.encode('login')]);
+      }
+    });
   }
+  
+  
 
   
   irALogrosMedallas(): void {

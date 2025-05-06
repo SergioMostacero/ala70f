@@ -45,16 +45,16 @@ export class EditUserComponent implements OnInit {
 
   private initForm(): void {
     this.userForm = this.fb.group({
-      nombre: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      contrasena: ['', Validators.required],
-      antiguedad: [null, Validators.required],
-      horas_totales: [0, [Validators.required, Validators.min(0)]],
+      nombre: ['',[Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)]],
+      apellidos: ['',[ Validators.required, Validators.maxLength(100), Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)]],
+      email: ['',[Validators.required,Validators.email]],
+      contrasena: ['',[Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/)]],
+      antiguedad: [ null, Validators.required],
+      horas_totales: [ 0,[ Validators.required, Validators.min(0)]],
       permisos: [false],
       grupoSanguineoDTO: this.fb.group({ id: [null, Validators.required] }),
-      rangoDTO: this.fb.group({ id: [null, Validators.required] }),
-      oficioDTO: this.fb.group({ id: [null, Validators.required] }),
+      rangoDTO:           this.fb.group({ id: [null, Validators.required] }),
+      oficioDTO:          this.fb.group({ id: [null, Validators.required] }),
     });
   }
 

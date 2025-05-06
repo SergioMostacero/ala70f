@@ -77,29 +77,21 @@ ngOnDestroy(): void {
 }
 
   private loadUserData(): void {
-    const usuario = localStorage.getItem('usuarioLogeado');
-    
-    if (!usuario) {
-        this.handleError('Debe iniciar sesión');
-        return;
-    }
+    const raw = localStorage.getItem('usuarioLogeado');
+    if (!raw) { this.handleError('Debe iniciar sesión'); return; }
 
     try {
-        const userData = JSON.parse(usuario);
-        const tripulanteId = userData.idTripulante;
+      const userData = JSON.parse(raw);        // JSON.parse puede lanzar error :contentReference[oaicite:2]{index=2}
+      const tripulanteId = userData.id;        // <-- aquí cambias
 
-        if (!tripulanteId) {
-            this.handleError('ID de tripulante no encontrado');
-            return;
-        }
+      if (tripulanteId == null) {              // null o undefined
+        this.handleError('ID de tripulante no encontrado');
+        return;
+      }
 
-        // Verificar respuesta del servicio
-        console.log('ID Tripulante:', tripulanteId);
-        this.loadUbicaciones(tripulanteId);
-
+      this.loadUbicaciones(tripulanteId);
     } catch (e) {
-        console.error('Error parsing user data:', e);
-        this.handleError('Error en formato de datos de usuario');
+      this.handleError('Error en formato de datos de usuario');
     }
 }
 
