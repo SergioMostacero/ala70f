@@ -1,105 +1,159 @@
-/* Fondo y contenedor */
+/* ---------- TÍTULO DEL FORMULARIO ---------- */
+.flight-title {
+  font-size: 2.4rem; // Tamaño aumentado
+  font-weight: 600;
+  color: #e8ebf0;
+  margin: 0 0 2rem 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1.5px; // Aumentado
+  position: relative;
+  padding-bottom: 1.5rem; // Aumentado
+  animation: fadeInUp 0.6s ease-out forwards;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px; // Aumentado
+    height: 4px; // Aumentado
+    background: #1d72b8;
+    border-radius: 2px;
+  }
+}
+
+/* ---------- CONTENEDOR PRINCIPAL ---------- */
 .container {
-  background-color: #121212;  /* Fondo oscuro */
-  padding: 20px;
+  background: #121212;
+  padding: 3rem 2rem; // Padding vertical aumentado
   min-height: 100vh;
 }
 
 .user-panel {
-  background-color: #1e1e1e;
-  color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 75rem; // Ancho máximo aumentado desde 35rem
+  padding: 3rem; // Aumentado
+  margin: 2rem auto;
+  background: #1c1f26;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid #3a3f4b;
+  border-radius: 1rem; // Aumentado
+  color: #cdd0d5;
+  animation: fadeInUp 0.6s ease-out forwards;
 }
 
+/* ---------- HEADER ---------- */
 .header-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between; // Alineación mejorada
+  gap: 2rem; // Aumentado
+  margin-bottom: 3rem; // Aumentado
 }
 
-.nav-button {
-  background-color: #1d72b8;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.nav-button:hover {
-  background-color: #156ba3;
-}
-
-.flight-title {
-  font-size: 24px;
-  font-weight: bold;
-}
-
+/* ---------- TARJETAS DE INFORMACIÓN ---------- */
 .flight-details-card {
-  background-color: #2a2a2a;
-  margin-top: 20px;
-  border-radius: 10px;
-  padding: 15px;
-}
-
-.flight-info {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  background: #282c34;
+  border-radius: 0.75rem; // Aumentado
+  padding: 2rem; // Aumentado
+  margin: 2rem 0; // Aumentado
+  border: 1px solid #3a3f4b;
 }
 
 .info-row {
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
+  gap: 2rem; // Aumentado
+  margin-bottom: 1.5rem; // Añadido espacio
 }
 
 .info-item {
   flex: 1;
-  padding: 10px;
-  background-color: #3a3a3a;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 1.5rem; // Aumentado
+  background: #1c1f26;
+  border: 1px solid #3a3f4b;
+  border-radius: 0.75rem; // Aumentado
+  
+  strong {
+    font-size: 1.1rem; // Aumentado
+    margin-bottom: 1rem; // Aumentado
+  }
+  
+  p {
+    font-size: 1rem; // Aumentado
+  }
 }
 
-.info-item strong {
-  font-weight: bold;
-  color: #1d72b8;
-}
-
+/* ---------- ITINERARIO Y UBICACIONES ---------- */
 .itinerary-info {
-  margin-top: 30px;
+  margin-top: 3rem; // Aumentado
+  
+  h2 {
+    font-size: 1.8rem; // Aumentado
+    margin-bottom: 2rem; // Aumentado
+  }
 }
 
 .location-card {
-  background-color: #2a2a2a;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 1.5rem; // Aumentado
+  margin-bottom: 1.5rem; // Aumentado
+  border-radius: 0.75rem; // Aumentado
+  
+  strong {
+    font-size: 1.3rem; // Aumentado
+  }
+  
+  p {
+    font-size: 1.05rem; // Aumentado
+  }
 }
 
-.location-card strong {
-  color: #fff;
-  font-size: 18px;
-}
-
-.location-card p {
-  color: #ddd;
-  font-size: 14px;
-}
-
+/* ---------- MAPA ---------- */
 .map-container {
-  margin-top: 30px;
-  height: 40rem;  
-  border-radius: 10px;
-  overflow: hidden;
+  margin-top: 3rem; // Aumentado
+  height: 50rem; // Aumentado
+  border-radius: 1rem; // Aumentado
 }
 
 .map {
   height: 100%;
   width: 100%;
+}
+/* ---------- BOTONES ---------- */
+.nav-button {
+  padding: 0.85rem 1.25rem;
+  background: #1d72b8;
+  color: #cdd0d5;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: #3896e4;
+  }
+  
+  &.back-button {
+    background: transparent;
+    border: 1px solid #3a3f4b;
+    color: #9fa4ad;
+    
+    &:hover {
+      background: #3a3f4b;
+      color: #cdd0d5;
+    }
+    
+    &::before {
+      content: '←';
+      margin-right: 0.5rem;
+    }
+  }
+}
+/* ---------- ANIMACIONES ---------- */
+@keyframes fadeInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
 }

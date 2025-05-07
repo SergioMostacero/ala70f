@@ -4,34 +4,55 @@
 }
 
 .user-panel {
-  background: #2b2f38;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  margin: 1rem auto;
+  background: #1c1f26;
+  border-radius: 0.75rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid #3a3f4b;
+  padding: 2.5rem;
+  margin: 2rem auto;
   max-width: 1200px;
+  color: #cdd0d5;
+  animation: fadeInUp 0.6s ease-out forwards;
+  position: relative;
 }
 
-.title {
-  color: #ffffff;
+.form-title {
   font-size: 2rem;
-  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: #e8ebf0;
+  margin-bottom: 2rem;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  padding-bottom: 1rem;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #1d72b8;
+    border-radius: 2px;
+  }
 }
 
 .map-container {
   width: 100%;
   height: 600px;
   margin: 20px 0;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  background: #34495e;
-  position: relative;
+  background: #282c34;
+  border: 1px solid #3a3f4b;
   
   .map {
     width: 100%;
     height: 100%;
-    border-radius: 8px;
+    border-radius: 0.5rem;
   }
 }
 
@@ -44,8 +65,9 @@
   .stat-item {
     text-align: center;
     padding: 1.5rem;
-    background: #444957;
-    border-radius: 8px;
+    background: #282c34;
+    border: 1px solid #3a3f4b;
+    border-radius: 0.5rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     width: 200px;
     
@@ -53,13 +75,13 @@
       display: block;
       font-size: 2.2rem;
       font-weight: 600;
-      color: #3498db;
+      color: #1d72b8;
       margin-bottom: 0.5rem;
     }
     
     .stat-label {
-      color: #fff;
-      font-size: 0.9rem;
+      color: #9fa4ad;
+      font-size: 0.95rem;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
@@ -73,15 +95,16 @@
   margin: 2rem 0;
 
   .location-card {
-    background: #444957;
-    border-radius: 8px;
+    background: #282c34;
+    border: 1px solid #3a3f4b;
+    border-radius: 0.5rem;
     padding: 1.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s;
+    transition: all 0.3s ease;
 
     &:hover {
       transform: translateY(-3px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
     .location-header {
@@ -91,18 +114,25 @@
       margin-bottom: 1rem;
 
       i {
-        color: #e74c3c;
+        color: #1d72b8;
         font-size: 1.2rem;
+      }
+
+      h3 {
+        color: #e8ebf0;
+        margin: 0;
       }
     }
 
     .location-details {
       p {
         margin: 0.5rem 0;
-        color: #ffffff;
+        color: #cdd0d5;
+        font-size: 0.95rem;
 
         strong {
-          color: #cacaca;
+          color: #9fa4ad;
+          font-weight: 300;
           margin-right: 0.5rem;
         }
       }
@@ -116,76 +146,72 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(28, 31, 38, 0.9);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  border-radius: 8px;
-}
-
-.no-results {
-  text-align: center;
-  padding: 4rem 0;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  margin: 20px 0;
-
-  .empty-state-img {
-    width: 200px;
-    margin-bottom: 1.5rem;
-    opacity: 0.8;
-  }
-
-  h3 {
-    color: #fff;
-    margin-bottom: 0.5rem;
-  }
+  border-radius: 0.75rem;
+  color: #cdd0d5;
 
   p {
-    color: #fff;
+    margin-top: 1rem;
   }
 }
-// destinos.component.scss
-.header-section {
-  position: relative; // Añadir posición relativa
-  margin-bottom: 2rem;
-  text-align: center; // Centrar contenido
-
-  .title {
-    margin: 0 auto; // Centrar horizontalmente
-    text-align: center;
-    width: fit-content; // Ajustar ancho al contenido
-  }
-}
-
-.btn-back {
-  position: absolute; // Posicionamiento absoluto
-  left: 0; // Alinear a la izquierda
-  top: 50%; // Centrar verticalmente
-  transform: translateY(-50%); // Ajuste fino de centrado vertical
-  // Mantener resto de estilos
-  background-color: #3498db;
-  color: white;
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+// Actualiza los estilos en el SCSS
+.header-row {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 1rem;
+  justify-content: space-between;
+  margin-bottom: 2rem;
   
+  .form-title {
+    flex: 1;
+    text-align: center;
+    margin: 0 1rem; // Añade espacio a los lados
+    position: relative;
+    padding-bottom: 1rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: #1d72b8;
+      border-radius: 2px;
+    }
+  }
+}
+
+.back-button {
+  position: static; // Elimina el posicionamiento absoluto
+  transform: none;
+  margin-right: auto; // Empuja el título al centro
+  padding: 0.8rem 1.5rem;
+  background: transparent;
+  border: 1px solid #3a3f4b;
+  color: #9fa4ad;
+  transition: all 0.3s ease;
+
   &:hover {
-    background-color: darken(#3498db, 10%);
-    transform: translateY(-50%) translateY(-2px); // Mantener centrado vertical + efecto hover
-    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    background: #3a3f4b;
+    color: #cdd0d5;
+    border-color: #555b6e;
   }
-  
-  i {
-    font-size: 0.9rem;
+
+  &::before {
+    content: '←';
+    margin-right: 0.5rem;
+    font-weight: bold;
   }
+}
+
+@keyframes fadeInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
 }

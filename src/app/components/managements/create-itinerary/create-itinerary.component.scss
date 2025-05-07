@@ -180,6 +180,7 @@ form {
     font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    width: 100%;
     
     &:hover {
       background: #3a3f4b;
@@ -193,3 +194,4 @@ form {
       font-weight: bold;
     }
   }
+  

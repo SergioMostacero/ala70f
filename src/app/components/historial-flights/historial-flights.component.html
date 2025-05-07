@@ -1,60 +1,58 @@
 <!-- vuelos.component.html -->
 <div class="container">
-    <div class="user-panel">
-      <div class="header-row">
-        <button class="nav-button back-button" (click)="goBack()">
-          Volver
-        </button>
-        <h1>Historial de Vuelos</h1>
-      </div>
-  
-      <div class="recent-flights">
-        <table class="flight-table">
-          <thead>
-            <tr>
-              <th>Itinerario</th>
-              <th>Fecha Salida</th>
-              <th>Salida</th>
-              <th>Fecha Llegada</th>
-              <th>Llegada</th>
-              <th>Avión</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let vuelo of historialVuelos">
-              <td>
-                <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
-                  {{ vuelo.itinerarioDTO?.nombre }}
-                </a>
-              </td>
-              <td>
-                <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
-                  {{ vuelo.fecha_salida | date : 'dd/MM/yyyy' }}
-                </a>
-              </td>
-              <td>
-                <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
-                  {{ vuelo.hora_salida }}
-                </a>
-              </td>
-              <td>
-                <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
-                  {{ vuelo.fecha_llegada | date : 'dd/MM/yyyy' }}
-                </a>
-              </td>
-              <td>
-                <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
-                  {{ vuelo.hora_llegada }}
-                </a>
-              </td>
-              <td>
-                <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
-                  {{ vuelo.avionDTO?.nombre }}
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="user-panel">
+    <div class="header-section">
+      <h1 class="form-title">Historial de Vuelos</h1>
+      <button class="back-button" (click)="goBack()">Volver</button>
+    </div>
+
+    <div class="recent-flights">
+      <table class="flight-table">
+        <thead>
+          <tr>
+            <th>Itinerario</th>
+            <th>Fecha Salida</th>
+            <th>Salida</th>
+            <th>Fecha Llegada</th>
+            <th>Llegada</th>
+            <th>Avión</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let vuelo of historialVuelos">
+            <td>
+              <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
+                {{ vuelo.itinerarioDTO?.nombre }}
+              </a>
+            </td>
+            <td>
+              <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
+                {{ vuelo.fecha_salida | date : 'dd/MM/yyyy' }}
+              </a>
+            </td>
+            <td>
+              <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
+                {{ vuelo.hora_salida }}
+              </a>
+            </td>
+            <td>
+              <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
+                {{ vuelo.fecha_llegada | date : 'dd/MM/yyyy' }}
+              </a>
+            </td>
+            <td>
+              <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
+                {{ vuelo.hora_llegada }}
+              </a>
+            </td>
+            <td>
+              <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
+                {{ vuelo.avionDTO?.nombre }}
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+</div>

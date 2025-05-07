@@ -4,7 +4,7 @@
     <div class="info">
       <div class="user-img"></div>
 
-      <p class="user-name">
+      <p class="form-title">
         {{ tripulante.nombre }} {{ tripulante.apellidos }}
       </p>
 
@@ -38,5 +38,5 @@
 
 <!-- Si no hay tripulante logueado -->
 <ng-template #noUser>
-  <p>No hay tripulante logueado.</p>
+  <p class="no-user-message">No hay tripulante logueado.</p>
 </ng-template>

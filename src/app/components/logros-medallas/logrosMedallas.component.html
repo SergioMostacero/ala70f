@@ -1,11 +1,10 @@
-<!-- La misma estructura general que la pantalla de vuelo -->
 <div class="container">
   <div class="user-panel medallas-panel">
     
     <!-- Header -->
-    <div class="header-row">
-      <button class="nav-button back-button" (click)="goBack()">Volver</button>
-      <h1 class="flight-title">Logros y Medallas</h1>
+    <div class="header-section">
+      <h1 class="form-title">Logros y Medallas</h1>
+      <button class="back-button" (click)="goBack()">Volver</button>
     </div>
 
     <!-- Medallas obtenidas -->
@@ -18,13 +17,10 @@
 
       <div class="grid-medallas">
         <div *ngFor="let medalla of medallas" class="medalla-card">
-          <!-- <img [src]="medalla.medallaURL" [alt]="medalla.nombre" class="medalla-imagen"> -->
           <h3>{{ medalla.nombre }}</h3>
-          <!-- <p>{{ medalla.descripcion }}</p> -->
         </div>
       </div>
-
-
+    </div>
 
     <!-- Todas las medallas -->
     <div class="seccion-medallas">
@@ -34,10 +30,7 @@
         <div *ngFor="let medalla of todasMedallas"
              class="medalla-card"
              [class.no-obtenida]="!tieneMedalla(medalla.id)">
-
-          <!-- <img [src]="medalla.medallaURL" [alt]="medalla.nombre" class="medalla-imagen"> -->
           <h3>{{ medalla.nombre }}</h3>
-          <!-- <p>{{ medalla.descripcion }}</p> -->
 
           <div *ngIf="!tieneMedalla(medalla.id)" class="bloqueada">
             <span class="candado">🔒</span>

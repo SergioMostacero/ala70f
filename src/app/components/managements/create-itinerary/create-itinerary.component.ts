@@ -99,4 +99,18 @@ export class CreateItineraryComponent implements OnInit {
   goBack(): void {
     this.router.navigate([ this.encoder.encode('management') ]);
   }
+
+  // Dentro de la clase CreateItineraryComponent
+
+  reverseItinerary(): void {
+    const pasosArray = this.pasos;
+    
+    // Invertir el orden de los pasos
+    pasosArray.controls.reverse();
+    
+    // Actualizar los números de orden
+    pasosArray.controls.forEach((ctrl, index) => {
+      ctrl.patchValue({ orden: index + 1 });
+    });
+  }
 }

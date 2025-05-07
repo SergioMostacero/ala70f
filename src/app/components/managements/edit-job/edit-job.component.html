@@ -2,16 +2,13 @@
   <div class="user-panel" @routeAnimations>
 
     <!-- Cabecera -->
-    <div class="header-row">
-      <button class="nav-button back-button" (click)="goBack()">Volver</button>
-      <h1 class="flight-title">{{ oficio?.id ? 'Editar Oficio' : 'Nuevo Oficio' }}</h1>
-    </div>
+    <h1 class="form-title">{{ oficio?.id ? 'Editar Oficio' : 'Nuevo Oficio' }}</h1>
 
     <!-- Formulario de oficio -->
     <form [formGroup]="form" (ngSubmit)="submit()">
 
       <!-- Selector de oficio existente -->
-      <div class="form-row full-select">
+      <div class="field">
         <label for="existing">Oficio existente</label>
         <select id="existing" #existingSel (change)="onSelect(existingSel.value)" [value]="oficio?.id ?? 0">
           <option value="0">— Nuevo oficio —</option>
@@ -20,24 +17,24 @@
       </div>
 
       <!-- Campos -->
-      <div class="form-row">
+      <div class="field">
         <label for="nombre">Nombre</label>
         <input id="nombre" formControlName="nombre" placeholder="Ej. Carpintero" />
-        <div *ngIf="form.get('nombre')?.invalid && form.get('nombre')?.touched" class="error">
+        <div *ngIf="form.get('nombre')?.invalid && form.get('nombre')?.touched" class="error-message">
           El nombre es obligatorio (máx. 60 car.)
         </div>
       </div>
 
-      <div class="form-row">
+      <div class="field">
         <label for="descripcion">Descripción</label>
         <textarea id="descripcion" formControlName="descripcion" rows="4" placeholder="Describe brevemente el oficio"></textarea>
-        <div *ngIf="form.get('descripcion')?.invalid && form.get('descripcion')?.touched" class="error">
+        <div *ngIf="form.get('descripcion')?.invalid && form.get('descripcion')?.touched" class="error-message">
           La descripción es obligatoria (máx. 255 car.)
         </div>
       </div>
 
       <!-- Botón enviar -->
-      <div class="buttons">
+      <div class="actions">
         <button class="nav-button" type="submit" [disabled]="loading || form.invalid">
           {{ loading ? 'Guardando…' : (oficio?.id ? 'Actualizar' : 'Crear') }}
         </button>
@@ -45,4 +42,8 @@
     </form>
 
   </div>
+  <div class="back-container">
+    <button class="back-button" (click)="goBack()">Volver</button>
+  </div>
 </div>
+

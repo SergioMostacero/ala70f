@@ -3,7 +3,7 @@
   <div class="user-panel">
     <!-- Cabecera -->
     <div class="header-row">
-      <button class="nav-button back-button" (click)="goBack()">Volver</button>
+      
       <h1 class="flight-title">Registrar Vuelo</h1>
     </div>
 
@@ -122,9 +122,7 @@
         <button type="submit" class="nav-button" [disabled]="vueloForm.invalid">
           Crear Vuelo
         </button>
-        <button type="button" class="nav-button" (click)="goBack()">
-          Volver
-        </button>
+        <button class="nav-button back-button" (click)="goBack()">Volver</button>
       </div>
     </form>
   </div>

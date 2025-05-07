@@ -1,31 +1,32 @@
 <div class="admin-medallas-container">
-  
-  <div class="header-row">
-    <button class="nav-button back-button" (click)="goBack()">Volver</button>
-    <h1 class="flight-title">Administrar Medallas</h1>
+  <div class="header-section">
+    <h1 class="form-title">Administrar Medallas</h1>
   </div>
-  
-    <!-- Selección del tripulante -->
-    <div class="form-group">
-      <label for="tripulanteSelect">Seleccionar Tripulante:</label>
-      <select id="tripulanteSelect" [(ngModel)]="selectedTripulanteId">
-        <option *ngFor="let tripulante of tripulantes" [value]="tripulante.id">{{ tripulante.nombre }} {{ tripulante.apellidos }}</option>
-      </select>
-    </div>
-  
-    <!-- Selección de la medalla -->
-    <div class="form-group">
-      <label for="medallaSelect">Seleccionar Medalla:</label>
-      <select id="medallaSelect" [(ngModel)]="selectedMedallaId">
-        <option *ngFor="let medalla of medallasDisponibles" [value]="medalla.id">{{ medalla.nombre }}</option>
-      </select>
-    </div>
-  
-    <!-- Botón para asignar medalla -->
-    <div class="button-group">
-      <button type="button" (click)="asignarMedalla()" class="nav-button">
-        Asignar Medalla
-      </button>
-    </div>
+
+  <!-- Selección del tripulante -->
+  <div class="field">
+    <label for="tripulanteSelect">Seleccionar Tripulante:</label>
+    <select id="tripulanteSelect" [(ngModel)]="selectedTripulanteId">
+      <option *ngFor="let tripulante of tripulantes" [value]="tripulante.id">{{ tripulante.nombre }} {{ tripulante.apellidos }}</option>
+    </select>
   </div>
-  
+
+  <!-- Selección de la medalla -->
+  <div class="field">
+    <label for="medallaSelect">Seleccionar Medalla:</label>
+    <select id="medallaSelect" [(ngModel)]="selectedMedallaId">
+      <option *ngFor="let medalla of medallasDisponibles" [value]="medalla.id">{{ medalla.nombre }}</option>
+    </select>
+  </div>
+
+  <!-- Botón para asignar medalla -->
+  <div class="actions">
+    <button type="button" (click)="asignarMedalla()" class="nav-button">
+      Asignar Medalla
+    </button>
+  </div>
+</div>
+
+<div class="back-container">
+  <button class="back-button" (click)="goBack()">Volver</button>
+</div>

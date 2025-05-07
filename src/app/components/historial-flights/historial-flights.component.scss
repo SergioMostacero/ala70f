@@ -1,150 +1,134 @@
-/* =========================================================
-   vuelos.component.scss
-   Mismo look & feel que la pantalla de “Detalle de Vuelo”
-   (paleta oscura + acento azul) y panel centrado en página.
-   ========================================================= */
-
-/* ---------- Variables de color ---------- */
-$bg-page:   #121212;  // fondo general
-$bg-panel:  #1e1e1e;  // tarjeta principal
-$bg-table:  #191c22;  // fondo de tabla
-$bg-row:    #21242b;  // filas pares
-$bg-row-h:  #2b2f38;  // hover fila
-$border:    #3a3f4b;  // bordes
-$accent:    #1d72b8;  // botón
-$accent-h:  #156ba3;  // hover botón
-$text-main: #ffffff;
-$text-sub:  #cdd0d5;
-
-/* ---------- Contenedor centrado ---------- */
+// vuelos.component.scss
 .container {
-  background: $bg-page;
+  padding: 20px;
   min-height: 100vh;
-  padding: 4rem 1rem 2rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; // centrado horizontal, arriba vertical
+  background: #121212;
 }
 
-/* ---------- Panel ---------- */
 .user-panel {
-  width: 100%;
+  background: #1c1f26;
+  border-radius: 0.75rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid #3a3f4b;
+  padding: 2.5rem;
+  margin: 2rem auto;
   max-width: 1200px;
-  background: $bg-panel;
-  padding: 2rem;
-  border-radius: 12px;
-  border: 1px solid $border;
-  color: $text-sub;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
-  font-family: 'Segoe UI', sans-serif;
-
-  /* animación suave */
-  animation: panelEntrance .6s cubic-bezier(.23,1,.32,1) forwards;
+  color: #cdd0d5;
+  animation: fadeInUp 0.6s ease-out forwards;
 }
 
-@keyframes panelEntrance {
-  from { transform: translateY(20px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
-}
-
-/* ---------- Cabecera ---------- */
-.header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.form-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #e8ebf0;
   margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 2px solid $border;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   position: relative;
+  padding-bottom: 1rem;
 
-  h1 {
-    margin: 0;
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: $text-main;
-    letter-spacing: -.5px;
+  &::after {
+    content: '';
     position: absolute;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #1d72b8;
+    border-radius: 2px;
   }
 }
 
-/* ---------- Botones ---------- */
-.nav-button {
-  background: $accent;
-  color: $text-main;
-  border: none;
-  padding: .9rem 1.6rem;
-  border-radius: 6px;
-  font-weight: 600;
-  transition: background-color .25s ease, transform .25s ease;
-  z-index: 1;
-  cursor: pointer;
-
-  &:hover {
-    background: $accent-h;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,.25);
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba($accent, .35);
-  }
+.header-section {
+  position: relative;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
-.back-button::before { content: '←'; font-weight: 700; margin-right: .5rem; }
-
-/* ---------- Tabla de vuelos ---------- */
 .recent-flights {
   overflow-x: auto;
-  border-radius: 8px;
-  background: $bg-table;
-  border: 1px solid $border;
+  border-radius: 0.5rem;
+  background: #282c34;
+  border: 1px solid #3a3f4b;
+  margin-top: 2rem;
 }
 
 .flight-table {
   width: 100%;
   min-width: 800px;
   border-collapse: collapse;
+  color: #cdd0d5;
 
   th, td {
     padding: 1rem 1.2rem;
     text-align: center;
-    border: 1px solid darken($border, 5%);
-    transition: background .2s ease, transform .2s ease;
+    border: 1px solid #3a3f4b;
+    transition: all 0.3s ease;
   }
 
   th {
-    background: lighten($bg-table, 6%);
+    background: #1c1f26;
     font-weight: 600;
     text-transform: uppercase;
-    font-size: .85rem;
-    color: lighten($text-sub, 10%);
+    font-size: 0.85rem;
+    color: #9fa4ad;
     position: sticky;
     top: 0;
     z-index: 2;
   }
 
-  tr:nth-child(even) { background: $bg-row; }
+  tr:nth-child(even) { background: #282c34; }
 
   tr:hover td {
-    background: $bg-row-h;
+    background: #3a3f4b;
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
 
   td {
-    color: $text-sub;
-    font-size: .95rem;
+    font-size: 0.95rem;
   }
 
   .link-itinerario {
-    color: $text-main;
+    color: #e8ebf0;
     text-decoration: none;
     cursor: pointer;
+    transition: color 0.3s ease;
 
-    &:hover { color: $accent; }
+    &:hover { 
+      color: #1d72b8;
+      text-decoration: underline;
+    }
   }
+}
+.back-button {
+  background: transparent;
+  color: #9fa4ad;
+  border: 1px solid #3a3f4b;
+  border-radius: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  
+  &:hover {
+    background: #3a3f4b;
+    color: #cdd0d5;
+    border-color: #555b6e;
+  }
+  
+  &::before {
+    content: '←';
+    margin-right: 0.5rem;
+    font-weight: bold;
+  }
+}
+@keyframes fadeInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
 }

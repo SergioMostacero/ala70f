@@ -22,6 +22,7 @@
 
   <div class="actions">
     <button type="button" (click)="addPaso()">+ Agregar escala</button>
+    <button type="button" (click)="reverseItinerary()">🔄 Crear itinerario de vuelta</button>
     <button type="submit" [disabled]="itineraryForm.invalid || pasos.length < 2">
       Crear itinerario
     </button>

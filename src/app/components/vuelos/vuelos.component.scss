@@ -1,150 +1,174 @@
-/* =========================================================
-   vuelos.component.scss
-   Mismo look & feel que la pantalla de “Detalle de Vuelo”
-   (paleta oscura + acento azul) y panel centrado en página.
-   ========================================================= */
-
 /* ---------- Variables de color ---------- */
-$bg-page:   #121212;  // fondo general
-$bg-panel:  #1e1e1e;  // tarjeta principal
-$bg-table:  #191c22;  // fondo de tabla
-$bg-row:    #21242b;  // filas pares
-$bg-row-h:  #2b2f38;  // hover fila
-$border:    #3a3f4b;  // bordes
-$accent:    #1d72b8;  // botón
-$accent-h:  #156ba3;  // hover botón
-$text-main: #ffffff;
-$text-sub:  #cdd0d5;
+$bg-page: #121212;
+$bg-panel: #1c1f26;
+$bg-table: #282c34;
+$bg-row: #21242b;
+$bg-row-h: #2b2f38;
+$border: #3a3f4b;
+$accent: #1d72b8;
+$accent-h: #3896e4;
+$text-main: #e8ebf0;
+$text-sub: #9fa4ad;
 
-/* ---------- Contenedor centrado ---------- */
-.container {
-  background: $bg-page;
-  min-height: 100vh;
-  padding: 4rem 1rem 2rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; // centrado horizontal, arriba vertical
-}
-
-/* ---------- Panel ---------- */
-.user-panel {
-  width: 100%;
-  max-width: 1200px;
-  background: $bg-panel;
-  padding: 2rem;
-  border-radius: 12px;
-  border: 1px solid $border;
-  color: $text-sub;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
-  font-family: 'Segoe UI', sans-serif;
-
-  /* animación suave */
-  animation: panelEntrance .6s cubic-bezier(.23,1,.32,1) forwards;
-}
-
-@keyframes panelEntrance {
+/* ---------- Animaciones ---------- */
+@keyframes fadeInUp {
   from { transform: translateY(20px); opacity: 0; }
   to   { transform: translateY(0);    opacity: 1; }
 }
 
-/* ---------- Cabecera ---------- */
+/* ---------- Contenedor principal ---------- */
+.container {
+  background: $bg-page;
+  min-height: 100vh;
+  padding: 4rem 1rem 2rem;
+  display: flex;
+  justify-content: center;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* ---------- Panel de usuario ---------- */
+.user-panel {
+  width: 100%;
+  max-width: 1200px;
+  background: $bg-panel;
+  padding: 2.5rem;
+  margin: 2rem auto;
+  border: 1px solid $border;
+  border-radius: 0.75rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  color: $text-sub;
+}
+
+/* ---------- Encabezado ---------- */
 .header-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
-  border-bottom: 2px solid $border;
+  border-bottom: 1px solid $border;
   position: relative;
 
   h1 {
-    margin: 0;
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 600;
     color: $text-main;
-    letter-spacing: -.5px;
+    text-align: center;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    padding-bottom: 1rem;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: $accent;
+      border-radius: 2px;
+    }
   }
 }
 
 /* ---------- Botones ---------- */
 .nav-button {
-  background: $accent;
-  color: $text-main;
-  border: none;
-  padding: .9rem 1.6rem;
-  border-radius: 6px;
-  font-weight: 600;
-  transition: background-color .25s ease, transform .25s ease;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
   z-index: 1;
-  cursor: pointer;
-
-  &:hover {
-    background: $accent-h;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,.25);
+  
+  &.back-button {
+    background: transparent;
+    color: $text-sub;
+    border: 1px solid $border;
+    
+    &::before {
+      content: '←';
+      margin-right: 0.5rem;
+    }
+    
+    &:hover {
+      background: $bg-row;
+      color: $text-main;
+    }
   }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba($accent, .35);
+  
+  &.new-flight-button {
+    background: $accent;
+    color: $text-main;
+    border: none;
+    
+    &:hover {
+      background: $accent-h;
+    }
   }
 }
 
-.back-button::before { content: '←'; font-weight: 700; margin-right: .5rem; }
-
 /* ---------- Tabla de vuelos ---------- */
-.recent-flights {
-  overflow-x: auto;
-  border-radius: 8px;
+.flight-details-card {
   background: $bg-table;
   border: 1px solid $border;
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
 .flight-table {
   width: 100%;
-  min-width: 800px;
   border-collapse: collapse;
-
+  
   th, td {
-    padding: 1rem 1.2rem;
+    padding: 1rem;
     text-align: center;
-    border: 1px solid darken($border, 5%);
-    transition: background .2s ease, transform .2s ease;
+    border: 1px solid $border;
   }
-
+  
   th {
-    background: lighten($bg-table, 6%);
+    background: darken($bg-table, 3%);
+    color: $text-main;
     font-weight: 600;
     text-transform: uppercase;
-    font-size: .85rem;
-    color: lighten($text-sub, 10%);
-    position: sticky;
-    top: 0;
-    z-index: 2;
+    font-size: 0.9rem;
   }
-
-  tr:nth-child(even) { background: $bg-row; }
-
+  
+  tr:nth-child(even) {
+    background: $bg-row;
+  }
+  
   tr:hover td {
     background: $bg-row-h;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0,0,0,.1);
   }
-
-  td {
-    color: $text-sub;
-    font-size: .95rem;
-  }
-
+  
   .link-itinerario {
     color: $text-main;
     text-decoration: none;
     cursor: pointer;
+    transition: color 0.3s ease;
+    
+    &:hover {
+      color: $accent;
+    }
+  }
+}
 
-    &:hover { color: $accent; }
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .user-panel {
+    padding: 1.5rem;
+  }
+  
+  .header-row h1 {
+    font-size: 1.5rem;
+  }
+  
+  .flight-table {
+    th, td {
+      padding: 0.75rem;
+      font-size: 0.85rem;
+    }
   }
 }

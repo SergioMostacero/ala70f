@@ -1,44 +1,27 @@
-/* =========================================================
-   SCSS — Ficha de Tripulante
-   Mismo look & feel que la pantalla de vuelo
-   ========================================================= */
-
-/* ---------- Paleta de colores ---------- */
-$bg-page:   #121212;   // fondo general
-$bg-panel:  #1e1e1e;   // contenedor principal
-$bg-item:   #282c34;   // elementos secundarios
-$accent:    #1d72b8;   // color de acción
-$text-main: #ffffff;   // texto principal
-$text-sub:  #dddddd;   // texto secundario
-$shadow:    0 4px 10px rgba(0, 0, 0, 0.2);
-
-/* ---------- Contenedor a pantalla completa y centrado ---------- */
 .container {
-  background: $bg-page;
-  min-height: 100vh;
   padding: 20px;
-
+  min-height: 100vh;
+  background: #121212;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* ---------- Panel ---------- */
 .user-panel {
-  background: $bg-panel;
-  color: $text-main;
-  border-radius: 10px;
-  padding: 20px;
-  width: 100%;
+  background: #1c1f26;
+  border-radius: 0.75rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid #3a3f4b;
+  padding: 2.5rem;
+  margin: 2rem auto;
   max-width: 35rem;
-  box-shadow: $shadow;
-
+  color: #cdd0d5;
+  animation: fadeInUp 0.6s ease-out forwards;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-/* ---------- Perfil ---------- */
 .info {
   display: flex;
   flex-direction: column;
@@ -48,42 +31,52 @@ $shadow:    0 4px 10px rgba(0, 0, 0, 0.2);
   .user-img {
     width: 8rem;
     height: 8rem;
-    background: $bg-item;
+    background: #282c34;
     border-radius: 50%;
-    border: 2px solid darken($bg-item, 10%);
-    transition: transform 0.3s ease;
+    border: 2px solid #3a3f4b;
+    transition: all 0.3s ease;
 
     &:hover {
       transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
   }
 
-  .user-name {
-    margin-top: 1.3rem;
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: $text-main;
-    padding: 1.5rem;
-
+  .form-title {
+    margin: 1.5rem 0;
+    padding-bottom: 1rem;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: #1d72b8;
+      border-radius: 2px;
+    }
   }
 
   .user-info {
     font-size: 0.95rem;
-    color: $text-sub;
+    color: #9fa4ad;
     line-height: 1.6;
-    padding: 0.7rem;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    background: #282c34;
+    border-radius: 0.5rem;
+    width: 100%;
   }
 }
 
-/* ---------- Botones de navegación ---------- */
 .nav-buttons {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 0.5rem;
 
-
-  /* Opcional: en pantallas anchas, ponerlos en fila */
   @media (min-width: 600px) {
     flex-direction: row;
     flex-wrap: wrap;
@@ -94,32 +87,43 @@ $shadow:    0 4px 10px rgba(0, 0, 0, 0.2);
 .nav-button {
   width: 100%;
   padding: 1rem;
-  background: $accent;
-  color: $text-main;
+  background: #1d72b8;
+  color: #cdd0d5;
   border: none;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-
+  transition: all 0.3s ease;
+  
   &:hover {
-    background: darken($accent, 8%);
+    background: #3896e4;
     transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   }
-
+  
   &:active {
     transform: translateY(0);
   }
-
+  
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba($accent, 0.35);
+    box-shadow: 0 0 0 3px rgba(29, 114, 184, 0.35);
   }
 
-  /* Mantén todos los botones a la misma altura
-     cuando pasen a grid/fila en pantallas grandes */
   @media (min-width: 600px) {
     flex: 1 1 45%;
   }
+}
+
+.no-user-message {
+  text-align: center;
+  color: #9fa4ad;
+  font-size: 1.2rem;
+  padding: 2rem;
+}
+
+@keyframes fadeInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
 }

@@ -1,13 +1,11 @@
 <!-- destinos.component.html -->
 <div class="container">
-  
   <div class="user-panel">
-    <div class="header-section">
-      <h1 class="title">Historial de Destinos</h1>
-      <button (click)="goBack()" class="btn-back">
-        <i class="fas fa-arrow-left"></i> Volver
-      </button>
+    <div class="header-row">
+      <button class="back-button" (click)="goBack()">Volver</button>
+      <h1 class="form-title">Historial de Destinos</h1>
     </div>
+
     <!-- Loading overlay -->
     <div *ngIf="isLoading" class="loading-overlay">
       <div class="spinner"></div>

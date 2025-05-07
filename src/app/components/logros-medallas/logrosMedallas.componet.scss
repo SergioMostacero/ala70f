@@ -1,177 +1,152 @@
-/* =========================================================
-   SCSS — Pantalla “Logros y Medallas”
-   Reutiliza la apariencia oscura y los estilos del panel
-   de vuelo, para mantener una experiencia coherente.
-   ========================================================= */
-
-/* ---------- Paleta de colores ---------- */
-$bg-page:       #121212;   // fondo general
-$bg-panel:      #1e1e1e;   // contenedor principal
-$bg-card:       #2a2a2a;   // bloques y tarjetas
-$bg-item:       #3a3a3a;   // items secundarios
-$accent:        #1d72b8;   // color principal
-$text-main:     #ffffff;   // texto principal
-$text-muted:    #dddddd;   // texto suavizado
-$shadow:        0 4px 10px rgba(0, 0, 0, 0.2);
-
-/* ---------- Estructura base ---------- */
 .container {
-  background-color: $bg-page;
   padding: 20px;
   min-height: 100vh;
+  background: #121212;
 }
 
 .user-panel {
-  background-color: $bg-panel;
-  color: $text-main;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: $shadow;
+  background: #1c1f26;
+  border-radius: 0.75rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid #3a3f4b;
+  padding: 2.5rem;
+  margin: 2rem auto;
   max-width: 1100px;
-  margin: 0 auto;          // centra el panel
+  color: #cdd0d5;
+  animation: fadeInUp 0.6s ease-out forwards;
 }
 
-/* ---------- Cabecera ---------- */
-.header-row {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding-bottom: 20px;
+.header-section {
+  position: relative;
+  margin-bottom: 2rem;
+  text-align: center;
+}
 
-  .nav-button {
-    align-self: flex-start; // El botón se queda alineado a la izquierda
-  }
+.form-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #e8ebf0;
+  margin-bottom: 2rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  padding-bottom: 1rem;
 
-  .flight-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0 auto;
-    text-align: center;
-    color: #ffffff;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #1d72b8;
+    border-radius: 2px;
   }
 }
 
-
-/* ---------- Botones ---------- */
-.nav-button {
-  background-color: $accent;
-  color: $text-main;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
+.back-button {
+  background: transparent;
+  color: #9fa4ad;
+  border: 1px solid #3a3f4b;
+  border-radius: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.95rem;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s ease;
-
+  transition: all 0.3s ease;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  
   &:hover {
-    background-color: darken($accent, 8%);
+    background: #3a3f4b;
+    color: #cdd0d5;
+    border-color: #555b6e;
   }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+  
+  &::before {
+    content: '←';
+    margin-right: 0.5rem;
+    font-weight: bold;
   }
 }
 
-/* ---------------------------------------------------------
-   Secciones de medallas
-   --------------------------------------------------------- */
 .seccion-medallas {
-  margin-top: 30px;
+  margin: 3rem 0;
 
   h2 {
-    font-size: 20px;
-    font-weight: 600;
-    color: $text-main;
-    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: #e8ebf0;
+    margin-bottom: 1.5rem;
     text-align: center;
+    font-weight: 500;
   }
 }
 
-/* Cuadrícula flexible — siempre centrada */
 .grid-medallas {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 
-/* Tarjeta de medalla */
 .medalla-card {
-  position: relative;
-  width: 180px;
-  padding: 15px;
-  background-color: $bg-item;
-  border-radius: 10px;
+  background: #282c34;
+  border: 1px solid #3a3f4b;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
   text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease;
+  transition: all 0.3s ease;
+  position: relative;
 
   &:hover {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   }
 
   h3 {
-    font-size: 16px;
-    font-weight: 600;
+    color: #e8ebf0;
+    font-size: 1rem;
     margin: 0;
-    color: $text-main;
   }
 
-  /* Estado no obtenida */
   &.no-obtenida {
-    opacity: 0.35;
+    opacity: 0.5;
     filter: grayscale(100%);
   }
 }
 
-/* Imagen de la medalla (opcional) */
-.medalla-imagen {
-  width: 120px;
-  height: 120px;
-  object-fit: contain;
-  margin: 0 auto 10px;
-}
-
-/* Capa bloqueada */
 .bloqueada {
   position: absolute;
-  inset: 0;
-  background: rgba(18, 18, 18, 0.9);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(28, 31, 38, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 0.5rem;
 
   .candado {
-    font-size: 2rem;
-    color: $text-muted;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+    color: #9fa4ad;
+    font-size: 1.5rem;
   }
 }
 
-/* Mensaje de “sin medallas” */
 .sin-medallas {
-  background-color: $bg-card;
-  border-radius: 5px;
-  padding: 15px;
+  background: #282c34;
+  border: 1px solid #3a3f4b;
+  border-radius: 0.5rem;
+  padding: 2rem;
   text-align: center;
-  color: $text-muted;
-  margin: 15px 0;
+  color: #9fa4ad;
+  margin: 2rem 0;
 }
 
-/* Grupo de botones inferior */
-.button-group {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-/* ---------- Utilidades ---------- */
-/* Centra verticalmente cualquier elemento con la clase .center-vh */
-.center-vh {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@keyframes fadeInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
 }

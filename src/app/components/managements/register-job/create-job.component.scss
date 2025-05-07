@@ -1,68 +1,148 @@
-/* ----------  FONDO Y CONTENEDOR  ---------- */
+/* ---------- ESTILOS UNIFICADOS ---------- */
 .container {
   min-height: 100vh;
   padding: 20px;
-  background-color: #121212;               // fondo global
+  background: #121212;
   display: flex;
   justify-content: center;
   align-items: flex-start;
 }
 
-/* ----------  PANEL PRINCIPAL  ---------- */
 .user-panel {
   width: 100%;
   max-width: 35rem;
-  background-color: #1e1e1e;               // igual a flight-detail
-  color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, .4);
-  animation: fadeInUp .6s ease-out forwards;
-  font-family: 'Segoe UI', sans-serif;
+  background: #1c1f26;
+  color: #cdd0d5;
+  border-radius: 0.75rem;
+  padding: 2.5rem;
+  margin: 2rem auto;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid #3a3f4b;
+  animation: fadeInUp 0.6s ease-out both;
 }
 
-@keyframes fadeInUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
-}
-
-/* ----------  CABECERA  ---------- */
+/* ---------- CABECERA ---------- */
 .header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 2rem;
   padding-bottom: 15px;
-  border-bottom: 2px solid #3a3a3a;
+  border-bottom: 2px solid #3a3f4b;
 
   .flight-title {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    flex: 1;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #e8ebf0;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: 1rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: #1d72b8;
+      border-radius: 2px;
+    }
+  }
+
+  .user-info {
+    font-size: 0.95rem;
+    color: #9fa4ad;
+    margin: 0;
   }
 }
 
-/* ----------  BOTONES  ---------- */
-.nav-button {
-  background-color: #1d72b8;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: background .3s;
+/* ---------- TARJETAS DE SECCIÓN ---------- */
+.section-card {
+  background: #282c34;
+  border: 1px solid #3a3f4b;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 
-  &:hover:enabled { background-color: #156ba3; }
-  &:disabled      { opacity: .5; cursor: not-allowed; }
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 1rem;
+    color: #e8ebf0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 }
 
-.back-button::before { content: '←'; margin-right: .5rem; font-weight: 700; }
+/* ---------- GRUPOS DE BOTONES ---------- */
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
 
-/* ----------  FORMULARIO  ---------- */
-form { width: 100%; }
+.back-group {
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* ---------- BOTONES ---------- */
+.nav-button {
+  flex: 1 1 auto;
+  padding: 1rem;
+  background: #1d72b8;
+  color: #cdd0d5;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+
+  &:hover:enabled {
+    background: #3896e4;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.45);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &.back-button {
+    background: transparent;
+    border: 1px solid #3a3f4b;
+    color: #9fa4ad;
+    
+    &:hover {
+      background: #3a3f4b;
+      color: #cdd0d5;
+      box-shadow: none;
+    }
+
+    &::before {
+      content: '←';
+      margin-right: 0.5rem;
+      font-weight: bold;
+    }
+  }
+}
+
+/* ---------- FORMULARIO ---------- */
+form {
+  width: 100%;
+  margin-top: 1.5rem;
+}
 
 .form-row {
   display: flex;
@@ -70,38 +150,46 @@ form { width: 100%; }
   margin-bottom: 1.5rem;
 
   label {
-    margin-bottom: .5rem;
-    color: #ddd;
-    font-size: .95rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    color: #9fa4ad;
+    font-weight: 300;
   }
 
   input,
   textarea {
-    padding: .8rem 1rem;
-    background-color: #3a3a3a;            // gris card
-    border: 1px solid #525252;
-    border-radius: 5px;
+    padding: 0.85rem 1.25rem;
+    border: 1px solid #3a3f4b;
+    background: #282c34;
+    color: #ffffff;
+    border-radius: 0.5rem;
     font-size: 1rem;
-    color: #fff;
-    transition: border-color .3s, box-shadow .3s;
+    transition: all 0.3s ease;
 
     &:focus {
       outline: none;
-      border-color: #1d72b8;
-      box-shadow: 0 0 0 3px rgba(29, 114, 184, .3);
+      border-color: #555b6e;
+      box-shadow: 0 0 0 3px rgba(85, 91, 110, 0.2);
     }
 
-    &::placeholder { color: #787878; }
+    &::placeholder {
+      color: #787878;
+    }
   }
 
-  textarea { resize: vertical; }
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
 }
 
-/* ----------  GRUPO DE BOTONES  ---------- */
 .buttons {
   display: flex;
   gap: 1rem;
   margin-top: 2rem;
+}
 
-  .nav-button { flex: 1; }
+@keyframes fadeInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
 }

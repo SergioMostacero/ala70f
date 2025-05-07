@@ -1,68 +1,63 @@
-/* ----------  FONDO Y CONTENEDOR  ---------- */
+/* ---------- ESTILOS UNIFICADOS ---------- */
 .container {
   min-height: 100vh;
   padding: 20px;
+  background: #121212;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background-color: #121212;               // mismo fondo global
 }
 
-/* ----------  PANEL PRINCIPAL  ---------- */
 .user-panel {
   width: 100%;
-  max-width: 38rem;
-  background-color: #1e1e1e;              // igual que flight-detail
-  color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, .4);
-  animation: fadeInUp .6s ease-out forwards;
-  font-family: 'Segoe UI', sans-serif;
+  max-width: 35rem;
+  background: #1c1f26;
+  color: #cdd0d5;
+  border-radius: 0.75rem;
+  padding: 2.5rem;
+  margin: 2rem auto;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid #3a3f4b;
+  animation: fadeInUp 0.6s ease-out both;
 
   .flight-title {
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #e8ebf0;
     text-align: center;
-    flex: 1;
+    margin: 1rem 0;
+    position: relative;
+    padding-bottom: 1rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: #1d72b8;
+      border-radius: 2px;
+    }
   }
 }
 
-@keyframes fadeInUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
-}
-
-/* ----------  CABECERA  ---------- */
+/* ---------- CABECERA ---------- */
 .header-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #3a3a3a;
+  margin-bottom: 2rem;
+  position: relative;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #3a3f4b;
 }
 
-/* ----------  BOTONES  ---------- */
-.nav-button {
-  background-color: #1d72b8;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: background .3s;
-
-  &:hover:enabled { background-color: #156ba3; }
-  &:disabled      { opacity: .5; cursor: not-allowed; }
+/* ---------- FORMULARIO ---------- */
+form {
+  width: 100%;
+  margin-top: 1.5rem;
 }
-
-.back-button::before { content: '←'; margin-right: .5rem; font-weight: 700; }
-
-/* ----------  FORMULARIO  ---------- */
-form { width: 100%; }
 
 .form-group {
   display: flex;
@@ -70,30 +65,95 @@ form { width: 100%; }
   margin-bottom: 1.5rem;
 
   label {
-    margin-bottom: .5rem;
-    font-size: .95rem;
-    color: #ddd;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    color: #9fa4ad;
+    font-weight: 300;
   }
 
   input,
   select {
-    padding: .8rem 1rem;
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    border: 1px solid #3a3f4b;
+    background: #282c34;
+    color: #ffffff;
+    border-radius: 0.5rem;
     font-size: 1rem;
-    background-color: #3a3a3a;            // mismo gris que info-item
-    color: #fff;
-    border: 1px solid #525252;
-    border-radius: 5px;
-    transition: border-color .3s, box-shadow .3s;
+    transition: all 0.3s ease;
 
     &:focus {
       outline: none;
-      border-color: #1d72b8;
-      box-shadow: 0 0 0 3px rgba(29, 114, 184, .3);
+      border-color: #555b6e;
+      box-shadow: 0 0 0 3px rgba(85, 91, 110, 0.2);
+    }
+
+    &[readonly] {
+      background: #2a2e35;
+      opacity: 0.8;
+    }
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239fa4ad'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2em;
+    padding-right: 2.5rem;
+  }
+}
+
+/* ---------- BOTONES ---------- */
+.nav-button {
+  width: 100%;
+  padding: 1rem;
+  background: #1d72b8;
+  color: #cdd0d5;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+
+  &:hover:enabled {
+    background: #3896e4;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.45);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &.back-button {
+    background: transparent;
+    border: 1px solid #3a3f4b;
+    color: #9fa4ad;
+    width: auto;
+    padding: 0.8rem 1.5rem;
+    
+    &:hover {
+      background: #3a3f4b;
+      color: #cdd0d5;
+      box-shadow: none;
+    }
+
+    &::before {
+      content: '←';
+      margin-right: 0.5rem;
+      font-weight: bold;
     }
   }
 }
 
-/* ----------  GRUPO DE BOTONES  ---------- */
 .button-group {
   display: flex;
   gap: 1rem;
@@ -102,4 +162,31 @@ form { width: 100%; }
   .nav-button {
     flex: 1;
   }
+}
+.back-button {
+  background: transparent;
+  color: #9fa4ad;
+  border: 1px solid #3a3f4b;
+  border-radius: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: #3a3f4b;
+    color: #cdd0d5;
+    border-color: #555b6e;
+  }
+  
+  &::before {
+    content: '←';
+    margin-right: 0.5rem;
+    font-weight: bold;
+  }
+}
+
+@keyframes fadeInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
 }
