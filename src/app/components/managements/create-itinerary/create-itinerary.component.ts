@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { ItinerarioService } from '../../../Services/itinerario.service';
 import { UbicacionService } from '../../../Services/ubicacion.service';
 import { Router } from '@angular/router';
 import { RouteEncoderService } from '../../../Services/route-encoder.service';
+import { NotificationService } from '../../../utils/notification.service';
 
 @Component({
   selector: 'app-create-itinerary',
@@ -11,7 +12,7 @@ import { RouteEncoderService } from '../../../Services/route-encoder.service';
   styleUrls: ['./create-itinerary.component.scss']
 })
 export class CreateItineraryComponent implements OnInit {
-  itineraryForm: FormGroup;
+  itineraryForm!: FormGroup; // Usamos el operador ! para evitar el error de inicialización
   ubicaciones: any[] = [];
 
   constructor(
@@ -19,30 +20,28 @@ export class CreateItineraryComponent implements OnInit {
     private fb: FormBuilder,
     private itinerarioService: ItinerarioService,
     private ubicacionService: UbicacionService,
-    private router: Router
-  ) {
-    this.itineraryForm = this.fb.group({
-      duracion: ['', Validators.required],
-      pasos: this.fb.array([
-        this.createPaso(1),  // Paso inicial 1
-        this.createPaso(2)   // Paso inicial 2 (mínimo requerido)
-      ], { validators: this.minPasosValidator(2) })
-    });
-  }
+    private router: Router,
+    private notification: NotificationService
+  ) {}
 
   ngOnInit(): void {
-    this.ubicacionService.getAll().subscribe(data => {
-      this.ubicaciones = data.map(ubicacion => ({
-        ...ubicacion,
-        ciudad: ubicacion.ciudad.split('/').pop() 
-      }));
+    this.initForm();
+    this.loadUbicaciones();
+  }
+
+  private initForm(): void {
+    this.itineraryForm = this.fb.group({
+      duracion: ['', Validators.required],
+      pasos: this.fb.array([this.createPaso(1), this.createPaso(2)])
     });
   }
 
-  createPaso(orden: number) {
-    return this.fb.group({
-      ubicacionId: [null, Validators.required],
-      orden: [orden, [Validators.required, Validators.min(1)]]
+  private loadUbicaciones(): void {
+    this.ubicacionService.getAll().subscribe({
+      next: (data) => {
+        this.ubicaciones = data;
+      },
+      error: () => this.notification.showMessage('Error al cargar ubicaciones', 'error')
     });
   }
 
@@ -50,15 +49,17 @@ export class CreateItineraryComponent implements OnInit {
     return this.itineraryForm.get('pasos') as FormArray;
   }
 
-  get pasosError() {
-    return this.pasos.length < 2 ? 'Debe haber al menos 2 ciudades (origen y destino)' : '';
+  get pasosError(): string {
+    return this.pasos.length < 2 
+      ? 'Debe haber al menos 2 ciudades (origen y destino)' 
+      : '';
   }
 
-  minPasosValidator(min: number): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const formArray = control as FormArray;
-      return formArray.length >= min ? null : { minPasos: true };
-    };
+  createPaso(orden: number): FormGroup {
+    return this.fb.group({
+      ubicacionId: [null, Validators.required],
+      orden: [orden, [Validators.required, Validators.min(1)]]
+    });
   }
 
   addPaso(): void {
@@ -67,20 +68,48 @@ export class CreateItineraryComponent implements OnInit {
   }
 
   removePaso(i: number): void {
-    if (this.pasos.length > 2) {  // No permitir eliminar si quedan solo 2
+    if (this.pasos.length > 2) {
       this.pasos.removeAt(i);
       this.reindexarOrden();
     }
   }
 
-  private reindexarOrden() {
+  reindexarOrden(): void {
     this.pasos.controls.forEach((ctrl, idx) => {
       ctrl.patchValue({ orden: idx + 1 });
     });
   }
 
+  onPasoChange(index: number): void {
+    const pasosArray = this.pasos.controls;
+    const pasoActual = pasosArray[index];
+    
+    if (index > 0) {
+      const pasoAnterior = pasosArray[index - 1];
+      if (pasoActual.get('ubicacionId')?.value === pasoAnterior.get('ubicacionId')?.value) {
+        pasoActual.get('ubicacionId')?.setErrors({ repetido: true });
+        this.notification.showMessage('No puedes repetir la misma ubicación consecutiva', 'error');
+      } else {
+        pasoActual.get('ubicacionId')?.setErrors(null);
+      }
+    }
+
+    if (index < pasosArray.length - 1) {
+      const pasoSiguiente = pasosArray[index + 1];
+      if (pasoActual.get('ubicacionId')?.value === pasoSiguiente.get('ubicacionId')?.value) {
+        pasoActual.get('ubicacionId')?.setErrors({ repetido: true });
+        this.notification.showMessage('No puedes repetir la misma ubicación consecutiva', 'error');
+      } else {
+        pasoActual.get('ubicacionId')?.setErrors(null);
+      }
+    }
+  }
+
   onSubmit(): void {
-    if (this.itineraryForm.invalid || this.pasos.length < 2) return;
+    if (this.itineraryForm.invalid || this.pasos.length < 2) {
+      this.notification.showMessage('Completa el formulario correctamente.', 'error');
+      return;
+    }
 
     const form = this.itineraryForm.value;
     const dto = {
@@ -92,25 +121,24 @@ export class CreateItineraryComponent implements OnInit {
       }))
     };
 
-    this.itinerarioService.create(dto)
-      .subscribe(() => this.router.navigate([this.encoder.encode('management')]));
+    this.itinerarioService.create(dto).subscribe({
+      next: () => {
+        this.notification.showMessage('Itinerario creado correctamente.', 'success');
+        this.router.navigate([this.encoder.encode('management')]);
+      },
+      error: () => {
+        this.notification.showMessage('Error al crear el itinerario.', 'error');
+      }
+    });
   }
-
-  goBack(): void {
-    this.router.navigate([ this.encoder.encode('management') ]);
-  }
-
-  // Dentro de la clase CreateItineraryComponent
 
   reverseItinerary(): void {
     const pasosArray = this.pasos;
-    
-    // Invertir el orden de los pasos
     pasosArray.controls.reverse();
-    
-    // Actualizar los números de orden
-    pasosArray.controls.forEach((ctrl, index) => {
-      ctrl.patchValue({ orden: index + 1 });
-    });
+    this.reindexarOrden();
+  }
+
+  goBack(): void {
+    this.router.navigate([this.encoder.encode('management')]);
   }
 }

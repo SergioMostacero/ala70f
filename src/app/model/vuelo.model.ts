@@ -10,7 +10,7 @@ export interface Vuelo {
     fecha_llegada: string;       // formato: 'YYYY-MM-DD'
     hora_llegada: string;        // formato: 'HH:mm'
     anticipo: string;
-    combustible: string;
+    combustible: number;
     avionDTO: { id: number };
     misionDTO: { id: number };
     itinerarioDTO: { id: number };

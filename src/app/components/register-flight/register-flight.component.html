@@ -49,21 +49,35 @@
         <input id="anticipo" type="text" formControlName="anticipo" />
       </div>
 
-      <div class="form-group">
-        <label for="gasolina">Combustible (Toneladas)</label>
-        <input id="gasolina" type="text" formControlName="gasolina" />
-      </div>
 
-      <!-- Avión -->
-      <div class="form-group" [formGroup]="avionFormGroup">
-        <label for="avionSelect">Avión</label>
-        <select id="avionSelect" formControlName="id">
-          <option [ngValue]="null">-- Selecciona un Avión --</option>
-          <option *ngFor="let avion of avionList" [ngValue]="avion.id">
-            {{ avion.nombre }}
-          </option>
-        </select>
-      </div>
+<!-- Avión -->
+<div class="form-group" [formGroup]="avionFormGroup">
+  <label for="avionSelect">Avión</label>
+  <select id="avionSelect" formControlName="id" (change)="onAvionChange()">
+    <option [ngValue]="null">-- Selecciona un Avión --</option>
+    <option *ngFor="let avion of avionList" [ngValue]="avion.id">
+      {{ avion.nombre }}
+    </option>
+  </select>
+</div>
+
+<!-- Combustible (Mensaje de Capacidad Máxima) -->
+<div class="form-group">
+  <label for="combustible">Combustible (Toneladas)</label>
+  <input
+    id="combustible"
+    type="number"
+    formControlName="combustible"
+    [max]="maxCombustible"
+    [placeholder]="'Máx: ' + maxCombustible + ' toneladas'"
+    (input)="validateCombustible()"
+  />
+  
+  <!-- Mensaje Emergente de Capacidad Máxima -->
+  <div *ngIf="maxCombustibleMessage" class="tooltip-message">
+    Capacidad máxima: {{ maxCombustibleMessage }} toneladas
+  </div>
+</div>
 
       <!-- Misión -->
       <div class="form-group" [formGroup]="misionesFormGroup">

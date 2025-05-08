@@ -9,14 +9,13 @@
   <div formArrayName="pasos">
     <div *ngFor="let paso of pasos.controls; let i = index" [formGroupName]="i" class="paso">
       <label>Paso {{ i + 1 }}</label>
-      <select formControlName="ubicacionId">
+      <select formControlName="ubicacionId" (change)="onPasoChange(i)">
         <option *ngFor="let ubicacion of ubicaciones" [value]="ubicacion.id">
           {{ ubicacion.ciudad }}
         </option>
       </select>
-      <button type="button" (click)="removePaso(i)" [disabled]="pasos.length === 1">
-        🗑️
-      </button>
+      <button type="button" (click)="removePaso(i)" [disabled]="pasos.length <= 2">🗑️</button>
+      
     </div>
   </div>
 
@@ -31,6 +30,7 @@
     </div>
   </div>
 </form>
+
 <div class="back-container">
   <button class="back-button" (click)="goBack()">Volver</button>
 </div>

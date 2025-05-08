@@ -70,15 +70,21 @@ export class ControllerMedallasComponent implements OnInit {
           this.resetSelections();
         },
         error: (err) => {
-          const defaultMessage = err.status === 409 
-            ? 'Este tripulante ya posee esta medalla' 
-            : 'Error inesperado al asignar la medalla';
-          
-          const serverMessage = err.error?.message || defaultMessage;
-          this.notification.showMessage(serverMessage, 'error');
+          // Verificar el código de estado HTTP
+          if (err.status === 409) {
+            this.notification.showMessage('Este tripulante ya posee esta medalla', 'error');
+          } else if (err.status === 200 || err.status === 201) {
+            // Si el servidor responde con éxito, pero Angular lo interpreta como error
+            this.notification.showMessage('Medalla asignada exitosamente', 'success');
+            this.resetSelections();
+          } else {
+            const serverMessage = err.error?.message || 'Error inesperado al asignar la medalla';
+            this.notification.showMessage(serverMessage, 'error');
+          }
         }
       });
   }
+  
 
   private resetSelections(): void {
     this.selectedTripulanteId = null;

@@ -8,6 +8,7 @@ import { TripulantesService } from '../../Services/tripulantes.service';
 import { NotificationService } from '../../utils/notification.service';
 import { Router } from '@angular/router';
 import { RouteEncoderService } from '../../Services/route-encoder.service';
+import { Avion } from 'src/app/model/avion.model';
 
 @Component({
   selector: 'app-register-flight',
@@ -25,6 +26,8 @@ export class RegisterFlightComponent implements OnInit {
   tecnicoComList: any[] = [];
   duracionItinerario: number = 0;
   horaLlegada: string = '';
+  maxCombustibleMessage: string = '';
+  maxCombustible: number = 0;
 
   constructor(
     private encoder: RouteEncoderService,
@@ -52,16 +55,11 @@ export class RegisterFlightComponent implements OnInit {
   private initForm(): void {
     this.vueloForm = this.fb.group({
       fecha_salida: ['', Validators.required],
-      hora_salida: ['', [
-        Validators.required,
-        Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/)
-      ]],
-      hora_llegada: [{ value: '', disabled: true }, [
-        Validators.pattern(/^([01]\d|2[0-3]):([0-5]\d)$/)
-      ]],
+      hora_salida: ['', Validators.required],
+      hora_llegada: ['', Validators.required],
       fecha_llegada: ['', Validators.required],
       anticipo: ['', Validators.required],
-      gasolina: ['', Validators.required],
+      combustible: ['', Validators.required],
       avionDTO: this.fb.group({ id: [null] }),
       misionDTO: this.fb.group({ id: [null] }),
       itinerarioDTO: this.fb.group({ id: [null] }),
@@ -71,6 +69,38 @@ export class RegisterFlightComponent implements OnInit {
       tecnicoCom: [null],
     });
   }
+  
+  onAvionChange(): void {
+    const avionId = this.vueloForm.get('avionDTO.id')?.value;
+    const selectedAvion = this.avionList.find(avion => avion.id === avionId);
+  
+    if (selectedAvion) {
+      this.maxCombustible = selectedAvion.max_combustible;
+      this.maxCombustibleMessage = `${this.maxCombustible}`;
+    } else {
+      this.maxCombustible = 0;
+      this.maxCombustibleMessage = '';
+    }
+  
+    // Validar inmediatamente si ya hay un valor en combustible
+    this.validateCombustible();
+  }
+  
+  validateCombustible(): void {
+    const combustibleControl = this.vueloForm.get('combustible');
+    const combustibleValue = Number(combustibleControl?.value);
+  
+    if (combustibleValue > this.maxCombustible) {
+      combustibleControl?.setErrors({ max: true });
+      this.notification.showMessage(
+        `El combustible no puede exceder ${this.maxCombustible} toneladas.`,
+        'error'
+      );
+    } else {
+      combustibleControl?.setErrors(null);
+    }
+  }
+  
 
   onItinerarioChange(): void {
     const itinerarioId = this.vueloForm.get('itinerarioDTO')?.value.id;
@@ -151,7 +181,7 @@ createVuelo(): void {
 
     this.vueloService.createVuelo(vueloData).subscribe({
       next: () => {
-        alert('¡Vuelo creado con éxito!');
+        this.notification.showMessage('¡Vuelo creado con éxito!', 'success');
         this.vueloForm.reset();
         this.router.navigate([this.encoder.encode('flights')]);
       },
@@ -160,7 +190,7 @@ createVuelo(): void {
       }
     });
   } else {
-    alert('Por favor, completa todos los campos');
+    this.notification.showMessage('Complete todos los campos por favor!', 'error');
   }
 }
 
@@ -169,13 +199,14 @@ goBack(): void {
   this.router.navigate([ this.encoder.encode('flights') ]);
 }
 
-  // Cargas de datos
-  private loadAviones(): void {
-    this.avionService.getAll().subscribe({
-      next: (data) => this.avionList = data,
-      error: () => this.notification.showMessage('No se pudieron cargar los aviones', 'error')
-    });
-  }
+private loadAviones(): void {
+  this.avionService.getAll().subscribe({
+    next: (data: Avion[]) => {
+      this.avionList = data;
+    },
+    error: () => this.notification.showMessage('No se pudieron cargar los aviones', 'error')
+  });
+}
 
   private loadPilotos(): void {
     this.tripulantesService.getPilotos().subscribe({

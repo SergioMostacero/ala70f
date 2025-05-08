@@ -4,6 +4,7 @@ import { Oficio } from '../../../model/oficio.model';
 import { OficioService } from '../../../Services/oficio.service';
 import { RouteEncoderService } from '../../../Services/route-encoder.service';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../../utils/notification.service';
 
 @Component({
   selector: 'app-edit-job',
@@ -21,7 +22,8 @@ export class EditJobComponent implements OnInit {
     private router: Router,
     private encoder: RouteEncoderService,
     private fb: FormBuilder,
-    private oficioService: OficioService
+    private oficioService: OficioService,
+    private notification: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +45,10 @@ export class EditJobComponent implements OnInit {
   private loadOficios(): void {
     this.oficioService.getOficios().subscribe({
       next: data => this.oficios = data,
-      error: err  => console.error(err)
+      error: err  => {
+        console.error(err);
+        this.notification.showMessage('Error al cargar los oficios.', 'error');
+      }
     });
   }
 
@@ -59,7 +64,11 @@ export class EditJobComponent implements OnInit {
   }
 
   submit(): void {
-    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
+    if (this.form.invalid) { 
+      this.form.markAllAsTouched(); 
+      this.notification.showMessage('Por favor, completa todos los campos.', 'error');
+      return; 
+    }
 
     const data: Oficio = { ...this.oficio, ...this.form.value };
     this.loading = true;
@@ -72,9 +81,15 @@ export class EditJobComponent implements OnInit {
       next: resp => {
         this.saved.emit(resp);
         this.loadOficios();           
-        this.onSelect('0');      
+        this.onSelect('0');    
+        
+        const action = data.id ? 'actualizado' : 'creado';
+        this.notification.showMessage(`Oficio ${action} con éxito.`, 'success');
       },
-      error: err => console.error(err),
+      error: err => {
+        console.error(err);
+        this.notification.showMessage('Error al guardar el oficio.', 'error');
+      },
       complete: () => (this.loading = false)
     });
   }
