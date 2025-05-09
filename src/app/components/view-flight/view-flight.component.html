@@ -4,6 +4,9 @@
     <div class="header-row">
       <button class="nav-button back-button" (click)="goBack()">Volver</button>
       <h1 class="flight-title">G45-{{ vuelo?.itinerarioDTO?.id }} - {{ vuelo?.itinerarioDTO?.nombre }}</h1>
+      <button class="nav-button pdf-button" (click)="exportarPDF()">
+        Exportar a PDF
+      </button>
     </div>
     
     <!-- Información del vuelo -->

@@ -1,5 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';   
+
 
 import { VueloService } from '../../Services/vuelo.service';
 import { UbicacionService } from '../../Services/ubicacion.service';
@@ -75,6 +78,61 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
     }
   }
 
+  async exportarPDF(): Promise<void> {
+    const panel = document.querySelector('.user-panel') as HTMLElement;
+    if (!panel) return;
+  
+    // 1. Preparar elementos para captura
+    const originalMapVisibility = (document.querySelector('.map') as HTMLElement).style.visibility;
+    const originalBackground = panel.style.background;
+    
+    try {
+      // 2. Forzar renderizado del mapa
+      (document.querySelector('.map') as HTMLElement).style.visibility = 'visible';
+      this.map.renderSync();
+      
+      // 3. Configurar parámetros de alta calidad
+      const canvas = await html2canvas(panel, {
+        scale: 3, // Aumentar resolución
+        useCORS: true,
+        logging: true, // Solo para desarrollo
+        backgroundColor: null,
+        allowTaint: true,
+        onclone: (clonedDoc) => {
+          // Mantener estilos originales en el clon
+          clonedDoc.querySelector('.user-panel')!.classList.add('printing');
+          (clonedDoc.querySelector('.map') as HTMLElement).style.visibility = 'visible';
+        }
+      });
+  
+      // 4. Crear PDF con dimensiones precisas
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: [canvas.width * 0.264583, canvas.height * 0.264583], // Convertir pixeles a mm (96dpi)
+        hotfixes: ["px_scaling"]
+      });
+  
+      // 5. Añadir imagen con máxima calidad
+      pdf.addImage(canvas.toDataURL('image/png', 1), 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
+      
+      // 6. Metadatos profesionales
+      pdf.setProperties({
+        title: `Reporte de Vuelo ${this.vuelo?.id}`,
+        subject: 'Detalles completos del vuelo',
+        author: 'AeroGest',
+        keywords: 'vuelo, reporte, aeronáutica'
+      });
+  
+      pdf.save(`Vuelo_${this.vuelo?.id}_Reporte.pdf`);
+    } finally {
+      // Restaurar estilos originales
+      (document.querySelector('.map') as HTMLElement).style.visibility = originalMapVisibility;
+      panel.style.background = originalBackground;
+      panel.classList.remove('printing');
+    }
+  }
+
   private loadUbicacionesYMapa(itinerarioId: number): void {
     this.ubicacionService.getUbicacionesByItinerarioId(itinerarioId).subscribe({
       next: (ubicaciones) => {
@@ -109,6 +167,7 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
       source: new VectorSource({ features }),
       style: new Style({
         image: new Icon({
+          crossOrigin: 'anonymous',  
           src: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
           scale: 0.05,
           anchor: [0.5, 1]
@@ -138,14 +197,25 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
     this.map = new Map({
       target: 'map',
       layers: [
-        new TileLayer({ source: new OSM() }),
+        new TileLayer({
+          source: new OSM({
+            crossOrigin: 'anonymous',
+            url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          })
+        }),
         routeLayer,
         markerLayer
       ],
       view: new View({
         center,
-        zoom: 5
+        zoom: 5,
+        constrainResolution: true // Mejor calidad
       })
     });
+  
+    // Forzar renderizado completo
+    setTimeout(() => {
+      this.map.renderSync();
+    }, 500);
   }
 }

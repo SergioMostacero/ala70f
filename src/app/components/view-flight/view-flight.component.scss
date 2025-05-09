@@ -152,6 +152,51 @@
     }
   }
 }
+/* Estilos específicos para impresión PDF */
+@media print, screen and (resolution: 300dpi) {
+  .user-panel {
+    background: #1c1f26 !important;
+    color: #cdd0d5 !important;
+    box-shadow: none !important;
+    border: none !important;
+    
+    .flight-details-card,
+    .location-card {
+      background: #282c34 !important;
+      border: 1px solid #3a3f4b !important;
+      box-shadow: none !important;
+    }
+    
+    .map {
+      background: #1a1e24 !important;
+      border: 2px solid #3a3f4b !important;
+    }
+    
+    strong {
+      color: #e8ebf0 !important;
+    }
+  }
+}
+
+/* Mejoras de renderizado para PDF */
+.user-panel.printing {
+  animation: none !important;
+  
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .ol-layer canvas {
+    filter: contrast(1.1) brightness(0.9);
+    backdrop-filter: blur(1px);
+  }
+  
+  .map-container {
+    height: 400px !important;
+  }
+}
+
 /* ---------- ANIMACIONES ---------- */
 @keyframes fadeInUp {
   from { transform: translateY(20px); opacity: 0; }
