@@ -7,7 +7,7 @@ import { Oficio } from '../model/oficio.model';
   providedIn: 'root'
 })
 export class OficioService {
-  private apiUrl = 'http://localhost:8000/api/oficios';
+  private apiUrl = 'http://44.212.4.74:8080/api/oficios';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient) { }

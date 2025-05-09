@@ -7,8 +7,9 @@ import { Tripulantes } from '../model/Tripulantes.model';
   providedIn: 'root'
 })
 export class TripulantesService {
-  private baseUrl = 'http://localhost:8000/api/tripulantes';
+  private baseUrl = 'http://44.212.4.74:8080/api/tripulantes';
   private loggedInTripulante: Tripulantes | null = null;
+
 
   constructor(private http: HttpClient) {
     this.loadFromStorage();

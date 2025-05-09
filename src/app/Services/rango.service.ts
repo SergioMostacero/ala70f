@@ -7,7 +7,7 @@ import { Rango } from '../model/rango.model';
   providedIn: 'root'
 })
 export class RangoService {
-  private apiUrl = 'http://localhost:8000/api/rangos';
+  private apiUrl = 'http://44.212.4.74:8080/api/rangos';
 
   constructor(private http: HttpClient) { }
 
