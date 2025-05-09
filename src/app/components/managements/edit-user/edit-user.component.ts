@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TripulantesService } from '../../../Services/tripulantes.service';
 import { RangoService } from '../../../Services/rango.service';
@@ -25,6 +25,7 @@ export class EditUserComponent implements OnInit {
   usuarios: Tripulantes[] = [];
   selectedUserId: number | null = null;
   isLoaded = false;
+  hoy: string = new Date().toISOString().substring(0, 10);
 
   constructor(
     private encoder: RouteEncoderService,
@@ -49,7 +50,7 @@ export class EditUserComponent implements OnInit {
       apellidos: ['',[ Validators.required, Validators.maxLength(100), Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)]],
       email: ['',[Validators.required,Validators.email]],
       contrasena: ['',[Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/)]],
-      antiguedad: [ null, Validators.required],
+      antiguedad: [null, [Validators.required, this.AntiguedadValidator()]],
       horas_totales: [ 0,[ Validators.required, Validators.min(0)]],
       permisos: [false],
       grupoSanguineoDTO: this.fb.group({ id: [null, Validators.required] }),
@@ -154,5 +155,18 @@ export class EditUserComponent implements OnInit {
 
   goBack(): void {
     this.router.navigate([ this.encoder.encode('management') ]);
+  }
+
+  private AntiguedadValidator() {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const valor = control.value;
+      if (!valor) { return null; }
+
+      const fecha = new Date(valor);
+      const min   = new Date('1900-01-01');
+      const max   = new Date(this.hoy);
+
+      return (fecha >= min && fecha <= max) ? null : { fueraRango: true };
+    };
   }
 }

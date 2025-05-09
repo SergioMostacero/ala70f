@@ -92,15 +92,20 @@
       <!-- Antigüedad -->
       <div class="field">
         <label for="antiguedad">Antigüedad</label>
-        <input id="antiguedad"
-               type="date"
-               formControlName="antiguedad" />
-        <div class="error-message" 
-             *ngIf="userForm.get('antiguedad')?.invalid && 
+
+        <input  id="antiguedad"
+                type="date"
+                formControlName="antiguedad"
+                min="1900-01-01"
+                [attr.max]="hoy" />          <!-- ⬅ hoy vinculado desde TS -->
+
+        <div class="error-message"
+            *ngIf="userForm.get('antiguedad')?.invalid &&
                     (userForm.get('antiguedad')?.dirty || userForm.get('antiguedad')?.touched)">
-          La antigüedad es obligatoria.
+          La fecha debe estar entre 01/01/1900&nbsp;y hoy.
         </div>
       </div>
+
 
       <!-- Horas de vuelo -->
       <div class="field">

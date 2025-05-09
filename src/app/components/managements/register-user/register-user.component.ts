@@ -1,6 +1,5 @@
-// register-user.component.ts
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 
@@ -22,12 +21,14 @@ import { Tripulantes } from '../../../model/Tripulantes.model';
   styleUrls: ['./register-user.component.scss']
 })
 export class RegisterUserComponent implements OnInit {
-  /** ---------- Catálogos para los <select> ---------- */
+
   rangos: Rango[] = [];
   gruposSanguineos: GrupoSanguineo[] = [];
   oficios: Oficio[] = [];
 
-  /** ---------- Formulario reactivo ---------- */
+
+  hoy: string = new Date().toISOString().substring(0, 10);
+
   registerForm!: FormGroup;
 
   constructor(
@@ -42,8 +43,8 @@ export class RegisterUserComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initForm();         
-    this.cargarOpciones();    
+    this.initForm();
+    this.cargarOpciones();
   }
 
   private initForm(): void {
@@ -52,34 +53,30 @@ export class RegisterUserComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)   // solo letras+tildes :contentReference[oaicite:0]{index=0}
+          Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)
         ]
       ],
       apellidos: [
         '',
         [
           Validators.required,
-          Validators.maxLength(100),                           // longitud :contentReference[oaicite:1]{index=1}
           Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)
         ]
       ],
-      email: [
-        '',
-        [Validators.required, Validators.email]
-      ],
+      email: ['', [Validators.required, Validators.email]],
       contrasena: [
         '',
         [
           Validators.required,
           Validators.minLength(8),
-          Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/)  // 1 mayús, 1 minús, 1 dígito :contentReference[oaicite:2]{index=2}
+          Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/)
         ]
       ],
-      antiguedad: [null, Validators.required],
-      horas_totales: [
-        0,
-        [Validators.required, Validators.min(0)]
+      antiguedad: [
+        null,
+        [Validators.required, this.rangoAntiguedadValidator()]
       ],
+      horas_totales: [0, [Validators.required, Validators.min(0)]],
       permisos: [false],
       grupoSanguineoDTO: this.fb.group({ id: [null, Validators.required] }),
       rangoDTO:           this.fb.group({ id: [null, Validators.required] }),
@@ -87,15 +84,28 @@ export class RegisterUserComponent implements OnInit {
     });
   }
 
- private cargarOpciones(): void {
-    this.rangoService.getRangos().subscribe(r => (this.rangos = r));
-    this.grupoSanguineoService.getGruposSanguineos().subscribe(g => (this.gruposSanguineos = g));
-    this.oficioService.getOficios().subscribe(o => (this.oficios = o));
+  private rangoAntiguedadValidator() {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const valor = control.value;
+      if (!valor) { return null; }   
+
+      const fecha = new Date(valor);
+      const min   = new Date('1900-01-01');
+      const max   = new Date(this.hoy);
+
+      return (fecha >= min && fecha <= max) ? null : { fueraRango: true };
+    };
   }
 
- registrar(): void {
+  private cargarOpciones(): void {
+    this.rangoService.getRangos().subscribe(r => this.rangos = r);
+    this.grupoSanguineoService.getGruposSanguineos().subscribe(g => this.gruposSanguineos = g);
+    this.oficioService.getOficios().subscribe(o => this.oficios = o);
+  }
+
+  registrar(): void {
     if (this.registerForm.invalid) {
-      this.registerForm.markAllAsTouched();   // fuerza visualización de errores
+      this.registerForm.markAllAsTouched();
       this.notification.showMessage('Completa todos los campos obligatorios', 'error');
       return;
     }
@@ -123,6 +133,6 @@ export class RegisterUserComponent implements OnInit {
   compareById = (a: any, b: any) => a?.id === b?.id;
 
   goBack(): void {
-    this.router.navigate([ this.encoder.encode('management') ]);
+    this.router.navigate([this.encoder.encode('management')]);
   }
 }

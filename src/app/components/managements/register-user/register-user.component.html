@@ -1,20 +1,16 @@
 <div class="container">
   <div class="user-panel" @routeAnimations>
 
-    <!-- Cabecera -->
     <div class="header-row">
       <h1 class="register-title">Registro de Usuario</h1>
     </div>
-
-    <!-- Formulario reactivo -->
     <form [formGroup]="registerForm" (ngSubmit)="registrar()">
 
-      <!-- ▸ Datos personales -->
       <h3 class="section-title">Datos Personales</h3>
 
       <div class="form-row">
         <label>Nombre</label>
-        <input type="text" formControlName="nombre" maxlength="60" />
+        <input type="text" formControlName="nombre"/>
         <small *ngIf="registerForm.get('nombre')?.hasError('pattern')">
           Solo letras y tildes.
         </small>
@@ -22,20 +18,33 @@
 
       <div class="form-row">
         <label>Apellidos</label>
-        <input type="text" formControlName="apellidos" maxlength="100" />
+        <input type="text" formControlName="apellidos"/>
+        <small *ngIf="registerForm.get('apellidos')?.hasError('pattern')">
+          Solo letras y tildes.
+        </small>
       </div>
 
       <div class="form-row">
         <label>Antigüedad</label>
-        <input type="date" formControlName="antiguedad" />
+
+        <input
+          type="date"
+          formControlName="antiguedad"
+          min="1900-01-01"
+          [attr.max]="hoy"         
+        />
+
+        <small *ngIf="registerForm.get('antiguedad')?.hasError('fueraRango')">
+          La fecha debe estar entre 01/01/1900 y hoy
+        </small>
       </div>
+
 
       <div class="form-row">
         <label>Horas de vuelo</label>
         <input type="number" formControlName="horas_totales" min="0" />
       </div>
 
-      <!-- ▸ Acceso -->
       <h3 class="section-title">Acceso</h3>
 
       <div class="form-row">
