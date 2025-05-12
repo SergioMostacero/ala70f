@@ -20,6 +20,12 @@ import { fromLonLat } from 'ol/proj';
 import { Icon, Style, Stroke } from 'ol/style';
 import { RouteEncoderService } from '../../../Services/route-encoder.service';
 
+import autoTable, { CellDef } from 'jspdf-autotable';
+import * as dayjs from 'dayjs';
+import jsPDF from 'jspdf';
+
+const fecha = dayjs('2025-05-12').format('DD/MM/YYYY');
+
 @Component({
   selector: 'app-view-flight',
   templateUrl: './view-flight.component.html',
@@ -53,12 +59,15 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
     this.router.navigate([ this.encoder.encode('homePermisos') ]);
   }
 
+  
   private loadVuelo(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.vueloService.getVueloById(+id).subscribe({
         next: (data) => {
           this.vuelo = data;
+          console.log(this.vuelo);
+
           const itinerarioId = this.vuelo.itinerarioDTO?.id;
           if (itinerarioId) {
             this.loadUbicacionesYMapa(itinerarioId);
@@ -73,6 +82,87 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
     } else {
       this.notification.showMessage('ID de vuelo no encontrado', 'error');
     }
+  }
+
+  private loadLogo(): Promise<HTMLImageElement> {
+    return new Promise(resolve => {
+      const img = new Image();
+      img.src = 'assets/img/logo.png';
+      img.onload = () => resolve(img);
+    });
+  }
+  
+  public exportarPDF(): void {
+    if (!this.vuelo) return;
+  
+    /* ——— CONFIG BÁSICA ——— */
+    const doc  = new jsPDF({ orientation: 'portrait', unit: 'pt' });
+    const blue: [number, number, number] = [29, 114, 184];
+    const pageW = doc.internal.pageSize.getWidth();
+  
+    /* ——— FUNCIÓN PRINCIPAL ——— */
+    this.loadLogo().then(logo => {
+  
+      /* 1) CABECERA CORPORATIVA — fondo azul + logo */
+      doc.setFillColor(...blue);
+      doc.rect(0, 0, pageW, 60, 'F');
+  
+      // logo: 45 × 45 pt
+      doc.addImage(
+        logo,
+        'PNG',
+        20,
+        7,
+        45,
+        45
+      );
+  
+      // título
+      doc.setFont('Roboto', 'normal').setFontSize(22).setTextColor(255, 255, 255);
+      doc.text('INFORME DE VUELO', pageW / 2, 36, { align: 'center' });
+  
+      /* 3) TABLA DATOS PRINCIPALES */
+      const datosPrincipales: CellDef[][] = [
+        ['Itinerario',    this.vuelo.itinerarioDTO?.nombre ?? '-'],
+        ['Duración',      this.vuelo.itinerarioDTO?.duracion ?? '-'],
+        ['Salida',        `${dayjs(this.vuelo.fecha_salida).format('DD/MM/YYYY')}  ${this.vuelo.hora_salida}`],
+        ['Llegada',       `${dayjs(this.vuelo.fecha_llegada).format('DD/MM/YYYY')}  ${this.vuelo.hora_llegada}`],
+        ['Avión',         this.vuelo.avionDTO?.nombre ?? '-'],
+        ['Misión',        this.vuelo.misionDTO?.nombre ?? '-'],
+        ['Combustible',   `${this.vuelo.combustible ?? '-'}  t`],
+        ['Anticipo',      `${this.vuelo.anticipo ?? '-'}  €`]
+      ];
+  
+      autoTable(doc, {
+        startY: 110,
+        head: [['Campo', 'Valor']],
+        body: datosPrincipales,
+        theme: 'striped',
+        styles:      { font: 'Roboto', fontSize: 11 },
+        headStyles:  { fillColor: blue, textColor: 255, fontStyle: 'bold', halign: 'center' },
+        bodyStyles:  { cellPadding: 6 }
+      });
+  
+      /* 4) TABLA TRIPULACIÓN */
+      const tripRows = (this.vuelo.tripulantesDTO ?? []).map((t: any) => [
+        t.rol, `${t.nombre} ${t.apellidos}`, t.licencia ?? '-'
+      ]);
+  
+      if (tripRows.length) {
+        autoTable(doc, {
+          margin: { top: 20 },
+          head: [['Rol', 'Nombre', 'Licencia']],
+          body: tripRows,
+          theme: 'striped',
+          styles:     { font: 'Roboto', fontSize: 10 },
+          headStyles: { fillColor: [90, 90, 90], textColor: 255, fontStyle: 'bold', halign: 'center' },
+          bodyStyles: { cellPadding: 5 }
+        });
+      }
+  
+      /* 5) GUARDAR */
+      doc.save(`vuelo-${this.vuelo.id}.pdf`);
+    });
   }
 
   private loadUbicacionesYMapa(itinerarioId: number): void {

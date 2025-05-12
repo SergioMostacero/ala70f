@@ -4,55 +4,35 @@
     <div class="header-row">
       <button class="nav-button back-button" (click)="goBack()">Volver</button>
       <h1 class="flight-title">G45-{{ vuelo?.itinerarioDTO?.id }} - {{ vuelo?.itinerarioDTO?.nombre }}</h1>
+      <button class="export-btn" (click)="exportarPDF()" aria-label="Exportar PDF">
+        <span class="material-icons">picture_as_pdf</span>
+      </button>
     </div>
-    
+
     <!-- Información del vuelo -->
     <div class="flight-details-card">
       <div class="flight-info">
         <div class="info-row">
-          <div class="info-item">
-            <strong>Itinerario:</strong>
-            <p>{{ vuelo?.itinerarioDTO?.nombre }}</p>
-          </div>
-
+          <div class="info-item"><strong>Itinerario:</strong><p>{{ vuelo?.itinerarioDTO?.nombre }}</p></div>
         </div>
 
         <div class="info-row">
-          <div class="info-item">
-            <strong>Hora de Salida:</strong>
-            <p>{{ vuelo?.hora_salida }}</p>
-          </div>
-          <div class="info-item">
-            <strong>Hora de Llegada:</strong>
-            <p>{{ vuelo?.hora_llegada }}</p>
-          </div>
+          <div class="info-item"><strong>Hora de Salida:</strong><p>{{ vuelo?.hora_salida }}</p></div>
+          <div class="info-item"><strong>Hora de Llegada:</strong><p>{{ vuelo?.hora_llegada }}</p></div>
         </div>
 
         <div class="info-row">
-          <div class="info-item">
-            <strong>Avión:</strong>
-            <p>{{ vuelo?.avionDTO?.nombre }}</p>
-          </div>
-          <div class="info-item">
-            <strong>Anticipo:</strong>
-            <p>{{ vuelo?.anticipo }}€</p>
-          </div>
+          <div class="info-item"><strong>Avión:</strong><p>{{ vuelo?.avionDTO?.nombre }}</p></div>
+          <div class="info-item"><strong>Anticipo:</strong><p>{{ vuelo?.anticipo }}€</p></div>
         </div>
+
         <div class="info-row">
-          <div class="info-item">
-            <strong>Duración:</strong>
-            <p>{{ vuelo?.itinerarioDTO?.duracion.slice(0, 5)}} Horas</p>
-          </div>
-          <div class="info-item">
-            <strong>Combustible:</strong>
-            <p>{{ vuelo?.combustible }}Tn</p>
-          </div>
+          <div class="info-item"><strong>Duración:</strong><p>{{ vuelo?.itinerarioDTO?.duracion.slice(0, 5)}} Horas</p></div>
+          <div class="info-item"><strong>Combustible:</strong><p>{{ vuelo?.combustible }}Tn</p></div>
         </div>
+
         <div class="info-row">
-          <div class="info-item">
-            <strong>Misión:</strong>
-            <p>{{ vuelo?.misionDTO?.nombre }}</p>
-          </div>
+          <div class="info-item"><strong>Misión:</strong><p>{{ vuelo?.misionDTO?.nombre }}</p></div>
         </div>
       </div>
     </div>
@@ -64,6 +44,18 @@
         <strong>{{ ubicacion.ciudad }}</strong>
         <p>{{ ubicacion.pais }} - {{ ubicacion.zonaHoraria }}</p>
         <p>Coordenadas: {{ ubicacion.latitud }}, {{ ubicacion.longitud }}</p>
+      </div>
+    </div>
+
+    <!-- Tripulación -->
+    <div class="crew-section" *ngIf="vuelo?.tripulantesDTO?.length > 0">
+      <h2>Tripulación</h2>
+      <div class="crew-grid">
+        <div class="crew-card" *ngFor="let t of vuelo.tripulantesDTO">
+          <strong class="crew-role">{{ t.rol }}</strong>
+          <p class="crew-name">{{ t.nombre }} {{ t.apellidos }}</p>
+          <p class="crew-lic" *ngIf="t.licencia">Licencia: {{ t.licencia }}</p>
+        </div>
       </div>
     </div>
 
