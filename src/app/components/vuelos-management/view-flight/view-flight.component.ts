@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { VueloService } from '../../Services/vuelo.service';
-import { UbicacionService } from '../../Services/ubicacion.service';
-import { NotificationService } from '../../utils/notification.service';
+import { VueloService } from '../../../Services/vuelo.service';
+import { UbicacionService } from '../../../Services/ubicacion.service';
+import { NotificationService } from '../../../utils/notification.service';
 
-import { Ubicacion } from '../../model/ubicacion.model';
+import { Ubicacion } from '../../../model/ubicacion.model';
 
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -18,7 +18,7 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { fromLonLat } from 'ol/proj';
 import { Icon, Style, Stroke } from 'ol/style';
-import { RouteEncoderService } from '../../Services/route-encoder.service';
+import { RouteEncoderService } from '../../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-view-flight',

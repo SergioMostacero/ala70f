@@ -5,7 +5,7 @@
     <div class="header-row">
       <button class="nav-button back-button" (click)="goBack()">Volver</button>
 
-      <h1 class="flight-title">Proximos Vuelos</h1>
+      <h1 class="flight-title">Próximos Vuelos</h1>
 
       <button
         *ngIf="mostrarBotonRegistro"
@@ -28,8 +28,11 @@
               <th>Fecha Llegada</th>
               <th>Llegada</th>
               <th>Avión</th>
+              <!-- NUEVA COLUMNA -->
+              <th *ngIf="mostrarBotonEdicion">Acciones</th>
             </tr>
           </thead>
+
           <tbody>
             <tr *ngFor="let vuelo of vuelosRecientes">
               <td>
@@ -62,6 +65,28 @@
                   {{ vuelo.avionDTO?.nombre }}
                 </a>
               </td>
+
+              <!-- Acciones -->
+              <td *ngIf="mostrarBotonEdicion" class="actions-cell">
+                <div class="actions-wrapper">
+                  <!-- Editar (izquierda) -->
+                  <button class="icon-button"
+                          (click)="editarVuelo(vuelo.id)"
+                          aria-label="Editar vuelo">
+                    <span class="material-icons">edit</span>
+                  </button>
+
+                  <!-- Borrar (derecha) -->
+                  <button class="icon-button danger-button"
+                          (click)="borrarVuelo(vuelo.id)"
+                          aria-label="Eliminar vuelo">
+                    <span class="material-icons">delete</span>
+                  </button>
+                </div>
+              </td>
+
+              
+
             </tr>
           </tbody>
         </table>

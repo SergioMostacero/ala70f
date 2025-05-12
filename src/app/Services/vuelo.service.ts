@@ -25,6 +25,15 @@ export class VueloService {
     return this.http.post<Vuelo>(this.baseUrl, payload, { headers });
   }
 
+  updateVuelo(id: number, vueloData: Partial<Vuelo>): Observable<Vuelo> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Vuelo>(`${this.baseUrl}/${id}`, vueloData, { headers });
+  }
+
+  deleteVuelo(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+  
   // Obtener todos los vuelos
   getAllVuelos(): Observable<Vuelo[]> {
     return this.http.get<Vuelo[]>(this.baseUrl);

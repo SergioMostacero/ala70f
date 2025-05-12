@@ -7,16 +7,17 @@ import { HomePermisosComponent } from './components/homePermisos/homePermisos.co
 import { LogrosMedallasComponent } from './components/logros-medallas/logrosMedallas.componet';
 import { ManagementComponent } from './components/managements/management/management.component';
 import { EditUserComponent } from './components/managements/edit-user/edit-user.component';
-import { VuelosComponent } from './components/vuelos/vuelos.component';
-import { RegisterFlightComponent } from './components/register-flight/register-flight.component';
-import { HistorialFlightsComponent } from './components/historial-flights/historial-flights.component';
-import { ViewFlightComponent } from './components/view-flight/view-flight.component';
+import { VuelosComponent } from './components/vuelos-management/vuelos/vuelos.component';
+import { RegisterFlightComponent } from './components/vuelos-management/register-flight/register-flight.component';
+import { HistorialFlightsComponent } from './components/vuelos-management/historial-flights/historial-flights.component';
+import { ViewFlightComponent } from './components/vuelos-management/view-flight/view-flight.component';
 import { ControllerMedallasComponent } from './components/managements/controller-medallas/controller-medallas.component';
 import { CreateJobComponent } from './components/managements/register-job/create-job.component';
 import { EditJobComponent } from './components/managements/edit-job/edit-job.component';
 import { CreateItineraryComponent } from './components/managements/create-itinerary/create-itinerary.component';
 import { DestinosComponent } from './components/destinos/destinos.component';
 import { RouteEncoderService } from './Services/route-encoder.service';
+import { EditarVueloComponent } from './components/vuelos-management/editar-vuelos/editar-vuelo.component';
 
 
 const encoder = new RouteEncoderService();
@@ -39,6 +40,8 @@ const routes: Routes = [
   { path: encoder.encode('edit-job'), component: EditJobComponent },
   { path: encoder.encode('create-itinerary'), component: CreateItineraryComponent},
   { path: encoder.encode('destinos'), component: DestinosComponent},
+  { path: `${encoder.encode('editar-vuelo')}/:id`, component: EditarVueloComponent },
+
   { path: `${encodedVuelo}/:id`, 
     component: ViewFlightComponent,
     data: { originalPath: 'vuelo' }

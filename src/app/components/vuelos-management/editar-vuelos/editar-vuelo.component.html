@@ -1,0 +1,163 @@
+<!-- Editar Vuelo (estilo unificado) -->
+<div class="container">
+    <div class="user-panel">
+  
+      <!-- Cabecera -->
+      <div class="header-row">
+        <button class="back-button" (click)="goBack()">Volver</button>
+        <h1 class="flight-title">Editar Vuelo</h1>
+      </div>
+  
+      <!-- Formulario reactivo -->
+      <form [formGroup]="vueloForm" (ngSubmit)="saveChanges()">
+  
+        <!-- Fecha y hora -->
+        <div class="form-group">
+          <label for="fecha_salida">Fecha Salida</label>
+          <input id="fecha_salida"
+                 type="date"
+                 formControlName="fecha_salida" />
+        </div>
+  
+        <div class="form-group">
+          <label for="hora_salida">Hora de Salida (hora local)</label>
+          <input id="hora_salida"
+                 type="time"
+                 formControlName="hora_salida"
+                 (change)="onHoraSalidaChange()" />
+        </div>
+  
+        <!-- Itinerario -->
+        <div class="form-group" [formGroup]="itinerarioFormGroup">
+          <label for="itinerarioSelect">Itinerario</label>
+          <select id="itinerarioSelect"
+                  formControlName="id"
+                  (change)="onItinerarioChange()">
+            <option [ngValue]="null">-- Selecciona un Itinerario --</option>
+            <option *ngFor="let iti of itinerarioList" [ngValue]="iti.id">
+              {{ iti.nombre }}
+            </option>
+          </select>
+        </div>
+  
+        <!-- Llegada -->
+        <div class="form-group">
+          <label for="fecha_llegada">Fecha de Llegada</label>
+          <input id="fecha_llegada"
+                 type="date"
+                 formControlName="fecha_llegada"
+                 readonly />
+        </div>
+  
+        <div class="form-group">
+          <label for="hora_llegada">Hora de Llegada (hora local)</label>
+          <input id="hora_llegada"
+                 type="time"
+                 formControlName="hora_llegada"
+                 readonly />
+        </div>
+  
+        <!-- Anticipo -->
+        <div class="form-group">
+          <label for="anticipo">Anticipo</label>
+          <input id="anticipo"
+                 type="text"
+                 formControlName="anticipo" />
+        </div>
+  
+        <!-- Avión -->
+        <div class="form-group" [formGroup]="avionFormGroup">
+          <label for="avionSelect">Avión</label>
+          <select id="avionSelect"
+                  formControlName="id"
+                  (change)="onAvionChange()">
+            <option [ngValue]="null">-- Selecciona un Avión --</option>
+            <option *ngFor="let avion of avionList" [ngValue]="avion.id">
+              {{ avion.nombre }}
+            </option>
+          </select>
+        </div>
+  
+        <!-- Combustible -->
+        <div class="form-group">
+          <label for="combustible">Combustible (t)</label>
+          <input id="combustible"
+                 type="number"
+                 formControlName="combustible"
+                 [max]="maxCombustible"
+                 [placeholder]="'Máx: ' + maxCombustible + ' t'"
+                 (input)="validateCombustible()" />
+          <div *ngIf="maxCombustibleMessage" class="tooltip-message">
+            Capacidad máxima: {{ maxCombustibleMessage }} t
+          </div>
+        </div>
+  
+        <!-- Misión -->
+        <div class="form-group" [formGroup]="misionesFormGroup">
+          <label for="misionSelect">Misión</label>
+          <select id="misionSelect" formControlName="id">
+            <option [ngValue]="null">-- Selecciona una Misión --</option>
+            <option *ngFor="let m of misionList" [ngValue]="m.id">
+              {{ m.nombre }}
+            </option>
+          </select>
+        </div>
+  
+        <!-- Tripulación -->
+        <div class="form-group">
+          <label for="tripulanteSelect">Piloto</label>
+          <select id="tripulanteSelect" formControlName="piloto">
+            <option [ngValue]="null">-- Selecciona un Piloto --</option>
+            <option *ngFor="let p of pilotosList" [ngValue]="p.id">
+              {{ p.nombre }} {{ p.apellidos }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label for="copilotoSelect">Copiloto</label>
+          <select id="copilotoSelect" formControlName="copiloto">
+            <option [ngValue]="null">-- Selecciona un Copiloto --</option>
+            <option *ngFor="let c of copilotosList" [ngValue]="c.id">
+              {{ c.nombre }} {{ c.apellidos }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label for="mecanicosSelect">Mecánico</label>
+          <select id="mecanicosSelect" formControlName="mecanico">
+            <option [ngValue]="null">-- Selecciona un Mecánico --</option>
+            <option *ngFor="let m of mecanicosList" [ngValue]="m.id">
+              {{ m.nombre }} {{ m.apellidos }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label for="tecnicosComSelect">Téc. Com. y Nav.</label>
+          <select id="tecnicosComSelect" formControlName="tecnicoCom">
+            <option [ngValue]="null">-- Selecciona un Técnico --</option>
+            <option *ngFor="let t of tecnicoComList" [ngValue]="t.id">
+              {{ t.nombre }} {{ t.apellidos }}
+            </option>
+          </select>
+        </div>
+  
+        <!-- Botones -->
+        <div class="button-group">
+          <button type="submit"
+                  class="nav-button save-button"
+                  [disabled]="vueloForm.invalid">
+            Guardar Cambios
+          </button>
+          <button type="button"
+                  class="nav-button back-button"
+                  (click)="goBack()">
+            Volver
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

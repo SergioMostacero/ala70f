@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { VueloService } from '../../Services/vuelo.service';
+import { VueloService } from '../../../Services/vuelo.service';
 import { Router } from '@angular/router';
-import { NotificationService } from '../../utils/notification.service';
-import { RouteEncoderService } from '../../Services/route-encoder.service';
+import { NotificationService } from '../../../utils/notification.service';
+import { RouteEncoderService } from '../../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-historial-flights',

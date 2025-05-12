@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { VueloService } from '../../Services/vuelo.service';
+import { VueloService } from '../../../Services/vuelo.service';
 import { Router } from '@angular/router';
-import { RouteEncoderService } from '../../Services/route-encoder.service';
+import { RouteEncoderService } from '../../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-vuelos',
@@ -11,6 +11,7 @@ import { RouteEncoderService } from '../../Services/route-encoder.service';
 export class VuelosComponent implements OnInit {
   vuelosRecientes: any[] = [];
   mostrarBotonRegistro = false;
+  mostrarBotonEdicion = false;
 
   constructor(
     private encoder: RouteEncoderService,
@@ -20,7 +21,9 @@ export class VuelosComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadVuelosUsuario();
-    this.mostrarBotonRegistro = localStorage.getItem('permisos') === 'true';
+    const permisos = localStorage.getItem('permisos') === 'true';
+    this.mostrarBotonRegistro = permisos;
+    this.mostrarBotonEdicion  = permisos;  
   }
 
   goBack(): void {
@@ -35,6 +38,26 @@ export class VuelosComponent implements OnInit {
     const encodedPath = this.encoder.encode('vuelo');
     this.router.navigate([encodedPath, vueloId]); // Mantener ID legible
   }
+  editarVuelo(vueloId: number){
+    const path = this.encoder.encode('editar-vuelo');
+    this.router.navigate([path, vueloId]);
+  }
+  borrarVuelo(vueloId: number): void {
+    const confirmado = confirm('¿Seguro que deseas eliminar este vuelo?');
+    if (!confirmado) { return; }
+  
+    this.vueloService.deleteVuelo(vueloId).subscribe({
+      next: () => {
+        /* quita el vuelo de la lista sin recargar toda la tabla */
+        this.vuelosRecientes = this.vuelosRecientes.filter(v => v.id !== vueloId);
+      },
+      error: () => {
+        console.error('No se pudo eliminar el vuelo');
+        // aquí podrías mostrar un toast / notificación si tienes servicio de mensajes
+      }
+    });
+  }
+
 
   private loadVuelosUsuario(): void {
     const tripulanteId = Number(localStorage.getItem('tripulanteId'));
