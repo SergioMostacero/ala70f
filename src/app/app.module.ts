@@ -42,7 +42,7 @@ import { EditarVueloComponent } from './components/vuelos-management/editar-vuel
     EditJobComponent,
     CreateItineraryComponent,
     DestinosComponent,
-    EditarVueloComponent
+    EditarVueloComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +51,7 @@ import { EditarVueloComponent } from './components/vuelos-management/editar-vuel
     HttpClientModule,
     FormsModule,
     AppRoutingModule, 
-    MatSnackBarModule
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

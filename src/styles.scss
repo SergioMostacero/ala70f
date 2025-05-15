@@ -88,3 +88,13 @@ a:hover {
   --mdc-snackbar-container-color: #f44336;
   --mdc-snackbar-supporting-text-color: #fff;
 }
+
+
+/* styles.scss */
+.swal2-popup.dark {
+  background: #222 !important;
+  color: #eee;
+  border-radius: 1rem;
+}
+.swal2-title { color: #ffdd57 !important; }
+.swal2-styled.swal2-confirm { background-color:#e91e63 !important; }

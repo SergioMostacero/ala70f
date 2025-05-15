@@ -12,6 +12,7 @@ import { Avion } from 'src/app/model/avion.model';
 import { forkJoin } from 'rxjs';
 import { Vuelo } from 'src/app/model/vuelo.model';
 
+
 @Component({
   selector: 'app-editar-vuelo',
   templateUrl: './editar-vuelo.component.html',

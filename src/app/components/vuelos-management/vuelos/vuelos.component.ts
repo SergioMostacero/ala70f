@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { VueloService } from '../../../Services/vuelo.service';
 import { Router } from '@angular/router';
 import { RouteEncoderService } from '../../../Services/route-encoder.service';
+import Swal from 'sweetalert2';
+
+
 
 @Component({
   selector: 'app-vuelos',
@@ -43,20 +46,41 @@ export class VuelosComponent implements OnInit {
     this.router.navigate([path, vueloId]);
   }
   borrarVuelo(vueloId: number): void {
-    const confirmado = confirm('¿Seguro que deseas eliminar este vuelo?');
-    if (!confirmado) { return; }
-  
+
+  Swal.fire({
+    title: '¿Eliminar vuelo?',
+    text : 'Esta acción no se puede deshacer',
+    icon : 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, borrar',
+    cancelButtonText : 'Cancelar',
+    reverseButtons   : true,
+    confirmButtonColor: '#d33',
+    customClass: { popup: 'dark' }
+  }).then(result => {
+
+    if (!result.isConfirmed) { return; }
+
     this.vueloService.deleteVuelo(vueloId).subscribe({
       next: () => {
-        /* quita el vuelo de la lista sin recargar toda la tabla */
-        this.vuelosRecientes = this.vuelosRecientes.filter(v => v.id !== vueloId);
+        this.vuelosRecientes =
+          this.vuelosRecientes.filter(v => v.id !== vueloId);
+
+        Swal.fire(
+          '¡Borrado!',
+          'El vuelo se eliminó correctamente.',
+          'success'
+        );
       },
-      error: () => {
-        console.error('No se pudo eliminar el vuelo');
-        // aquí podrías mostrar un toast / notificación si tienes servicio de mensajes
-      }
+      error: () =>
+        Swal.fire(
+          'Error',
+          'No se pudo eliminar el vuelo',
+          'error'
+        )
     });
-  }
+  });
+}
 
 
   private loadVuelosUsuario(): void {
