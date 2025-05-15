@@ -83,27 +83,22 @@ export class VuelosComponent implements OnInit {
 }
 
 
-  private loadVuelosUsuario(): void {
+// En vuelos.component.ts
+private loadVuelosUsuario(): void {
     const tripulanteId = Number(localStorage.getItem('tripulanteId'));
     if (tripulanteId) {
-      this.vueloService.getVuelosByUser(tripulanteId).subscribe({
-        next: (data) => {
-          const hoy = new Date();
-          this.vuelosRecientes = data.filter((vuelo: any) => {
-            // Convertimos fecha_salida a Date (asegúrate de que sea YYYY-MM-DD)
-            if (vuelo.fecha_salida) {
-              const fechaVuelo = new Date(vuelo.fecha_salida);
-              return fechaVuelo >= hoy;
-            }
-            return false;
-          });
-        },
-        error: (err) => console.error('Error cargando vuelos recientes:', err)
-      });
+        this.vueloService.getVuelosByUser(tripulanteId).subscribe({
+            next: (data) => {
+                this.vuelosRecientes = data.filter((vuelo: any) => {
+                    return vuelo.fecha_salida && new Date(vuelo.fecha_salida) >= new Date();
+                });
+            },
+            error: (err) => console.error('Error cargando vuelos recientes:', err)
+        });
     } else {
-      console.warn('No se encontró el tripulanteId en localStorage');
+        console.warn('No se encontró el tripulanteId en localStorage');
     }
-  }
-  
-  
+}
+
+
 }

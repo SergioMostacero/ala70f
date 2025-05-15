@@ -19,7 +19,6 @@ $text-sub  : #9fa4ad;
 /* ---------- Contenedor principal ---------- */
 .container {
   background : $bg-page;
-  min-height : 100vh;
   padding    : 4rem 1rem 2rem;
   display    : flex;
   justify-content: center;
@@ -194,11 +193,134 @@ $text-sub  : #9fa4ad;
 }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 768px) {
-  .user-panel     { padding: 1.5rem; }
-  .header-row h1  { font-size: 1.5rem; }
+/* Media Queries for mobile devices */
+@media (max-width: 600px) {
+  .user-panel {
+    padding: 1.5rem;
+    height: auto;
+    margin: 1rem;
+  }
+
+  .header-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+
+    h1 {
+      font-size: 1.5rem;
+      position: static;
+      transform: translateX(0);
+      margin-bottom: 1rem;
+
+      &::after {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 2px;
+      }
+    }
+  }
+
+  .nav-button.back-button {
+    position: static;
+    margin-bottom: 0.75rem;
+  }
 
   .flight-table {
-    th, td { padding: .75rem; font-size: .85rem; }
+    display: block;
+    overflow-x: auto; /* Mantener el scroll horizontal */
+    border: 1px solid $border; /* Añadir borde a la tabla en móvil */
+    border-radius: 0.5rem; /* Añadir radio al borde */
+    margin-top: 1rem; /* Espacio superior para la tabla */
+
+    thead {
+      display: table-header-group; /* Comportamiento de encabezado de tabla */
+      border-bottom: 2px solid $border;
+      width: fit-content; /* Ancho basado en el contenido */
+    }
+
+    tbody {
+      display: block; /* Comportamiento de bloque */
+      width: fit-content; /* Ancho basado en el contenido */
+
+      tr {
+        display: table-row; /* Comportamiento de fila de tabla */
+        border-bottom: 1px solid $border;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        td {
+          display: table-cell; /* Comportamiento de celda de tabla */
+          padding: 0.6rem;
+          text-align: left;
+          white-space: nowrap;
+          font-size: 0.8rem;
+          border-right: 1px solid $border; /* Separar celdas */
+
+          &:last-child {
+            border-right: none;
+          }
+        }
+      }
+    }
+
+    th {
+      display: table-cell; /* Comportamiento de celda de tabla */
+      padding: 0.6rem;
+      text-align: left;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      border-right: 1px solid $border;
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+  }
+
+  .actions-cell {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .icon-button {
+    width: 1.5rem;
+    height: 1.5rem;
+
+    .material-icons {
+      font-size: 1rem;
+    }
+  }
+
+  .actions-wrapper {
+    gap: 0.5rem;
+  }
+
+  .nav-button.new-flight-button {
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+    margin-top: 0.75rem;
   }
 }
+
+@media (max-width: 400px) {
+  .header-row h1 {
+    font-size: 1.3rem;
+  }
+
+  .flight-table th,
+  .flight-table td {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+
+  .nav-button {
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+  }
+}
+

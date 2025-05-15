@@ -1,4 +1,3 @@
-/* login.component.scss */
 html, body {
   margin: 0;
   padding: 0;
@@ -15,17 +14,6 @@ html, body {
   align-items: center;
   position: relative;
   overflow: hidden;
-  
-  &::before {
-      content: '';
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, 
-      rgba(28, 31, 38, 0) 70%
-      );
-      pointer-events: none;
-  }
 }
 
 .login-panel {
@@ -38,37 +26,23 @@ html, body {
   border-radius: 0.5rem;
   text-align: center;
   color: #cdd0d5;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
-  &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-  }
+  position: relative;
+  overflow: hidden;
 }
 
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid #3a3f4b;
-  border-top: 4px solid #555b6e;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.app-logo {
+  width: 150px;
+  height: auto;
+  max-width: 80%;
+  display: block;
+  margin: 0 auto 1rem;
+  transition: transform 0.35s ease, filter 0.35s ease;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
 }
 
-@keyframes spin {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-.login-title {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #ffffff;
-  margin-bottom: 1.5rem;
+.app-logo:hover {
+  transform: scale(1.05) rotate(-2deg);
+  filter: drop-shadow(0 0 8px rgba(255, 59, 59, 0.75)) drop-shadow(0 0 16px rgba(255, 105, 105, 0.35));
 }
 
 .login-inputs {
@@ -84,13 +58,6 @@ html, body {
   color: #ffffff;
   border-radius: 0.3rem;
   font-size: 1rem;
-  transition: all 0.3s ease;
-
-  &:focus {
-      outline: none;
-      border-color: #555b6e;
-      box-shadow: 0 0 15px rgba(85, 91, 110, 0.3);
-  }
 }
 
 .login-button {
@@ -104,125 +71,31 @@ html, body {
   border: none;
   font-size: 1rem;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
   transition: all 0.4s ease;
+}
 
-  &:hover {
-      background: #3a95df;
-      
-      &::after {
-          width: 300px;
-          height: 300px;
-      }
-  }
+.login-button:hover {
+  background: #3a95df;
+}
 
-  &::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.4s ease, height 0.4s ease;
-      transform: translate(-50%, -50%) scale(6);
+@media (min-width: 768px) {
+  .login-panel {
+    max-width: 350px;
   }
 }
 
-:host .login-container::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-size: 3px 3px, 2px 2px;
-  background-position: 0 0, 1.5px 1.5px;
-  animation: starShift 90s linear infinite;
-  pointer-events: none;
-}
+@media (max-width: 480px) {
+  .login-panel {
+    max-width: 90%;
+    padding: 1rem;
+  }
 
-@keyframes starShift {
-  from { transform: translateY(0);   }
-  to   { transform: translateY(-50%);}
-}
+  .login-input {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+  }
 
-/* ====================  OVERLAY  ==================== */
-.loading-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(18,18,18,0.92);  /* casi opaco */
-  z-index: 1000;
-}
-
-/* ====================  RADAR  ==================== */
-.radar {
-  position: relative;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  background: repeating-radial-gradient(
-                #66c2ff0a 0 2px,
-                transparent 2px 20px
-              ),
-              #121212;
-  box-shadow:
-    0 0 12px #008cff55,
-    0 0 25px #008cff33 inset;
-  overflow: hidden;
-}
-
-.radar::before {           /* línea del eje horizontal */
-  content: '';
-  position: absolute;
-  top: 50%; left: 0;
-  width: 100%; height: 1px;
-  background: #008cff55;
-}
-
-.radar::after {            /* línea del eje vertical */
-  content: '';
-  position: absolute;
-  left: 50%; top: 0;
-  width: 1px; height: 100%;
-  background: #008cff55;
-}
-
-.beam {                    /* haz que barre 360º */
-  position: absolute;
-  inset: 0;
-  background: conic-gradient(
-      from 0deg,
-      rgba(0,140,255,0.25) 0deg,
-      rgba(0,140,255,0.10) 45deg,
-      rgba(0,140,255,0.00) 60deg 360deg
-  );
-  animation: sweep 2.5s linear infinite;
-  border-radius: 50%;
-}
-
-@keyframes sweep {
-  to { transform: rotate(360deg); }
-}
-/* ---------- Logo ---------- */
-.app-logo {
-  width: 150px;                /* ajusta al tamaño que quieras */
-  height: auto;
-  margin: 0 auto 1rem;
-  display: block;
-
-  /* luz envolvente */
-  filter: drop-shadow(0 0 6px rgb(255, 255, 255))
-          drop-shadow(0 0 12px rgb(255, 255, 255));
-  transition: transform .35s ease, filter .35s ease;
-
-  &:hover {
-    transform: scale(1.05) rotate(-2deg);
-        filter: drop-shadow(0 0 8px rgb(255, 59, 59))
-        drop-shadow(0 0 16px rgba(255, 105, 105, 0.35));
+  .app-logo {
+    width: 120px;
   }
 }
-

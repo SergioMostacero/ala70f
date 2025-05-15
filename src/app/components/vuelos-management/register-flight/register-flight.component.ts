@@ -86,20 +86,27 @@ export class RegisterFlightComponent implements OnInit {
     this.validateCombustible();
   }
   
-  validateCombustible(): void {
-    const combustibleControl = this.vueloForm.get('combustible');
-    const combustibleValue = Number(combustibleControl?.value);
-  
-    if (combustibleValue > this.maxCombustible) {
-      combustibleControl?.setErrors({ max: true });
-      this.notification.showMessage(
-        `El combustible no puede exceder ${this.maxCombustible} toneladas.`,
-        'error'
-      );
-    } else {
-      combustibleControl?.setErrors(null);
-    }
+validateCombustible(): void {
+  const combustibleControl = this.vueloForm.get('combustible');
+  const combustibleValue = Number(combustibleControl?.value);
+
+  if (combustibleValue > this.maxCombustible) {
+    combustibleControl?.setErrors({ max: true });
+    this.notification.showMessage(
+      `El combustible no puede exceder ${this.maxCombustible} toneladas.`,
+      'error'
+    );
+  } else if (combustibleValue <= 0) {
+    combustibleControl?.setErrors({ min: true });
+    this.notification.showMessage(
+      'El combustible debe ser mayor a 0.',
+      'error'
+    );
+  } else {
+    combustibleControl?.setErrors(null);
   }
+}
+
   
 
   onItinerarioChange(): void {
@@ -117,26 +124,29 @@ export class RegisterFlightComponent implements OnInit {
     }
   }
 
-  updateHoraLlegada(): void {
-    const horaSalida = this.vueloForm.get('hora_salida')?.value;
-    const fechaSalida = this.vueloForm.get('fecha_salida')?.value;
-    const duracion = this.duracionItinerario; // ahora será un string tipo "HH:mm:ss"
-  
-    if (horaSalida && duracion && fechaSalida) {
-      const [durH, durM] = duracion.toString().split(':').map(Number);
-      const salidaDate = new Date(`${fechaSalida}T${horaSalida}:00`);
-      salidaDate.setHours(salidaDate.getHours() + durH);
-      salidaDate.setMinutes(salidaDate.getMinutes() + durM);
-  
-      const hours = String(salidaDate.getHours()).padStart(2, '0');
-      const minutes = String(salidaDate.getMinutes()).padStart(2, '0');
-      this.horaLlegada = `${hours}:${minutes}`;
-      this.vueloForm.get('hora_llegada')?.setValue(this.horaLlegada);
-  
-      const fechaLlegadaStr = salidaDate.toISOString().split('T')[0];
-      this.vueloForm.get('fecha_llegada')?.setValue(fechaLlegadaStr);
-    }
+updateHoraLlegada(): void {
+  const horaSalida = this.vueloForm.get('hora_salida')?.value;
+  const fechaSalida = this.vueloForm.get('fecha_salida')?.value;
+  const duracion = this.duracionItinerario; 
+
+  if (horaSalida && duracion && fechaSalida) {
+    const [durH, durM] = duracion.toString().split(':').map(Number);
+    const salidaDate = new Date(`${fechaSalida}T${horaSalida}`);
+    salidaDate.setHours(salidaDate.getHours() + durH);
+    salidaDate.setMinutes(salidaDate.getMinutes() + durM);
+
+    const hours = String(salidaDate.getHours()).padStart(2, '0');
+    const minutes = String(salidaDate.getMinutes()).padStart(2, '0');
+    this.horaLlegada = `${hours}:${minutes}`;
+    this.vueloForm.get('hora_llegada')?.setValue(this.horaLlegada);
+
+    const fechaLlegadaStr = salidaDate.toISOString().split('T')[0];
+    this.vueloForm.get('fecha_llegada')?.setValue(fechaLlegadaStr);
+  } else {
+    this.notification.showMessage('Debe seleccionar un itinerario válido', 'error');
   }
+}
+
   
 
   onHoraSalidaChange(): void {
@@ -170,6 +180,11 @@ createVuelo(): void {
     if (mecanicoId) tripulanteIds.add(mecanicoId);
     if (tecnicoComId) tripulanteIds.add(tecnicoComId);
 
+    if (tripulanteIds.size === 0) {
+      this.notification.showMessage('Debe seleccionar al menos un tripulante', 'error');
+      return;
+    }
+
     this.vueloForm.get('fecha_llegada')?.enable();
 
     const vueloData = {
@@ -193,6 +208,7 @@ createVuelo(): void {
     this.notification.showMessage('Complete todos los campos por favor!', 'error');
   }
 }
+
 
 
 goBack(): void {

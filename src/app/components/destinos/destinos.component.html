@@ -1,12 +1,10 @@
-<!-- destinos.component.html -->
 <div class="container">
   <div class="user-panel">
     <div class="header-row">
-      <button class="back-button" (click)="goBack()">Volver</button>
+      <button class="back-button" (click)="goBack()">← Volver</button>
       <h1 class="form-title">Historial de Destinos</h1>
     </div>
 
-    <!-- Loading overlay -->
     <div *ngIf="isLoading" class="loading-overlay">
       <div class="spinner"></div>
       <p>Cargando tus destinos...</p>
@@ -20,11 +18,11 @@
       <div class="stats-box">
           <div class="stat-item">
               <span class="stat-number">{{ ubicaciones.length }}</span>
-              <span class="stat-label">Destinos únicos</span>
+              <span class="stat-label"> Destinos únicos</span>
           </div>
           <div class="stat-item">
               <span class="stat-number">{{ getTotalPaises() }}</span>
-              <span class="stat-label">Países visitados</span>
+              <span class="stat-label"> Países visitados</span>
           </div>
       </div>
 
