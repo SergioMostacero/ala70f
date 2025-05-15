@@ -9,6 +9,8 @@ import { TripulantesService } from '../../../Services/tripulantes.service';
 import { NotificationService } from '../../../utils/notification.service';
 import { RouteEncoderService } from '../../../Services/route-encoder.service';
 import { Avion } from 'src/app/model/avion.model';
+import { forkJoin } from 'rxjs';
+import { Vuelo } from 'src/app/model/vuelo.model';
 
 @Component({
   selector: 'app-editar-vuelo',
@@ -27,7 +29,7 @@ export class EditarVueloComponent implements OnInit {
   mecanicosList: any[] = [];
   tecnicoComList: any[] = [];
 
-  duracionItinerario = 0;
+  duracionItinerario = "";
   horaLlegada = '';
   maxCombustibleMessage = '';
   maxCombustible = 0;
@@ -58,6 +60,14 @@ export class EditarVueloComponent implements OnInit {
     this.loadCatalogos();
     this.loadVuelo();
   }
+  private setTripulanteSelects(tripus: any[]): void {
+  this.vueloForm.patchValue({
+    piloto:     tripus.find(t => t.oficioDTO.nombre === 'Piloto')?.id ?? null,
+    copiloto:   tripus.find(t => t.oficioDTO.nombre === 'Copiloto')?.id ?? null,
+    mecanico:   tripus.find(t => t.oficioDTO.nombre.includes('Mecánico'))?.id ?? null,
+    tecnicoCom: tripus.find(t => t.oficioDTO.nombre.includes('Técnico'))?.id ?? null,
+  }, { emitEvent: false });
+}
 
   /* -------------------- Formulario --------------------- */
   private initForm(): void {
@@ -80,38 +90,40 @@ export class EditarVueloComponent implements OnInit {
     });
   }
 
-  /* ----------- Carga inicial de datos del vuelo --------- */
   private loadVuelo(): void {
-    this.vueloService.getVueloById(this.vueloId).subscribe({
-      next: (vuelo: any) => {
-        /* 1. Rellenar combos y campos */
-        this.vueloForm.patchValue({
-          ...vuelo,
-          avionDTO: { id: vuelo.avionDTO?.id },
-          misionDTO: { id: vuelo.misionDTO?.id },
-          itinerarioDTO: { id: vuelo.itinerarioDTO?.id },
-          piloto: vuelo.tripulantesDTO?.find((t: any) => t.rol === 'PILOTO')?.id,
-          copiloto: vuelo.tripulantesDTO?.find((t: any) => t.rol === 'COPILOTO')?.id,
-          mecanico: vuelo.tripulantesDTO?.find((t: any) => t.rol === 'MECANICO')?.id,
-          tecnicoCom: vuelo.tripulantesDTO?.find((t: any) => t.rol === 'TECNICO_COM')?.id
-        });
 
-        /* 2. Duración del itinerario (para recalcular llegada si cambian hora/itinerario) */
-        this.duracionItinerario = vuelo.itinerarioDTO?.duracion || 0;
-        this.onAvionChange();  // Para mostrar maxCombustible
+  forkJoin({
+    vuelo  : this.vueloService.getVueloById(this.vueloId),          // Observable<Vuelo>
+    tripus : this.tripulantesService.getTripulantesByVuelo(this.vueloId) // Observable<any[]>
+  }).subscribe({
+    next: ({ vuelo, tripus }) => {
 
-        /* 3. Escuchar cambios relevantes */
-        this.vueloForm.get('hora_salida')!.valueChanges
-          .subscribe(() => this.updateHoraLlegada());
-        this.itinerarioFormGroup.get('id')!.valueChanges
-          .subscribe(() => this.onItinerarioChange());
-      },
-      error: () => {
-        this.notification.showMessage('Error cargando datos del vuelo', 'error');
-        this.goBack();
-      }
-    });
-  }
+      // 1. Datos básicos del vuelo
+      this.vueloForm.patchValue({
+        ...vuelo,
+        avionDTO     : { id: vuelo.avionDTO?.id },
+        misionDTO    : { id: vuelo.misionDTO?.id },
+        itinerarioDTO: { id: vuelo.itinerarioDTO?.id }
+      }, { emitEvent: false });
+
+      // 2. Distribuir tripulantes
+      this.setTripulanteSelects(tripus);
+
+      // 3. Resto de lógica
+      this.duracionItinerario = vuelo.itinerarioDTO?.duracion ?? '00:00';
+      this.onAvionChange();
+
+      this.vueloForm.get('hora_salida')!
+        .valueChanges.subscribe(() => this.updateHoraLlegada());
+
+      this.itinerarioFormGroup.get('id')!
+        .valueChanges.subscribe(() => this.onItinerarioChange());
+    },
+    error: () =>
+      this.notification.showMessage('Error cargando datos del vuelo', 'error')
+  });
+}
+
 
   /* ------------------- Guardar cambios ------------------ */
   saveChanges(): void {

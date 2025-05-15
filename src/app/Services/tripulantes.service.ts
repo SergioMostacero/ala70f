@@ -111,6 +111,13 @@ export class TripulantesService {
     );
   }
 
-  
+  //llamada directa porque loe stamos llamandod esde tripulantes
+getTripulantesByVuelo(vueloId: number) {
+  return this.http.get<Tripulantes[]>(
+    `http://localhost:8000/api/tripulantes/vuelo/${vueloId}`
+  );
+}
+
+
   
 }
