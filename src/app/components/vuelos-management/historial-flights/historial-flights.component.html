@@ -1,4 +1,3 @@
-<!-- vuelos.component.html -->
 <div class="container">
   <div class="user-panel">
     <div class="header-section">
@@ -20,32 +19,32 @@
         </thead>
         <tbody>
           <tr *ngFor="let vuelo of historialVuelos">
-            <td>
+            <td data-label="Itinerario">
               <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
                 {{ vuelo.itinerarioDTO?.nombre }}
               </a>
             </td>
-            <td>
+            <td data-label="Fecha Salida">
               <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
                 {{ vuelo.fecha_salida | date : 'dd/MM/yyyy' }}
               </a>
             </td>
-            <td>
+            <td data-label="Hora Salida">
               <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
                 {{ vuelo.hora_salida }}
               </a>
             </td>
-            <td>
+            <td data-label="Fecha Llegada">
               <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
                 {{ vuelo.fecha_llegada | date : 'dd/MM/yyyy' }}
               </a>
             </td>
-            <td>
+            <td data-label="Hora Llegada">
               <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
                 {{ vuelo.hora_llegada }}
               </a>
             </td>
-            <td>
+            <td data-label="Avion">
               <a class="link-itinerario" (click)="verVuelo(vuelo.id)">
                 {{ vuelo.avionDTO?.nombre }}
               </a>

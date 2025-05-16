@@ -37,22 +37,27 @@
       </div>
     </div>
 
-    <!-- Información del itinerario y las ubicaciones -->
-    <div class="itinerary-info">
+    <!-- Itinerario y Ubicaciones -->
+    <div class="itinerary-card">
       <h2>Itinerario y Ubicaciones</h2>
-      <div *ngFor="let ubicacion of ubicaciones" class="location-card">
-        <strong>{{ ubicacion.ciudad }}</strong>
-        <p>{{ ubicacion.pais }} - {{ ubicacion.zonaHoraria }}</p>
-        <p>Coordenadas: {{ ubicacion.latitud }}, {{ ubicacion.longitud }}</p>
+
+      <div class="locations-grid">
+        <div class="location-card" *ngFor="let u of ubicaciones">
+          <strong>{{ u.ciudad }}</strong>
+          <p>{{ u.pais }} – {{ u.zonaHoraria }}</p>
+          <p>Coordenadas: {{ u.latitud }}, {{ u.longitud }}</p>
+        </div>
       </div>
     </div>
 
+
     <!-- Tripulación -->
-    <div class="crew-section" *ngIf="vuelo?.tripulantesDTO?.length > 0">
+    <div class="crew-section" *ngIf="tripulantes.length">
       <h2>Tripulación</h2>
+
       <div class="crew-grid">
-        <div class="crew-card" *ngFor="let t of vuelo.tripulantesDTO">
-          <strong class="crew-role">{{ t.rol }}</strong>
+        <div class="crew-card" *ngFor="let t of tripulantes">
+          <strong class="crew-role">{{ t.oficioDTO?.nombre || '—' }}</strong>
           <p class="crew-name">{{ t.nombre }} {{ t.apellidos }}</p>
           <p class="crew-lic" *ngIf="t.licencia">Licencia: {{ t.licencia }}</p>
         </div>

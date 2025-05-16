@@ -6,6 +6,7 @@ import { UbicacionService } from '../../../Services/ubicacion.service';
 import { NotificationService } from '../../../utils/notification.service';
 
 import { Ubicacion } from '../../../model/ubicacion.model';
+import { TripulantesService } from '../../../Services/tripulantes.service';
 
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -34,6 +35,7 @@ const fecha = dayjs('2025-05-12').format('DD/MM/YYYY');
 export class ViewFlightComponent implements OnInit, OnDestroy {
   vuelo: any;
   ubicaciones: Ubicacion[] = [];
+  tripulantes: any[] = [];   
   map!: Map;
 
   constructor(
@@ -41,6 +43,7 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
     private vueloService: VueloService,
     private ubicacionService: UbicacionService,
     private notification: NotificationService,
+    private tripulantesService: TripulantesService,  
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -62,27 +65,30 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
   
   private loadVuelo(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.vueloService.getVueloById(+id).subscribe({
-        next: (data) => {
-          this.vuelo = data;
-          console.log(this.vuelo);
-
-          const itinerarioId = this.vuelo.itinerarioDTO?.id;
-          if (itinerarioId) {
-            this.loadUbicacionesYMapa(itinerarioId);
-          } else {
-            this.notification.showMessage('Itinerario no encontrado', 'error');
-          }
-        },
-        error: () => {
-          this.notification.showMessage('Error cargando vuelo', 'error');
-        }
-      });
-    } else {
+    if (!id) {
       this.notification.showMessage('ID de vuelo no encontrado', 'error');
+      return;
     }
+  
+    this.vueloService.getVueloById(+id).subscribe({
+      next: (data) => {
+        this.vuelo = data;
+  
+        this.tripulantesService.getTripulantesByVuelo(this.vuelo.id)
+          .subscribe({
+            next: trs => this.tripulantes = trs,
+            error: ()  => this.notification.showMessage(
+                            'Error cargando tripulación', 'error')
+          });
+  
+        const itiId = this.vuelo.itinerarioDTO?.id;
+        if (itiId) this.loadUbicacionesYMapa(itiId);
+        else       this.notification.showMessage('Itinerario no encontrado', 'error');
+      },
+      error: () => this.notification.showMessage('Error cargando vuelo', 'error')
+    });
   }
+  
 
   private loadLogo(): Promise<HTMLImageElement> {
     return new Promise(resolve => {
@@ -143,10 +149,12 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
         bodyStyles:  { cellPadding: 6 }
       });
   
-      /* 4) TABLA TRIPULACIÓN */
-      const tripRows = (this.vuelo.tripulantesDTO ?? []).map((t: any) => [
-        t.rol, `${t.nombre} ${t.apellidos}`, t.licencia ?? '-'
+      const tripRows = this.tripulantes.map(t => [
+        t.oficioDTO?.nombre ?? '-',                   // rol
+        `${t.nombre} ${t.apellidos}`,
+        t.licencia ?? '-'
       ]);
+      
   
       if (tripRows.length) {
         autoTable(doc, {
