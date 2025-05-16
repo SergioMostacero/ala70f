@@ -1,6 +1,6 @@
 <form [formGroup]="itineraryForm" (ngSubmit)="onSubmit()">
   <h1 class="form-title">🗺️ Crear Itinerario</h1>
-  
+
   <div class="field">
     <label>Duración en horas</label>
     <input formControlName="duracion" type="time" step="60" />
@@ -15,7 +15,6 @@
         </option>
       </select>
       <button type="button" (click)="removePaso(i)" [disabled]="pasos.length <= 2">🗑️</button>
-      
     </div>
   </div>
 

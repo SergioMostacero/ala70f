@@ -1,16 +1,53 @@
 <div class="login-container" @routeAnimations>
-  <div *ngIf="loading" class="loading-overlay">
-    <div class="radar"><span class="beam"></span></div>
+  <!-- Radar de carga estilo militar -->
+  <div class="radar-wrapper" *ngIf="loading" @spinnerFade>
+    <div class="radar">
+      <div class="radar-grid"></div> <!-- Nueva cuadrícula militar -->
+      <div class="beam"></div> <!-- Haz de radar mejorado -->
+      
+      <!-- Partículas mejoradas (12 puntos para mejor efecto) -->
+      <div class="radar-particles">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </div>
+    </div>
   </div>
 
+  <!-- Panel de login con animaciones -->
   <div class="login-panel" @fadeSlide *ngIf="!loading">
-    <img src="assets/img/logo.png" alt="Logo de la aplicación" class="app-logo" />
+    <!-- Logo con efecto de fuego condicional -->
+    <img src="assets/img/logo.png" 
+         alt="Logo de la aplicación"
+         class="app-logo"
+         [ngClass]="{ 'fire-effect': fireEffect }"
+         (click)="handleLogoClick()"
+         role="button"
+         tabindex="0">
 
-    <div class="login-inputs">
-      <input type="text" placeholder="Email" class="login-input" [(ngModel)]="email" name="email" />
-      <input type="password" placeholder="Contraseña" class="login-input" [(ngModel)]="contrasena" name="contrasena" />
-    </div>
+    <!-- Formulario de login -->
+    <form class="login-inputs" (ngSubmit)="login()">
+      <input type="email"
+             placeholder="Email"
+             class="login-input"
+             [(ngModel)]="email"
+             name="email"
+             required
+             autocomplete="username">
 
-    <button class="login-button" (click)="login()">INGRESAR</button>
+      <input type="password"
+             placeholder="Contraseña"
+             class="login-input"
+             [(ngModel)]="contrasena"
+             name="contrasena"
+             required
+             autocomplete="current-password">
+
+      <button type="submit" 
+              class="login-button"
+              [disabled]="!email || !contrasena">
+        INGRESAR
+      </button>
+    </form>
   </div>
 </div>
