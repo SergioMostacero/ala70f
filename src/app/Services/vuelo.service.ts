@@ -13,7 +13,7 @@ export type VueloCreate = Omit<Vuelo, 'id'> & {
   providedIn: 'root'
 })
 export class VueloService {
-  private baseUrl = 'http://localhost:8000/api/vuelos';
+  private baseUrl = 'http://44.212.4.74:8080/api/vuelos';
 
   constructor(private http: HttpClient) {}
   

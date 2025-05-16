@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AvionService {
-  private apiUrl = 'http://localhost:8000/api/aviones';
+  private apiUrl = 'http://44.212.4.74:8080/api/aviones';
 
   constructor(private http: HttpClient) {}
 

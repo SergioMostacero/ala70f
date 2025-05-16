@@ -7,7 +7,7 @@ import { Ubicacion } from '../model/ubicacion.model';
   providedIn: 'root'
 })
 export class UbicacionService {
-  private apiUrl = 'http://localhost:8000/api/ubicaciones';
+  private apiUrl = 'http://44.212.4.74:8080/api/ubicaciones';
 
   constructor(private http: HttpClient) {}
 

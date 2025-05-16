@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MisionService {
-  private apiUrl = 'http://localhost:8000/api/misiones';
+  private apiUrl = 'http://44.212.4.74:8080/api/misiones';
 
   constructor(private http: HttpClient) {}
 
