@@ -2,10 +2,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { OficioService } from '../../../Services/oficio.service';
-import { NotificationService } from '../../../utils/notification.service';
-import { Oficio } from '../../../model/oficio.model';
-import { RouteEncoderService } from '../../../Services/route-encoder.service';
+import { OficioService } from '../../../../Services/oficio.service';
+import { NotificationService } from '../../../../utils/notification.service';
+import { Oficio } from '../../../../model/oficio.model';
+import { RouteEncoderService } from '../../../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-create-job',

@@ -1,0 +1,54 @@
+<div class="table-container">
+  <h1 class="form-title">🏅 Lista de Medallas</h1>
+  <table class="plane-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let m of medallas">
+        <td>{{ m.id }}</td>
+        <td>{{ m.nombre }}</td>
+        <td>{{ m.descripcion }}</td>
+        <td class="actions-cell">
+          <button class="nav-button" (click)="editMedalla(m)">✏️ Editar</button>
+          <button class="nav-button" (click)="deleteMedalla(m.id)">🗑️ Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<form #formSection [formGroup]="medallaForm" (ngSubmit)="onSubmit()">
+  <h1 class="form-title">
+    {{ isEdit ? '✏️ Editar Medalla' : '➕ Crear Medalla' }}
+  </h1>
+
+  <div class="field">
+    <label>Nombre</label>
+    <input formControlName="nombre" type="text" />
+  </div>
+
+  <div class="field">
+    <label>Descripción</label>
+    <textarea formControlName="descripcion" rows="3"></textarea>
+  </div>
+
+  <div class="actions">
+    <button type="submit" [disabled]="medallaForm.invalid">
+      {{ isEdit ? '💾 Guardar cambios' : '➕ Crear medalla' }}
+    </button>
+    <button
+      *ngIf="isEdit"
+      type="button"
+      (click)="resetForm()"
+      class="cancel-button"
+    >
+      ✖️ Cancelar
+    </button>
+  </div>
+</form>

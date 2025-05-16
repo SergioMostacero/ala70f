@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TripulantesService } from '../../../Services/tripulantes.service';
-import { RangoService } from '../../../Services/rango.service';
-import { GrupoSanguineoService } from '../../../Services/grupo-sanguineo.service';
-import { OficioService } from '../../../Services/oficio.service';
-import { NotificationService } from '../../../utils/notification.service';
-import { Tripulantes } from '../../../model/Tripulantes.model';
-import { Rango } from '../../../model/rango.model';
-import { GrupoSanguineo } from '../../../model/grupo-sanguineo.model';
-import { Oficio } from '../../../model/oficio.model';
-import { RouteEncoderService } from '../../../Services/route-encoder.service';
+import { TripulantesService } from '../../../../Services/tripulantes.service';
+import { RangoService } from '../../../../Services/rango.service';
+import { GrupoSanguineoService } from '../../../../Services/grupo-sanguineo.service';
+import { OficioService } from '../../../../Services/oficio.service';
+import { NotificationService } from '../../../../utils/notification.service';
+import { Tripulantes } from '../../../../model/Tripulantes.model';
+import { Rango } from '../../../../model/rango.model';
+import { GrupoSanguineo } from '../../../../model/grupo-sanguineo.model';
+import { Oficio } from '../../../../model/oficio.model';
+import { RouteEncoderService } from '../../../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-edit-user',

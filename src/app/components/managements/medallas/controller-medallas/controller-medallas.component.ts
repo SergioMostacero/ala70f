@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { TripulantesService } from '../../../Services/tripulantes.service';
-import { MedallaService } from '../../../Services/medalla.service';
+import { TripulantesService } from '../../../../Services/tripulantes.service';
+import { MedallaService } from '../../../../Services/medalla.service';
 import { Router } from '@angular/router';
-import { Tripulantes } from '../../../model/Tripulantes.model';
-import { NotificationService } from '../../../utils/notification.service';
-import { RouteEncoderService } from '../../../Services/route-encoder.service';
+import { Tripulantes } from '../../../../model/Tripulantes.model';
+import { NotificationService } from '../../../../utils/notification.service';
+import { RouteEncoderService } from '../../../../Services/route-encoder.service';
 
 
 @Component({

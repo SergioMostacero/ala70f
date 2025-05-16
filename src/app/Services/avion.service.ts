@@ -10,7 +10,11 @@ export class AvionService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
-  }
+  getAll():     Observable<any[]> { return this.http.get<any[]>(this.apiUrl); }
+  getById(id: number): Observable<any> { return this.http.get<any>(`${this.apiUrl}/${id}`); }
+  create(dto: any):   Observable<any> { return this.http.post<any>(this.apiUrl, dto); }
+  update(dto: any):   Observable<any> { return this.http.put<any>(`${this.apiUrl}/${dto.id}`, dto); }
+  delete(id: number): Observable<void> { return this.http.delete<void>(`${this.apiUrl}/${id}`); }
+
+
 }

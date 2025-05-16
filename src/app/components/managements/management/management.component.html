@@ -1,4 +1,3 @@
-<!-- Gestión – estilo unificado -->
 <div class="container">
   <div class="user-panel">
 
@@ -31,6 +30,7 @@
       <h2 class="section-title">🏆 Medallas</h2>
       <div class="button-group">
         <button class="nav-button" (click)="goToMedallas()">Control de Medallas</button>
+         <button class="nav-button" (click)="goToEditMedallas()">Añadir/Editar Medallas</button>
       </div>
     </section>
 
@@ -42,7 +42,21 @@
       </div>
     </section>
 
-    <!-- Volver -->
+    <!-- Aviones -->
+    <section class="section-card">
+      <h2 class="section-title">✈️ Aviones</h2>
+      <div class="button-group">
+        <button class="nav-button" (click)="goToPlanes()">Control de Aviones</button>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <h2 class="section-title">🧭 Misiones</h2>
+      <div class="button-group">
+        <button class="nav-button" (click)="goToMisiones()">Control de Misiones</button>
+      </div>
+    </section>
+
     <div class="button-group back-group">
       <button class="nav-button back-button" (click)="goBack()">Volver</button>
     </div>

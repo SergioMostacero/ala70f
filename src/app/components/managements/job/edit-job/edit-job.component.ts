@@ -1,10 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Oficio } from '../../../model/oficio.model';
-import { OficioService } from '../../../Services/oficio.service';
-import { RouteEncoderService } from '../../../Services/route-encoder.service';
+import { Oficio } from '../../../../model/oficio.model';
+import { OficioService } from '../../../../Services/oficio.service';
+import { RouteEncoderService } from '../../../../Services/route-encoder.service';
 import { Router } from '@angular/router';
-import { NotificationService } from '../../../utils/notification.service';
+import { NotificationService } from '../../../../utils/notification.service';
 
 @Component({
   selector: 'app-edit-job',
