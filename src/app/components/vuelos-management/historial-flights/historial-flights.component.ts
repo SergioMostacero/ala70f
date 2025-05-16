@@ -37,26 +37,26 @@ export class HistorialFlightsComponent implements OnInit {
   }
 
   private loadVuelosUsuario(): void {
-    const tripulanteId = Number(localStorage.getItem('tripulanteId'));
-    if (tripulanteId) {
-      this.vueloService.getVuelosByUser(tripulanteId).subscribe({
-        next: (data) => {
-          const hoy = new Date();
-          this.historialVuelos = data.filter((vuelo: any) => {
-            // Convertimos fecha_salida a Date (asegúrate de que sea YYYY-MM-DD)
-            if (vuelo.fecha_salida) {
-              const fechaVuelo = new Date(vuelo.fecha_salida);
-              return fechaVuelo < hoy;
-            }
-            return false;
-          });
-        },
-        error: (err) => console.error('Error cargando vuelos recientes:', err)
-      });
-    } else {
-      console.warn('No se encontró el tripulanteId en localStorage');
+    const raw = localStorage.getItem('usuarioLogeado');
+    if (!raw) {
+      console.warn('No hay usuario logueado en localStorage');
+      return;
     }
+    const { id: tripulanteId } = JSON.parse(raw) as { id: number };
+
+    this.vueloService.getVuelosByUser(tripulanteId).subscribe({
+      next: (data) => {
+        const hoy = new Date();
+        this.historialVuelos = data.filter(
+          (v: any) =>
+            v.fecha_salida && new Date(v.fecha_salida) < hoy
+        );
+      },
+      error: (err) =>
+        console.error('Error cargando historial de vuelos:', err)
+    });
   }
+
   
   
 }

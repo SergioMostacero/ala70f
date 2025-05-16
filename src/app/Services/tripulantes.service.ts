@@ -38,17 +38,11 @@ export class TripulantesService {
     );
   }
 
-  
-
-
-  // Guardar usuario logueado
   setLoggedInUser(tripulante: Tripulantes): void {
     this.loggedInTripulante = tripulante;
     localStorage.setItem('tripulante', JSON.stringify(tripulante));
   }
 
-  // Recuperar usuario logueado
-  // tripulantes.service.ts
   getLoggedInUser(): Tripulantes | null {
     const raw = localStorage.getItem('usuarioLogeado');
     return raw ? JSON.parse(raw) as Tripulantes : null;
