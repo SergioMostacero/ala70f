@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { AppComponent } from './app.component';
 import { HomePermisosComponent } from './components/homePermisos/homePermisos.component'; 
@@ -24,6 +25,7 @@ import { EditJobComponent } from './components/managements/edit-job/edit-job.com
 import { CreateItineraryComponent } from './components/managements/create-itinerary/create-itinerary.component';
 import { DestinosComponent } from './components/destinos/destinos.component';
 import { EditarVueloComponent } from './components/vuelos-management/editar-vuelos/editar-vuelo.component';
+
 
 @NgModule({
   declarations: [
@@ -52,6 +54,9 @@ import { EditarVueloComponent } from './components/vuelos-management/editar-vuel
     FormsModule,
     AppRoutingModule, 
     MatSnackBarModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      registrationStrategy: 'registerWhenStable:30000' // Espera 30 segundos para registrar
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

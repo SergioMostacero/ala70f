@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ItinerarioService {
-  private apiUrl = 'http://44.212.4.74:8080/api/itinerarios';
+  private apiUrl = 'https://api.ala70tfg.com/api/itinerarios';
 
   constructor(private http: HttpClient) {}
 

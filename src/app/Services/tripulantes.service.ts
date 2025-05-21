@@ -7,7 +7,7 @@ import { Tripulantes } from '../model/Tripulantes.model';
   providedIn: 'root'
 })
 export class TripulantesService {
-  private baseUrl = 'http://44.212.4.74:8080/api/tripulantes';
+  private baseUrl = 'https://api.ala70tfg.com/api/tripulantes';
   private loggedInTripulante: Tripulantes | null = null;
 
   constructor(private http: HttpClient) {
@@ -108,7 +108,7 @@ export class TripulantesService {
   //llamada directa porque loe stamos llamandod esde tripulantes
 getTripulantesByVuelo(vueloId: number) {
   return this.http.get<Tripulantes[]>(
-    `http://44.212.4.74:8080/api/tripulantes/vuelo/${vueloId}`
+    `https://api.ala70tfg.com/api/tripulantes/vuelo/${vueloId}`
   );
 }
 

@@ -1,0 +1,21 @@
+{
+  "name": "Ala70TFG",
+  "short_name": "Ala70TFG",
+  "description": "Aplicación web progresiva de Ala70TFG",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1976d2",
+  "icons": [
+    {
+      "src": "assets/img/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/img/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
