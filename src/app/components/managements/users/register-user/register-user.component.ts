@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { map, first } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { formatDate } from '@angular/common';
 
 import { RangoService } from '../../../../Services/rango.service';
@@ -63,7 +65,7 @@ export class RegisterUserComponent implements OnInit {
           Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)
         ]
       ],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email], [ this.emailUniqueValidator() ] ],
       contrasena: [
         '',
         [
@@ -135,4 +137,17 @@ export class RegisterUserComponent implements OnInit {
   goBack(): void {
     this.router.navigate([this.encoder.encode('management')]);
   }
+
+  private emailUniqueValidator(): AsyncValidatorFn {
+  return (control: AbstractControl) => {
+    const value = control.value?.trim();
+    return !value
+      ? of(null)                                    // campo vacío → sin error
+      : this.tripulantesService.emailExists(value)  // llama al back-end
+          .pipe(
+            map(exists => (exists ? { emailTaken: true } : null)),
+            first()
+          );
+  };
+}
 }

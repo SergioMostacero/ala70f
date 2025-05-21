@@ -4,6 +4,8 @@ import Swal from 'sweetalert2';
 
 import { AvionService } from 'src/app/Services/avion.service';
 import { NotificationService } from 'src/app/utils/notification.service';
+import { Router } from '@angular/router';
+import { RouteEncoderService } from 'src/app/Services/route-encoder.service';
 
 @Component({
   selector: 'app-plane-form',
@@ -19,7 +21,9 @@ export class PlaneFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private avionService: AvionService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private router: Router,
+    private encoder: RouteEncoderService
   ) {}
 
   ngOnInit(): void {
@@ -117,5 +121,9 @@ export class PlaneFormComponent implements OnInit {
   private afterSave(): void {
     this.loadPlanes();
     this.resetForm();
+  }
+
+  goBack(): void {
+    this.router.navigate([ this.encoder.encode('homePermisos') ]);
   }
 }

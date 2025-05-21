@@ -4,6 +4,8 @@ import Swal from 'sweetalert2';
 
 import { MisionService } from 'src/app/Services/mision.service';
 import { NotificationService } from 'src/app/utils/notification.service';
+import { Router } from '@angular/router';
+import { RouteEncoderService } from 'src/app/Services/route-encoder.service';
 
 @Component({
   selector: 'app-missions',
@@ -21,7 +23,9 @@ export class MissionsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private misionService: MisionService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private router: Router,
+    private encoder: RouteEncoderService
   ) {}
 
   ngOnInit(): void {
@@ -121,5 +125,9 @@ export class MissionsComponent implements OnInit {
   private afterSave(): void {
     this.loadMisiones();
     this.resetForm();
+  }
+
+  goBack(): void {
+    this.router.navigate([ this.encoder.encode('management') ]);
   }
 }

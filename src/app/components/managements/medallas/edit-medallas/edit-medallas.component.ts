@@ -4,6 +4,8 @@ import Swal from 'sweetalert2';
 
 import { MedallaService } from 'src/app/Services/medalla.service';
 import { NotificationService } from 'src/app/utils/notification.service';
+import { Router } from '@angular/router';
+import { RouteEncoderService } from 'src/app/Services/route-encoder.service';
 
 @Component({
   selector: 'app-edit-medallas',
@@ -21,7 +23,9 @@ export class EditMedallasComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private medallaService: MedallaService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private router: Router,
+    private encoder: RouteEncoderService
   ) {}
 
   ngOnInit(): void {
@@ -121,4 +125,7 @@ export class EditMedallasComponent implements OnInit {
     this.loadMedallas();
     this.resetForm();
   }
+  goBack(): void {
+  this.router.navigate([ this.encoder.encode('management') ]);
+}
 }

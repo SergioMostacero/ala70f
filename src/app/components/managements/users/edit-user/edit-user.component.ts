@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AsyncValidatorFn } from '@angular/forms';
+import { map, first } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { TripulantesService } from '../../../../Services/tripulantes.service';
 import { RangoService } from '../../../../Services/rango.service';
 import { GrupoSanguineoService } from '../../../../Services/grupo-sanguineo.service';
@@ -48,7 +51,7 @@ export class EditUserComponent implements OnInit {
     this.userForm = this.fb.group({
       nombre: ['',[Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)]],
       apellidos: ['',[ Validators.required, Validators.maxLength(100), Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)]],
-      email: ['',[Validators.required,Validators.email]],
+      email: ['',[Validators.required,Validators.email],[ this.emailUniqueValidator() ]  ],
       contrasena: ['',[Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/)]],
       antiguedad: [null, [Validators.required, this.AntiguedadValidator()]],
       horas_totales: [ 0,[ Validators.required, Validators.min(0)]],
@@ -100,6 +103,7 @@ export class EditUserComponent implements OnInit {
   }
 
   private patchFormValues(u: Tripulantes): void {
+    const horasTotales = this.toDecimalHours(u.horas_totales);
     this.userForm.patchValue({
       nombre: u.nombre,
       apellidos: u.apellidos,
@@ -112,6 +116,10 @@ export class EditUserComponent implements OnInit {
       rangoDTO: { id: u.rangoDTO.id },
       oficioDTO: { id: u.oficioDTO.id },
     });
+    const passCtrl = this.userForm.get('contrasena');
+      passCtrl?.markAsDirty();
+      passCtrl?.markAsTouched();
+      passCtrl?.updateValueAndValidity(); 
   }
 
   onSubmit(): void {
@@ -168,5 +176,28 @@ export class EditUserComponent implements OnInit {
 
       return (fecha >= min && fecha <= max) ? null : { fueraRango: true };
     };
+  }
+
+    private emailUniqueValidator(): AsyncValidatorFn {
+    return (control: AbstractControl) => {
+      const value = control.value?.trim();
+      return !value
+        ? of(null)                                    
+        : this.tripService.emailExists(value)  
+            .pipe(
+              map(exists => (exists ? { emailTaken: true } : null)),
+              first()
+            );
+    };
+  }
+
+  private toDecimalHours(value: string | number | null): number {
+    if (value == null) return 0;
+
+    if (typeof value === 'number') {           
+      return value;
+    }
+    const [h, m = '0'] = value.split(':');     
+    return +h + +m / 60;                        
   }
 }

@@ -68,14 +68,18 @@
                     (userForm.get('email')?.dirty || userForm.get('email')?.touched)">
           <div *ngIf="userForm.get('email')?.errors?.['required']">El email es obligatorio.</div>
           <div *ngIf="userForm.get('email')?.errors?.['email']">Formato de email inválido.</div>
+          <div *ngIf="userForm.get('email')?.hasError('emailTaken')">
+            Este correo ya está registrado
+          </div>
         </div>
       </div>
+
 
       <!-- Contraseña -->
       <div class="field">
         <label for="contrasena">Contraseña</label>
         <input id="contrasena"
-               type="password"
+               type="text"
                formControlName="contrasena"
                placeholder="Mín. 8 car., 1 mayús, 1 dígito" />
         <div class="error-message" 
@@ -111,24 +115,14 @@
       <div class="field">
         <label for="horasVuelo">Horas de vuelo</label>
         <input id="horasVuelo"
-               type="number"
-               formControlName="horas_totales"
-               min="0" />
+          type="text"             
+          formControlName="horas_totales"
+          pattern="^[0-9]+(:[0-5][0-9])?$" /> 
         <div class="error-message" 
              *ngIf="userForm.get('horas_totales')?.invalid && 
                     (userForm.get('horas_totales')?.dirty || userForm.get('horas_totales')?.touched)">
           <div *ngIf="userForm.get('horas_totales')?.errors?.['required']">Las horas de vuelo son obligatorias.</div>
           <div *ngIf="userForm.get('horas_totales')?.errors?.['min']">No puede ser negativo.</div>
-        </div>
-      </div>
-
-      <!-- Permisos -->
-      <div class="field checkbox-row">
-        <div class="checkbox-container">
-          <input id="permisos"
-                type="checkbox"
-                formControlName="permisos" />
-          <label for="permisos">Permisos</label>
         </div>
       </div>
 
@@ -178,6 +172,10 @@
                     (userForm.get('oficioDTO.id')?.dirty || userForm.get('oficioDTO.id')?.touched)">
           Debes elegir un oficio.
         </div>
+      </div>
+      <div class="field checkbox-row">
+        <input type="checkbox" id="permisos" formControlName="permisos" />
+        <label for="permisos">Otorgar permisos administrativos</label>
       </div>
 
       <!-- Botones -->

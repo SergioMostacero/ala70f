@@ -1,5 +1,5 @@
 <div class="table-container">
-  <h1 class="form-title">🏅 Lista de Medallas</h1>
+  <h1 class="form-title">LISTA DE MEDALLAS</h1>
   <table class="plane-table">
     <thead>
       <tr>
@@ -15,8 +15,8 @@
         <td>{{ m.nombre }}</td>
         <td>{{ m.descripcion }}</td>
         <td class="actions-cell">
-          <button class="nav-button" (click)="editMedalla(m)">✏️ Editar</button>
-          <button class="nav-button" (click)="deleteMedalla(m.id)">🗑️ Eliminar</button>
+          <button class="nav-button" (click)="editMedalla(m)">✏️</button>
+          <button class="nav-button" (click)="deleteMedalla(m.id)">🗑️</button>
         </td>
       </tr>
     </tbody>
@@ -25,7 +25,7 @@
 
 <form #formSection [formGroup]="medallaForm" (ngSubmit)="onSubmit()">
   <h1 class="form-title">
-    {{ isEdit ? '✏️ Editar Medalla' : '➕ Crear Medalla' }}
+    {{ isEdit ? 'Editar Medalla' : 'Crear Medalla' }}
   </h1>
 
   <div class="field">
@@ -40,7 +40,7 @@
 
   <div class="actions">
     <button type="submit" [disabled]="medallaForm.invalid">
-      {{ isEdit ? '💾 Guardar cambios' : '➕ Crear medalla' }}
+      {{ isEdit ? 'Guardar cambios' : 'Crear medalla' }}
     </button>
     <button
       *ngIf="isEdit"
@@ -48,7 +48,10 @@
       (click)="resetForm()"
       class="cancel-button"
     >
-      ✖️ Cancelar
+      Cancelar
     </button>
   </div>
 </form>
+<button class="back-button" (click)="goBack()">← Volver</button>
+
+

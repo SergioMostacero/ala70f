@@ -125,6 +125,36 @@ form {
     }
   }
 }
+.back-button {
+  display: block;
+  width: 100%;
+  max-width: 550px; 
+  padding: 1rem 2.5rem; 
+  font-size: 1.1rem;
+  font-weight: 500;
+  background: transparent;
+  border: 2px solid #3a3f4b;
+  color: #9fa4ad;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  text-align: center;
+  margin: 3rem auto 8rem; 
+  position: relative;
+  z-index: 1;
+  
+  &:hover {
+    background: #3a3f4b;
+    color: #cdd0d5;
+    transform: scale(1.02);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.3);
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
 
 @keyframes fadeInUp {
   from { transform: translateY(20px); opacity: 0; }

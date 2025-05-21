@@ -1,3 +1,4 @@
+// edit-job.component.ts
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Oficio } from '../../../../model/oficio.model';
@@ -13,7 +14,7 @@ import { NotificationService } from '../../../../utils/notification.service';
 })
 export class EditJobComponent implements OnInit {
   oficios: Oficio[] = [];
-  oficio?: Oficio;
+  selectedOficio?: Oficio;
   @Output() saved = new EventEmitter<Oficio>();
   form!: FormGroup;
   loading = false;
@@ -28,15 +29,16 @@ export class EditJobComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
-    this.loadOficios();            
+    this.loadOficios();
   }
 
   goBack(): void {
-    this.router.navigate([ this.encoder.encode('management') ]);
+    this.router.navigate([this.encoder.encode('management')]);
   }
 
   private buildForm(oficio?: Oficio): void {
     this.form = this.fb.group({
+      id: [oficio?.id || null],
       nombre: [oficio?.nombre ?? '', [Validators.required, Validators.maxLength(60)]],
       descripcion: [oficio?.descripcion ?? '', [Validators.required, Validators.maxLength(255)]]
     });
@@ -45,52 +47,61 @@ export class EditJobComponent implements OnInit {
   private loadOficios(): void {
     this.oficioService.getOficios().subscribe({
       next: data => this.oficios = data,
-      error: err  => {
+      error: err => {
         console.error(err);
         this.notification.showMessage('Error al cargar los oficios.', 'error');
       }
     });
   }
 
-  onSelect(idString: string): void {
-    const id = +idString;
-    if (id === 0) {                    
-      this.oficio = undefined;
-      this.buildForm();                
-    } else {
-      this.oficio = this.oficios.find(o => o.id === id);
-      this.buildForm(this.oficio);      
-    }
+  selectOficio(oficio: Oficio): void {
+    this.selectedOficio = oficio;
+    this.buildForm(oficio);
   }
 
   submit(): void {
-    if (this.form.invalid) { 
-      this.form.markAllAsTouched(); 
-      this.notification.showMessage('Por favor, completa todos los campos.', 'error');
-      return; 
+    if (this.form.invalid || !this.form.value.id) {
+      this.form.markAllAsTouched();
+      this.notification.showMessage('Por favor, selecciona un oficio para editar.', 'error');
+      return;
     }
 
-    const data: Oficio = { ...this.oficio, ...this.form.value };
+    const data: Oficio = this.form.value;
     this.loading = true;
 
-    const request$ = data.id
-      ? this.oficioService.updateOficio(data)
-      : this.oficioService.createOficio(data);
-
-    request$.subscribe({
+    this.oficioService.updateOficio(data).subscribe({
       next: resp => {
         this.saved.emit(resp);
-        this.loadOficios();           
-        this.onSelect('0');    
-        
-        const action = data.id ? 'actualizado' : 'creado';
-        this.notification.showMessage(`Oficio ${action} con éxito.`, 'success');
+        this.loadOficios();
+        this.notification.showMessage('Oficio actualizado con éxito.', 'success');
+        this.clearSelection();
       },
       error: err => {
         console.error(err);
-        this.notification.showMessage('Error al guardar el oficio.', 'error');
+        this.notification.showMessage('Error al actualizar el oficio.', 'error');
       },
       complete: () => (this.loading = false)
     });
+  }
+
+  deleteOficio(id: number): void {
+    if (confirm('¿Estás seguro de querer eliminar este oficio?')) {
+      this.oficioService.deleteOficio(id).subscribe({
+        next: () => {
+          this.oficios = this.oficios.filter(o => o.id !== id);
+          this.notification.showMessage('Oficio eliminado con éxito.', 'success');
+          this.clearSelection();
+        },
+        error: err => {
+          console.error(err);
+          this.notification.showMessage('Error al eliminar el oficio.', 'error');
+        }
+      });
+    }
+  }
+
+  clearSelection(): void {
+    this.selectedOficio = undefined;
+    this.buildForm();
   }
 }

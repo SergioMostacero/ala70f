@@ -1,5 +1,5 @@
 <div class="table-container">
-  <h1 class="form-title">✈️ Lista de Aviones</h1>
+  <h1 class="form-title">LISTA DE AVIONES</h1>
   <table class="plane-table">
     <thead>
       <tr>
@@ -15,8 +15,8 @@
         <td>{{ p.nombre }}</td>
         <td>{{ p.max_combustible }}</td>
         <td class="actions-cell">
-          <button class="nav-button" (click)="editPlane(p)">✏️ Editar</button>
-          <button class="nav-button" (click)="deletePlane(p.id)">🗑️ Eliminar</button>
+          <button class="nav-button" (click)="editPlane(p)">✏️</button>
+          <button class="nav-button" (click)="deletePlane(p.id)">🗑️</button>
         </td>
       </tr>
     </tbody>
@@ -25,7 +25,7 @@
 
 <form [formGroup]="planeForm" (ngSubmit)="onSubmit()">
   <h1 class="form-title">
-    {{ isEdit ? '✈️ Editar Avión' : '➕ Crear Avión' }}
+    {{ isEdit ? 'EDITAR AVION' : 'CREAR AVION' }}
   </h1>
 
   <div class="field">
@@ -47,7 +47,7 @@
 
   <div class="actions">
     <button type="submit" [disabled]="planeForm.invalid">
-      {{ isEdit ? '💾 Guardar cambios' : '➕ Crear avión' }}
+      {{ isEdit ? 'Guardar cambios' : 'Crear avión' }}
     </button>
     <button
       *ngIf="isEdit"
@@ -59,3 +59,4 @@
     </button>
   </div>
 </form>
+<button class="back-button" (click)="goBack()">← Volver</button>

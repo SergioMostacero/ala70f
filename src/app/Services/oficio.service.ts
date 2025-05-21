@@ -15,13 +15,18 @@ export class OficioService {
   getOficios(): Observable<Oficio[]> {
     return this.http.get<Oficio[]>(this.apiUrl);
   }
+
   createOficio(oficio: Oficio): Observable<Oficio> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<Oficio>(this.apiUrl, oficio, { headers });
+    return this.http.post<Oficio>(this.apiUrl, oficio, { headers: this.headers });
   }
 
   updateOficio(oficio: Oficio): Observable<Oficio> {
     const url = `${this.apiUrl}/${oficio.id}`;
     return this.http.put<Oficio>(url, oficio, { headers: this.headers });
+  }
+
+  deleteOficio(id: number): Observable<any> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.delete(url, { headers: this.headers });
   }
 }

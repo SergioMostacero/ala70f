@@ -2,7 +2,7 @@
   <div class="user-panel" @routeAnimations>
 
     <div class="header-row">
-      <h1 class="register-title">Registro de Usuario</h1>
+      <h1 class="register-title">REGISTRO DE USUARIOS</h1>
     </div>
     <form [formGroup]="registerForm" (ngSubmit)="registrar()">
 
@@ -52,6 +52,9 @@
         <input type="email" formControlName="email" />
         <small *ngIf="registerForm.get('email')?.hasError('email')">
           Formato de email inválido.
+        </small>
+        <small *ngIf="registerForm.get('email')?.hasError('emailTaken')">
+          Este correo ya está registrado
         </small>
       </div>
 

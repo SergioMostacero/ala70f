@@ -1,5 +1,5 @@
 <div class="table-container">
-  <h1 class="form-title">🚀 Lista de Misiones</h1>
+  <h1 class="form-title">LISTA DE MISIONES</h1>
   <table class="plane-table">
     <thead>
       <tr>
@@ -13,8 +13,8 @@
         <td>{{ m.id }}</td>
         <td>{{ m.nombre }}</td>
         <td class="actions-cell">
-          <button class="nav-button" (click)="editMission(m)">✏️ Editar</button>
-          <button class="nav-button" (click)="deleteMission(m.id)">🗑️ Eliminar</button>
+          <button class="nav-button" (click)="editMission(m)">✏️</button>
+          <button class="nav-button" (click)="deleteMission(m.id)">🗑️</button>
         </td>
       </tr>
     </tbody>
@@ -23,7 +23,7 @@
 
 <form #formSection [formGroup]="missionForm" (ngSubmit)="onSubmit()">
   <h1 class="form-title">
-    {{ isEdit ? '✏️ Editar Misión' : '➕ Crear Misión' }}
+    {{ isEdit ? 'Editar Misión' : 'Crear Misión' }}
   </h1>
 
   <div class="field">
@@ -33,7 +33,7 @@
 
   <div class="actions">
     <button type="submit" [disabled]="missionForm.invalid">
-      {{ isEdit ? '💾 Guardar cambios' : '➕ Crear misión' }}
+      {{ isEdit ? 'Guardar cambios' : 'Crear misión' }}
     </button>
     <button
       *ngIf="isEdit"
@@ -45,3 +45,4 @@
     </button>
   </div>
 </form>
+<button class="back-button" (click)="goBack()">← Volver</button>
