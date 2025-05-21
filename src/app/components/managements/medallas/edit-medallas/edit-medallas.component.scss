@@ -172,3 +172,45 @@ form {
   form { padding: 1.5rem; }
   form .actions button { font-size:0.9rem; padding:0.85rem; }
 }
+@media (max-width: 480px) {
+  .plane-table {
+    th, td {
+      display: block;
+      width: 100%;
+    }
+    
+    th {
+      display: none;
+    }
+    
+    tr {
+      margin-bottom: 1rem;
+      display: block;
+      border: 1px solid #3a3f4b;
+      border-radius: 0.5rem;
+    }
+    
+    td {
+      border: none;
+      
+      &::before {
+        content: attr(data-label);
+        display: block;
+        font-weight: bold;
+        color: #9fa4ad;
+        margin-bottom: 0.5rem;
+      }
+    }
+    
+    .actions-cell {
+      border-top: 1px solid #3a3f4b;
+      padding-top: 1rem;
+      margin-top: 1rem;
+    }
+  }
+  
+  .back-button {
+    max-width: 90%;
+    margin: 2rem auto;
+  }
+}

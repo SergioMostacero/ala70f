@@ -1,20 +1,23 @@
+<!-- CONTENEDOR TABLA -->
 <div class="table-container">
   <h1 class="form-title">LISTA DE AVIONES</h1>
+
   <table class="plane-table">
     <thead>
       <tr>
         <th>ID</th>
         <th>Nombre</th>
-        <th>Combustible Máx.</th>
+        <th>Combustible&nbsp;Máx.</th>
         <th>Acciones</th>
       </tr>
     </thead>
+
     <tbody>
       <tr *ngFor="let p of planes">
-        <td>{{ p.id }}</td>
-        <td>{{ p.nombre }}</td>
-        <td>{{ p.max_combustible }}</td>
-        <td class="actions-cell">
+        <td data-label="ID">{{ p.id }}</td>
+        <td data-label="Nombre">{{ p.nombre }}</td>
+        <td data-label="Combustible Máx.">{{ p.max_combustible }}</td>
+        <td data-label="Acciones" class="actions-cell">
           <button class="nav-button" (click)="editPlane(p)">✏️</button>
           <button class="nav-button" (click)="deletePlane(p.id)">🗑️</button>
         </td>
@@ -23,40 +26,29 @@
   </table>
 </div>
 
+<!-- FORMULARIO CREAR / EDITAR -->
 <form [formGroup]="planeForm" (ngSubmit)="onSubmit()">
-  <h1 class="form-title">
-    {{ isEdit ? 'EDITAR AVION' : 'CREAR AVION' }}
-  </h1>
+  <h1 class="form-title">{{ isEdit ? 'EDITAR AVIÓN' : 'CREAR AVIÓN' }}</h1>
 
   <div class="field">
     <label>Nombre</label>
     <input formControlName="nombre" type="text" />
   </div>
 
-
   <div class="field">
-  <label>Combustible Máx.</label>
-  <input
-    formControlName="maxCombustible"
-    type="number"
-    min="0"
-    step="0.01"
-  />
-</div>
-
+    <label>Combustible&nbsp;Máx.</label>
+    <input formControlName="maxCombustible" type="number" min="0" step="0.01" />
+  </div>
 
   <div class="actions">
     <button type="submit" [disabled]="planeForm.invalid">
       {{ isEdit ? 'Guardar cambios' : 'Crear avión' }}
     </button>
-    <button
-      *ngIf="isEdit"
-      type="button"
-      (click)="resetForm()"
-      class="cancel-button"
-    >
-      ✖️ Cancelar
+
+    <button *ngIf="isEdit" type="button" (click)="resetForm()" class="cancel-button">
+      Cancelar
     </button>
   </div>
 </form>
+
 <button class="back-button" (click)="goBack()">← Volver</button>

@@ -9,6 +9,7 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   color: #cdd0d5;
   animation: fadeInUp 0.6s ease-out forwards;
+  overflow-x: auto;
 }
 
 /* ---------- TÍTULO (para tabla y formulario) ---------- */
@@ -117,6 +118,14 @@ form {
         border-color: #555b6e;
         box-shadow: 0 0 0 3px rgba(85, 91, 110, 0.2);
       }
+      input[type="number"] {
+        -moz-appearance: textfield;
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
     }
   }
 
@@ -171,47 +180,63 @@ form {
   to   { transform: translateY(0);    opacity: 1; }
 }
 
-/* ---------- RESPONSIVE ---------- */
-@media (max-width: 768px) {
-  .table-container,
-  form {
-    width: 90%;
-    padding: 2rem;
+@media (max-width: 600px) {
+  .plane-table,
+  .plane-table thead,
+  .plane-table tbody,
+  .plane-table th,
+  .plane-table td,
+  .plane-table tr {
+    display: block;
   }
 
+  /* ocultamos la cabecera */
+  .plane-table thead {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  /* cada fila se convierte en una “tarjeta” */
+  .plane-table tr {
+    margin-bottom: 1rem;
+    border: 1px solid #3a3f4b;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  /* las celdas muestran su etiqueta con ::before */
+  .plane-table td {
+    border: none;
+    border-bottom: 1px solid #3a3f4b;
+    position: relative;
+    padding-left: 50%;
+    white-space: normal;          /* deja que el texto se parta */
+  }
+
+  .plane-table td::before {
+    content: attr(data-label);    /* ver nota ↓ */
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 600;
+    color: #9fa4ad;
+  }
+
+  /* botones uno debajo del otro */
   .plane-table .actions-cell {
+    display: flex;
     flex-direction: column;
-    align-items: stretch;
-
-    .nav-button {
-      width: 100%;
-    }
-  }
-
-  form .actions {
-    flex-direction: column;
+    gap: 0.5rem;
   }
 }
-
-@media (max-width: 480px) {
-  .form-title {
-    font-size: 1.6rem;
-  }
-
-  form {
-    padding: 1.5rem;
-  }
-
-  form .actions button {
-    font-size: 0.9rem;
-    padding: 0.85rem;
-  }
-}
+/* ---------- BOTÓN VOLVER ---------- */
 .back-button {
   display: block;
   width: 100%;
-  max-width: 550px; 
-  padding: 1rem 2.5rem; 
+  max-width: 550px;
+  padding: 1rem 2.5rem;
   font-size: 1.1rem;
   font-weight: 500;
   background: transparent;
@@ -220,19 +245,19 @@ form {
   border-radius: 0.75rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
   text-align: center;
-  margin: 3rem auto 8rem; 
+  margin: 3rem auto 8rem;
   position: relative;
   z-index: 1;
-  
+
   &:hover {
     background: #3a3f4b;
     color: #cdd0d5;
     transform: scale(1.02);
-    box-shadow: 0 5px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
   }
-  
+
   &:active {
     transform: scale(0.98);
   }

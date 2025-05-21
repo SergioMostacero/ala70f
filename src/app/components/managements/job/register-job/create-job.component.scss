@@ -1,12 +1,12 @@
-/* ---------- ESTILOS UNIFICADOS ---------- */
 .container {
   min-height: 100vh;
   padding: 20px;
   background: #121212;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
 }
+
 
 .user-panel {
   width: 100%;
@@ -83,11 +83,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-}
-
-.back-group {
-  justify-content: center;
-  margin-top: 2rem;
 }
 
 /* ---------- BOTONES ---------- */
@@ -189,6 +184,55 @@ form {
   margin-top: 2rem;
 }
 
+.back-button {
+  width: 100%;
+  max-width: 35rem; // Mismo ancho que el formulario
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  margin: 3rem auto 2rem;
+  background: #2d2f36;
+  border: 2px solid #3a3f4b;
+  color: #cdd0d5;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  
+  &:hover {
+    background: #3a3f4b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    width: 90%;
+    max-width: none;
+    margin: 2rem auto;
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+    border-width: 1px;
+    
+    &:hover {
+      transform: none;
+    }
+  }
+
+  // Versión extra pequeña
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+    margin: 1.5rem auto;
+  }
+}
 @keyframes fadeInUp {
   from { transform: translateY(20px); opacity: 0; }
   to   { transform: translateY(0);    opacity: 1; }

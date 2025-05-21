@@ -12,9 +12,9 @@
     </thead>
     <tbody>
       <tr *ngFor="let oficio of oficios">
-        <td>{{ oficio.nombre }}</td>
-        <td>{{ oficio.descripcion }}</td>
-        <td class="actions-cell">
+        <td data-label="Nombre">{{ oficio.nombre }}</td>
+        <td data-label="Descripción">{{ oficio.descripcion }}</td>
+        <td class="actions-cell" data-label="Acciones">
           <button class="nav-button" (click)="selectOficio(oficio)">✏️</button>
           <button class="nav-button" (click)="deleteOficio(oficio.id)">🗑️</button>
         </td>
@@ -28,7 +28,7 @@
 </div>
 
 <form [formGroup]="form" (ngSubmit)="submit()" *ngIf="selectedOficio">
-  <h1 class="form-title">EDITAR OFICIOS</h1>
+  <h1 class="form-title">{{ selectedOficio.id ? 'EDITAR OFICIO' : 'NUEVO OFICIO' }}</h1>
 
   <div class="field">
     <label>Nombre</label>
@@ -48,10 +48,10 @@
 
   <div class="actions">
     <button type="submit" [disabled]="form.invalid || loading">
-      {{ loading ? '💾 Guardando...' : '💾 Guardar cambios' }}
+      {{ loading ? 'Guardando...' : 'Guardar cambios' }}
     </button>
     <button type="button" (click)="clearSelection()" class="cancel-button">
-      ✖️ Cancelar
+      Cancelar
     </button>
   </div>
 </form>

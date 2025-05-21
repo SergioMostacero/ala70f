@@ -50,13 +50,9 @@ const routes: Routes = [
   { path: `${P}/:id`,      component: PlaneFormComponent },
   { path: M, component: MissionsComponent },
   { path: MD, component: EditMedallasComponent },
-
   { path: `${encoder.encode('editar-vuelo')}/:id`, component: EditarVueloComponent },
-
-  { path: `${encodedVuelo}/:id`, 
-    component: ViewFlightComponent,
-    data: { originalPath: 'vuelo' }
-  },
+  { path: `${encodedVuelo}/:id`, component: ViewFlightComponent,data: { originalPath: 'vuelo' }},
+  
   { path: '**', redirectTo: 'login' }
 ];
 
