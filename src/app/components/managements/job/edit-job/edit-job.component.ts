@@ -1,11 +1,12 @@
 // edit-job.component.ts
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Oficio } from '../../../../model/oficio.model';
 import { OficioService } from '../../../../Services/oficio.service';
 import { RouteEncoderService } from '../../../../Services/route-encoder.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../../utils/notification.service';
+
 
 @Component({
   selector: 'app-edit-job',
@@ -18,6 +19,7 @@ export class EditJobComponent implements OnInit {
   @Output() saved = new EventEmitter<Oficio>();
   form!: FormGroup;
   loading = false;
+  @ViewChild('editForm') private editFormRef?: ElementRef<HTMLFormElement>;
 
   constructor(
     private router: Router,
@@ -57,6 +59,14 @@ export class EditJobComponent implements OnInit {
   selectOficio(oficio: Oficio): void {
     this.selectedOficio = oficio;
     this.buildForm(oficio);
+
+    setTimeout(() => {
+      this.editFormRef?.nativeElement.scrollIntoView({
+        behavior: 'smooth',   
+        block: 'start'        
+      });
+  
+    });
   }
 
   submit(): void {
