@@ -25,7 +25,7 @@ import { EditMedallasComponent } from './components/managements/medallas/edit-me
 const encoder = new RouteEncoderService();
 const P = encoder.encode('plane');
 const M = encoder.encode('missions');
-const MD      = encoder.encode('medallas');   
+const MD = encoder.encode('medallas');   
 const encodedVuelo = encoder.encode('vuelo');
 const routes: Routes = [
   { path: '', redirectTo: encoder.encode('login'), pathMatch: 'full' },
@@ -45,9 +45,9 @@ const routes: Routes = [
   { path: encoder.encode('edit-job'), component: EditJobComponent },
   { path: encoder.encode('create-itinerary'), component: CreateItineraryComponent},
   { path: encoder.encode('destinos'), component: DestinosComponent},
-  { path: P,               component: PlaneFormComponent },
-  { path: `${P}/new`,      component: PlaneFormComponent },
-  { path: `${P}/:id`,      component: PlaneFormComponent },
+  { path: P, component: PlaneFormComponent },
+  { path: `${P}/new`, component: PlaneFormComponent },
+  { path: `${P}/:id`, component: PlaneFormComponent },
   { path: M, component: MissionsComponent },
   { path: MD, component: EditMedallasComponent },
   { path: `${encoder.encode('editar-vuelo')}/:id`, component: EditarVueloComponent },
