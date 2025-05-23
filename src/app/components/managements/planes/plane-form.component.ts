@@ -56,61 +56,75 @@ export class PlaneFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-  if (this.planeForm.invalid) return this.notification.showMessage('Completa el formulario correctamente.', 'error');
+    if (this.planeForm.invalid) return this.notification.showMessage('Completa el formulario correctamente.', 'error');
 
-  const { nombre, maxCombustible } = this.planeForm.value;
+    const { nombre, maxCombustible } = this.planeForm.value;
 
-  const dto = {
-  id: this.currentId,
-  nombre: nombre,
-  max_combustible: Number(maxCombustible) 
-};
+    const dto = {
+    id: this.currentId,
+    nombre: nombre,
+    max_combustible: Number(maxCombustible) 
+  };
 
-  if (this.isEdit && this.currentId != null) {
-    this.avionService.update(dto).subscribe({
-      next: () => {
-        this.notification.showMessage('Avión actualizado.', 'success');
-        this.afterSave();
-      },
-      error: () => this.notification.showMessage('Error al actualizar.', 'error')
-    });
-  } else {
-    this.avionService.create(dto).subscribe({
-      next: () => {
-        this.notification.showMessage('Avión creado.', 'success');
-        this.afterSave();
-      },
-      error: () => this.notification.showMessage('Error al crear.', 'error')
-    });
+    if (this.isEdit && this.currentId != null) {
+      this.avionService.update(dto).subscribe({
+        next: () => {
+          this.notification.showMessage('Avión actualizado.', 'success');
+          this.afterSave();
+        },
+        error: () => this.notification.showMessage('Error al actualizar.', 'error')
+      });
+    } else {
+      this.avionService.create(dto).subscribe({
+        next: () => {
+          this.notification.showMessage('Avión creado.', 'success');
+          this.afterSave();
+        },
+        error: () => this.notification.showMessage('Error al crear.', 'error')
+      });
+    }
   }
-}
 
-
-  /** Borrar con confirmación SweetAlert2 */
   deletePlane(id: number): void {
     Swal.fire({
       title: '¿Eliminar avión?',
-      text: 'Esta acción no se puede deshacer',
+      text: 'Se borrarán todos los vuelos asociados a este avión',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, borrar',
       cancelButtonText: 'Cancelar',
       reverseButtons: true,
       confirmButtonColor: '#d33',
-      customClass: { popup: 'dark' }
+      customClass: { popup: 'dark' }     
     }).then(res => {
-      if (!res.isConfirmed) return;
+      if (!res.isConfirmed) { return; }
+
       this.avionService.delete(id).subscribe({
         next: () => {
           this.planes = this.planes.filter(p => p.id !== id);
-          Swal.fire('¡Borrado!', 'Avión eliminado.', 'success');
+
+          Swal.fire({
+            title: '¡Borrado!',
+            text: 'Avión eliminado correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            customClass: { popup: 'dark' }  
+          });
         },
-        error: () => Swal.fire('Error', 'No se pudo eliminar.', 'error')
+        error: err => {
+          console.error(err);
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudo eliminar el avión',
+            icon: 'error',
+            confirmButtonText: 'Cerrar',
+            customClass: { popup: 'dark' }  
+          });
+        }
       });
     });
   }
 
-  /** Reinicia formulario a modo “crear” y recarga lista */
   resetForm(): void {
     this.isEdit = false;
     this.currentId = undefined;

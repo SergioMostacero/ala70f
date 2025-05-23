@@ -6,6 +6,7 @@ import { OficioService } from '../../../../Services/oficio.service';
 import { RouteEncoderService } from '../../../../Services/route-encoder.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../../utils/notification.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-job',
@@ -85,20 +86,49 @@ export class EditJobComponent implements OnInit {
   }
 
   deleteOficio(id: number): void {
-    if (confirm('¿Estás seguro de querer eliminar este oficio?')) {
+    Swal.fire({
+      title: '¿Eliminar oficio?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, borrar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      confirmButtonColor: '#d33',
+      customClass: { popup: 'dark' }    
+    }).then(res => {
+      if (!res.isConfirmed) { return; }
+
       this.oficioService.deleteOficio(id).subscribe({
         next: () => {
           this.oficios = this.oficios.filter(o => o.id !== id);
           this.notification.showMessage('Oficio eliminado con éxito.', 'success');
-          this.clearSelection();
+          this.clearSelection?.();
+
+          Swal.fire({
+            title: '¡Borrado!',
+            text: 'Oficio eliminado correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            customClass: { popup: 'dark' }  
+          });
         },
         error: err => {
           console.error(err);
           this.notification.showMessage('Error al eliminar el oficio.', 'error');
+
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudo eliminar el oficio',
+            icon: 'error',
+            confirmButtonText: 'Cerrar',
+            customClass: { popup: 'dark' } 
+          });
         }
       });
-    }
+    });
   }
+
 
   clearSelection(): void {
     this.selectedOficio = undefined;

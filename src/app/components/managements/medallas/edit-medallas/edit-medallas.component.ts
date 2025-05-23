@@ -90,29 +90,46 @@ export class EditMedallasComponent implements OnInit {
     }
   }
 
-  /** Borrar con confirmación */
-  deleteMedalla(id: number): void {
-    Swal.fire({
-      title: '¿Eliminar medalla?',
-      text: 'Esta acción no se puede deshacer',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, borrar',
-      cancelButtonText: 'Cancelar',
-      reverseButtons: true,
-      confirmButtonColor: '#d33',
-      customClass: { popup: 'dark' }
-    }).then(res => {
-      if (!res.isConfirmed) return;
-      this.medallaService.deleteMedalla(id).subscribe({
-        next: () => {
-          this.medallas = this.medallas.filter(x => x.id !== id);
-          Swal.fire('¡Borrado!', 'Medalla eliminada correctamente.', 'success');
-        },
-        error: () => Swal.fire('Error', 'No se pudo eliminar medalla', 'error')
-      });
+deleteMedalla(id: number): void {
+  Swal.fire({
+    title: '¿Eliminar medalla?',
+    text: 'Esta acción no se puede deshacer',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, borrar',
+    cancelButtonText: 'Cancelar',
+    reverseButtons: true,
+    confirmButtonColor: '#d33',
+    customClass: { popup: 'dark' }    
+  }).then(res => {
+    if (!res.isConfirmed) { return; }
+
+    this.medallaService.deleteMedalla(id).subscribe({
+      next: () => {
+        this.medallas = this.medallas.filter(m => m.id !== id);
+
+        Swal.fire({
+          title: '¡Borrado!',
+          text: 'Medalla eliminada correctamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+          customClass: { popup: 'dark' }   
+        });
+      },
+      error: err => {
+        console.error(err);
+
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo eliminar la medalla',
+          icon: 'error',
+          confirmButtonText: 'Cerrar',
+          customClass: { popup: 'dark' }  
+        });
+      }
     });
-  }
+  });
+}
 
   /** Cancelar edición / reset al modo crear */
   resetForm(): void {

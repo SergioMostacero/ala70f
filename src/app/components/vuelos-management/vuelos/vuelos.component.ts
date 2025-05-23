@@ -40,17 +40,15 @@ export class VuelosComponent implements OnInit {
 
     let obs$;
     if (permisos) {
-      // carga **todos** los vuelos
+      // carga todos los vuelos
       obs$ = this.vueloService.getAllVuelos();
     } else {
-      // carga sólo los vuelos del usuario
       const usuario = JSON.parse(raw!) as { id: number };
       obs$ = this.vueloService.getVuelosByUser(usuario.id);
     }
 
     obs$.subscribe({
       next: (data) => {
-        // filtramos sólo los futuros o de hoy
         const hoy = new Date();
         this.vuelosRecientes = data.filter(v =>
           v.fecha_salida && new Date(v.fecha_salida) >= hoy
@@ -69,48 +67,53 @@ export class VuelosComponent implements OnInit {
 
   verVuelo(vueloId: number) {
     const encodedPath = this.encoder.encode('vuelo');
-    this.router.navigate([encodedPath, vueloId]); // Mantener ID legible
+    this.router.navigate([encodedPath, vueloId]);
   }
   editarVuelo(vueloId: number){
     const path = this.encoder.encode('editar-vuelo');
     this.router.navigate([path, vueloId]);
   }
+
   borrarVuelo(vueloId: number): void {
+    Swal.fire({
+      title: '¿Eliminar vuelo?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, borrar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      confirmButtonColor: '#d33',
+      customClass: { popup: 'dark' }       
+    }).then(result => {
+      if (!result.isConfirmed) { return; }
 
-  Swal.fire({
-    title: '¿Eliminar vuelo?',
-    text : 'Esta acción no se puede deshacer',
-    icon : 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Sí, borrar',
-    cancelButtonText : 'Cancelar',
-    reverseButtons   : true,
-    confirmButtonColor: '#d33',
-    customClass: { popup: 'dark' }
-  }).then(result => {
+      this.vueloService.deleteVuelo(vueloId).subscribe({
+        next: () => {
+          this.vuelosRecientes = this.vuelosRecientes.filter(v => v.id !== vueloId);
 
-    if (!result.isConfirmed) { return; }
+          Swal.fire({
+            title: '¡Borrado!',
+            text: 'El vuelo se eliminó correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            customClass: { popup: 'dark' }
+          });
+        },
+        error: err => {
+          console.error(err);
 
-    this.vueloService.deleteVuelo(vueloId).subscribe({
-      next: () => {
-        this.vuelosRecientes =
-          this.vuelosRecientes.filter(v => v.id !== vueloId);
-
-        Swal.fire(
-          '¡Borrado!',
-          'El vuelo se eliminó correctamente.',
-          'success'
-        );
-      },
-      error: () =>
-        Swal.fire(
-          'Error',
-          'No se pudo eliminar el vuelo',
-          'error'
-        )
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudo eliminar el vuelo',
+            icon: 'error',
+            confirmButtonText: 'Cerrar',
+            customClass: { popup: 'dark' } 
+          });
+        }
+      });
     });
-  });
-}
+  }
 
 
 // En vuelos.component.ts
