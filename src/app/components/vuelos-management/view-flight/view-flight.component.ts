@@ -107,7 +107,6 @@ public exportarPDF(): void {
   const pageW = doc.internal.pageSize.getWidth();
 
   this.loadLogo().then(logo => {
-    // CABECERA
     doc.setFillColor(...blue);
     doc.rect(0, 0, pageW, 70, 'F');
     doc.addImage(logo, 'PNG', 20, 12, 45, 45);
@@ -116,7 +115,6 @@ public exportarPDF(): void {
     doc.setFont('Helvetica', 'normal').setFontSize(12);
     doc.text(`Fecha del informe: ${today}`, pageW / 2, 50, { align: 'center' });
 
-    // FECHAS Y FORMATO
     const itinerary = this.vuelo.itinerarioDTO?.nombre ?? '-';
     const salida = this.formatFechaHora(this.vuelo.fecha_salida, this.vuelo.hora_salida);
     const llegada = this.formatFechaHora(this.vuelo.fecha_llegada, this.vuelo.hora_llegada);
@@ -142,7 +140,6 @@ public exportarPDF(): void {
       bodyStyles: { cellPadding: 6 }
     });
 
-    // TRIPULACIÓN
     if (this.tripulantes.length) {
       autoTable(doc, {
         margin: { top: 20 },
@@ -159,7 +156,6 @@ public exportarPDF(): void {
       });
     }
 
-    // UBICACIONES (sin ordenar)
     if (this.ubicaciones.length) {
       autoTable(doc, {
         margin: { top: 20 },
@@ -177,13 +173,11 @@ public exportarPDF(): void {
       });
     }
 
-    // PIE DE PÁGINA
     doc.setFontSize(9).setTextColor(150);
     doc.text(`Generado automáticamente por el sistema el ${today}`, pageW / 2, doc.internal.pageSize.getHeight() - 20, {
       align: 'center'
     });
 
-    // NOMBRE ARCHIVO
     const safeItinerary = itinerary.replace(/\s+/g, '_').replace(/[!’]/g, '');
     const salidaStr = dayjs(this.vuelo.fecha_salida).format('YYYYMMDD');
     doc.save(`INFORME_VUELO_G45-${safeItinerary}-${salidaStr}.pdf`);

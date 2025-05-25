@@ -61,7 +61,7 @@ export class HistorialFlightsComponent implements OnInit {
 
   verVuelo(vueloId: number) {
     const encodedPath = this.encoder.encode('vuelo');
-    this.router.navigate([encodedPath, vueloId]); // Mantener ID legible
+    this.router.navigate([encodedPath, vueloId]); 
   }
 
   private loadVuelosUsuario(): void {
