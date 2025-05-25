@@ -39,7 +39,7 @@ const routes: Routes = [
   { path: encoder.encode('flights'), component: VuelosComponent },
   { path: encoder.encode('register-flights'), component: RegisterFlightComponent },
   { path: encoder.encode('historial'), component: HistorialFlightsComponent },
-  { path: encoder.encode('vuelo/:id'), component: ViewFlightComponent }, // Asegúrate que el componente exista
+  { path: encoder.encode('vuelo/:id'), component: ViewFlightComponent }, 
   { path: encoder.encode('controller-medallas'), component: ControllerMedallasComponent },
   { path: encoder.encode('create-job'), component: CreateJobComponent },
   { path: encoder.encode('edit-job'), component: EditJobComponent },

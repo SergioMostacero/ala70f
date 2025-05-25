@@ -148,7 +148,7 @@ export class PlaneFormComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate([ this.encoder.encode('homePermisos') ]);
+    this.router.navigate([ this.encoder.encode('management') ]);
   }
 
   newPlane(): void {
