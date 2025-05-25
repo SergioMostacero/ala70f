@@ -1,13 +1,14 @@
 <div class="table-container">
-  <h1 class="form-title">LISTA DE MISIONES</h1>
+  <h1 class="form-title">
+    LISTA DE MISIONES
+    <button class="add-button" (click)="newMission()" aria-label="Crear misión">＋</button>
+  </h1>
+
   <table class="plane-table">
     <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Acciones</th>
-      </tr>
+      <tr><th>ID</th><th>Nombre</th><th>Acciones</th></tr>
     </thead>
+
     <tbody>
       <tr *ngFor="let m of misiones">
         <td>{{ m.id }}</td>
@@ -21,7 +22,11 @@
   </table>
 </div>
 
-<form #formSection [formGroup]="missionForm" (ngSubmit)="onSubmit()">
+<form  #formSection
+       *ngIf="showForm"
+       [formGroup]="missionForm"
+       (ngSubmit)="onSubmit()">
+
   <h1 class="form-title">
     {{ isEdit ? 'Editar Misión' : 'Crear Misión' }}
   </h1>
@@ -35,14 +40,11 @@
     <button type="submit" [disabled]="missionForm.invalid">
       {{ isEdit ? 'Guardar cambios' : 'Crear misión' }}
     </button>
-    <button
-      *ngIf="isEdit"
-      type="button"
-      (click)="resetForm()"
-      class="cancel-button"
-    >
-      ✖️ Cancelar
-    </button>
+
+    <button type="button"
+            class="cancel-button"
+            (click)="resetForm()">Cancelar</button>
   </div>
 </form>
+
 <button class="back-button" (click)="goBack()">← Volver</button>

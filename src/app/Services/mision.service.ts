@@ -10,24 +10,14 @@ export class MisionService {
   private apiUrl = 'http://localhost:8000/api/misiones';
 
   constructor(private http: HttpClient) {}
-
-  getAll(): Observable<Mision[]> {
-    return this.http.get<Mision[]>(this.apiUrl);
-  }
-
-  getById(id: number): Observable<Mision> {
-    return this.http.get<Mision>(`${this.apiUrl}/${id}`);
-  }
-
-  create(dto: Partial<Mision>): Observable<Mision> {
-    return this.http.post<Mision>(this.apiUrl, dto);
-  }
-
-  update(id: number, dto: Partial<Mision>): Observable<Mision> {
-    return this.http.put<Mision>(`${this.apiUrl}/${id}`, dto);
-  }
-
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
+  /* Obtiene todas las misiones */
+  getAll(): Observable<Mision[]> {return this.http.get<Mision[]>(this.apiUrl);}
+  /* Obtiene mision por id */
+  getById(id: number): Observable<Mision> {return this.http.get<Mision>(`${this.apiUrl}/${id}`);}
+  /* Crea una mision*/
+  create(dto: Partial<Mision>): Observable<Mision> {return this.http.post<Mision>(this.apiUrl, dto);}
+  /* Actualiza una mision */
+  update(id: number, dto: Partial<Mision>): Observable<Mision> {return this.http.put<Mision>(`${this.apiUrl}/${id}`, dto);}
+  /* Borra una mision */
+  delete(id: number): Observable<void> {return this.http.delete<void>(`${this.apiUrl}/${id}`);}
 }

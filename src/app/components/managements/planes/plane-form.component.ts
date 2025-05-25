@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
@@ -15,8 +15,10 @@ import { RouteEncoderService } from 'src/app/Services/route-encoder.service';
 export class PlaneFormComponent implements OnInit {
   planes: any[] = [];
   planeForm!: FormGroup;
-  isEdit = false;
+  isEdit   = false;   
+  showForm = false;
   private currentId?: number;
+  @ViewChild('formSection') formSection!: ElementRef;
 
   constructor(
     private fb: FormBuilder,
@@ -45,15 +47,21 @@ export class PlaneFormComponent implements OnInit {
     });
   }
 
-    editPlane(plane: any): void {
-    this.isEdit = true;
+  editPlane(plane: any): void {
+    this.isEdit   = true;      
+    this.showForm = true;      
     this.currentId = plane.id;
+
     this.planeForm.patchValue({
-      nombre: plane.nombre,
-      maxCombustible: plane.max_combustible 
+      nombre:         plane.nombre,
+      maxCombustible: plane.max_combustible
     });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setTimeout(() =>
+      this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    );
   }
+
 
   onSubmit(): void {
     if (this.planeForm.invalid) return this.notification.showMessage('Completa el formulario correctamente.', 'error');
@@ -125,11 +133,14 @@ export class PlaneFormComponent implements OnInit {
     });
   }
 
+
   resetForm(): void {
-    this.isEdit = false;
+    this.showForm = false;      // ← oculta el form
+    this.isEdit   = false;
     this.currentId = undefined;
     this.planeForm.reset();
   }
+
 
   private afterSave(): void {
     this.loadPlanes();
@@ -139,4 +150,17 @@ export class PlaneFormComponent implements OnInit {
   goBack(): void {
     this.router.navigate([ this.encoder.encode('homePermisos') ]);
   }
+
+  newPlane(): void {
+    this.isEdit   = false;      
+    this.showForm = true;       
+    this.currentId = undefined;
+
+    this.planeForm.reset();   
+    setTimeout(() =>
+      this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    );
+  }
+
+
 }

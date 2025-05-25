@@ -2,7 +2,6 @@ import { UrlSegment, UrlMatchResult } from '@angular/router';
 import { inject } from '@angular/core';
 import { RouteEncoderService } from '../Services/route-encoder.service';
 
-/** Diccionario clave → ruta real */
 const routeMap: Record<string, string> = {
   login: 'login',
   register: 'register',
@@ -14,7 +13,7 @@ const routeMap: Record<string, string> = {
   flights: 'flights',
   'register-flights': 'register-flights',
   historial: 'historial',
-  vuelo: 'vuelo',                     // el :id se deja para el router
+  vuelo: 'vuelo',                
   'controller-medallas': 'controller-medallas',
   'create-job': 'create-job',
   'edit-job': 'edit-job',

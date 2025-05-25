@@ -249,4 +249,35 @@ form {
   &:active {
     transform: scale(0.98);
   }
+
+}
+.add-button {
+  float: right;                  
+  margin: -2.2rem 0 1rem 1rem;    
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #1d72b8;          
+  color: #ffffff;
+  font-size: 1.6rem;
+  line-height: 1;                
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: #3896e4;         
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+  }
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
 }

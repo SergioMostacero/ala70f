@@ -17,41 +17,36 @@ export class VueloService {
 
   constructor(private http: HttpClient) {}
   
+  /* Crea vuelo teniendo en cuenta todas las relaciones y tablas intermedias */
   createVuelo(vueloData: VueloCreate): Observable<Vuelo> {
-  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const payload = {
+      ...vueloData,
+      avionDTO:      { id: vueloData.avionDTO.id },
+      misionDTO:     { id: vueloData.misionDTO.id },
+      itinerarioDTO: { id: vueloData.itinerarioDTO.id },
+      tripulantesDTO: vueloData.tripulantesDTO
+    };
 
-  const payload = {
-    ...vueloData,
-    avionDTO:      { id: vueloData.avionDTO.id },
-    misionDTO:     { id: vueloData.misionDTO.id },
-    itinerarioDTO: { id: vueloData.itinerarioDTO.id },
-    tripulantesDTO: vueloData.tripulantesDTO
-  };
+    return this.http.post<Vuelo>(this.baseUrl, payload, { headers });
+  }
 
-  return this.http.post<Vuelo>(this.baseUrl, payload, { headers });
-}
-
-
+  /* Actualiza vuelo */
   updateVuelo(id: number, vueloData: Partial<Vuelo>): Observable<Vuelo> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Vuelo>(`${this.baseUrl}/${id}`, vueloData, { headers });
   }
 
-  deleteVuelo(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
-  }
+  /* Elimina vuelo */
+  deleteVuelo(id: number): Observable<void> {return this.http.delete<void>(`${this.baseUrl}/${id}`);}
   
-  getAllVuelos(): Observable<Vuelo[]> {
-    return this.http.get<Vuelo[]>(this.baseUrl);
-  }
+  /* Obtiene todos los vuelos*/
+  getAllVuelos(): Observable<Vuelo[]> {return this.http.get<Vuelo[]>(this.baseUrl);}
   
-  getVueloById(id: number): Observable<Vuelo> {
-  return this.http.get<Vuelo>(`${this.baseUrl}/${id}`);
-}
+  /* Obtiene vuelo por id */
+  getVueloById(id: number): Observable<Vuelo> {return this.http.get<Vuelo>(`${this.baseUrl}/${id}`);}
 
-  
-  getVuelosByUser(tripulanteId: number): Observable<Vuelo[]> {
-    return this.http.get<Vuelo[]>(`${this.baseUrl}/user?tripulanteId=${tripulanteId}`);
-  }
+  /* Obtiene vuelo por id de tripulante*/
+  getVuelosByUser(tripulanteId: number): Observable<Vuelo[]> {return this.http.get<Vuelo[]>(`${this.baseUrl}/user?tripulanteId=${tripulanteId}`);}
   
 }

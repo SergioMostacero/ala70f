@@ -10,12 +10,8 @@ export class RangoService {
   private apiUrl = 'http://localhost:8000/api/rangos';
 
   constructor(private http: HttpClient) { }
-
-  getRangos(): Observable<Rango[]> {
-    return this.http.get<Rango[]>(this.apiUrl);
-  }
-
-  getRangoById(id: number): Observable<Rango> {
-    return this.http.get<Rango>(`${this.apiUrl}/${id}`);
-  }
+  /* Obtiene todos los oficios */
+  getRangos(): Observable<Rango[]> {return this.http.get<Rango[]>(this.apiUrl);}
+  /* Obtiene oficios por id */
+  getRangoById(id: number): Observable<Rango> {return this.http.get<Rango>(`${this.apiUrl}/${id}`);}
 }

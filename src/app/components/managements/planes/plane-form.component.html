@@ -1,5 +1,7 @@
 <div class="table-container">
   <h1 class="form-title">LISTA DE AVIONES</h1>
+  <button class="add-button" (click)="newPlane()" aria-label="Crear avión">＋</button>
+
 
   <table class="plane-table">
     <thead>
@@ -25,8 +27,14 @@
   </table>
 </div>
 
-<form [formGroup]="planeForm" (ngSubmit)="onSubmit()">
-  <h1 class="form-title">{{ isEdit ? 'EDITAR AVIÓN' : 'CREAR AVIÓN' }}</h1>
+<form  #formSection                                  
+       *ngIf="showForm"                                  
+       [formGroup]="planeForm"
+       (ngSubmit)="onSubmit()">
+
+  <h1 class="form-title">
+    {{ isEdit ? 'EDITAR AVIÓN' : 'CREAR AVIÓN' }}
+  </h1>
 
   <div class="field">
     <label>Nombre</label>
@@ -43,9 +51,9 @@
       {{ isEdit ? 'Guardar cambios' : 'Crear avión' }}
     </button>
 
-    <button *ngIf="isEdit" type="button" (click)="resetForm()" class="cancel-button">
-      Cancelar
-    </button>
+    <button type="button"
+            class="cancel-button"
+            (click)="resetForm()">Cancelar</button>
   </div>
 </form>
 

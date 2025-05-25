@@ -11,14 +11,12 @@ export class UbicacionService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
-  }
+  /* Obtiene todas las ubicaciones */
+  getAll(): Observable<any[]> {return this.http.get<any[]>(this.apiUrl);}
 
-  getUbicacionesByItinerarioId(itinerarioId: number): Observable<Ubicacion[]> {
-    return this.http.get<Ubicacion[]>(`${this.apiUrl}/itinerario/${itinerarioId}`);
-  }
-  getUbicacionesByTripulanteId(tripulanteId: number): Observable<Ubicacion[]> {
-    return this.http.get<Ubicacion[]>(`${this.apiUrl}/tripulante/${tripulanteId}`);
-  }
+  /* Obtiene la ubicacion por id*/
+  getUbicacionesByItinerarioId(itinerarioId: number): Observable<Ubicacion[]> {return this.http.get<Ubicacion[]>(`${this.apiUrl}/itinerario/${itinerarioId}`);}
+
+  /* Obtiene la ubicacion por id del tripulante */
+  getUbicacionesByTripulanteId(tripulanteId: number): Observable<Ubicacion[]> {return this.http.get<Ubicacion[]>(`${this.apiUrl}/tripulante/${tripulanteId}`);}
 }

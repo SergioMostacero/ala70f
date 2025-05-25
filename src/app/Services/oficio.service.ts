@@ -11,22 +11,12 @@ export class OficioService {
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient) { }
-
-  getOficios(): Observable<Oficio[]> {
-    return this.http.get<Oficio[]>(this.apiUrl);
-  }
-
-  createOficio(oficio: Oficio): Observable<Oficio> {
-    return this.http.post<Oficio>(this.apiUrl, oficio, { headers: this.headers });
-  }
-
-  updateOficio(oficio: Oficio): Observable<Oficio> {
-    const url = `${this.apiUrl}/${oficio.id}`;
-    return this.http.put<Oficio>(url, oficio, { headers: this.headers });
-  }
-
-  deleteOficio(id: number): Observable<any> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.delete(url, { headers: this.headers });
-  }
+  /* Obtiene todas los oficios */
+  getOficios(): Observable<Oficio[]> {return this.http.get<Oficio[]>(this.apiUrl);}
+  /* Crear un oficio */
+  createOficio(oficio: Oficio): Observable<Oficio> {return this.http.post<Oficio>(this.apiUrl, oficio, { headers: this.headers });}
+  /* Actualiza un oficio */
+  updateOficio(oficio: Oficio): Observable<Oficio> {const url = `${this.apiUrl}/${oficio.id}`;return this.http.put<Oficio>(url, oficio, { headers: this.headers });}
+  /* Elimina un oficio */
+  deleteOficio(id: number): Observable<any> {const url = `${this.apiUrl}/${id}`;return this.http.delete(url, { headers: this.headers });}
 }

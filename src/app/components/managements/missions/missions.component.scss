@@ -226,3 +226,22 @@ form {
     transform: scale(0.98);
   }
 }
+
+.add-button {
+  float: right;
+  margin-left: 1rem;
+  transform: translateY(-4px);
+
+  width: 42px; height: 42px; border-radius: 50%;
+  background: #1d72b8; color: #fff;
+  font-size: 1.6rem; line-height: 1;
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,.4);
+  transition: all .25s ease;
+
+  &:hover { background:#3896e4; transform:translateY(-4px) scale(1.05); }
+  &:active { transform:translateY(-4px) scale(.95); }
+}
+

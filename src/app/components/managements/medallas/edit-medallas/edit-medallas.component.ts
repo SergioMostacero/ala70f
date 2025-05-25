@@ -17,7 +17,8 @@ export class EditMedallasComponent implements OnInit {
 
   medallas: any[] = [];
   medallaForm!: FormGroup;
-  isEdit = false;
+  isEdit   = false;  
+  showForm = false; 
   private currentId?: number;
 
   constructor(
@@ -47,21 +48,6 @@ export class EditMedallasComponent implements OnInit {
     });
   }
 
-  /** Prepara formulario para editar */
-  editMedalla(m: any): void {
-    this.isEdit = true;
-    this.currentId = m.id;
-    this.medallaForm.patchValue({
-      nombre: m.nombre,
-      descripcion: m.descripcion
-    });
-    // Scroll suave al formulario
-    setTimeout(() => {
-      this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  }
-
-  /** Crear o actualizar medalla */
   onSubmit(): void {
     if (this.medallaForm.invalid) {
       this.notification.showMessage('Completa el formulario correctamente.', 'error');
@@ -89,51 +75,71 @@ export class EditMedallasComponent implements OnInit {
       });
     }
   }
+  newMedalla(): void {
+      this.isEdit   = false;
+      this.showForm = true;
+      this.currentId = undefined;
 
-deleteMedalla(id: number): void {
-  Swal.fire({
-    title: '¿Eliminar medalla?',
-    text: 'Esta acción no se puede deshacer',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Sí, borrar',
-    cancelButtonText: 'Cancelar',
-    reverseButtons: true,
-    confirmButtonColor: '#d33',
-    customClass: { popup: 'dark' }    
-  }).then(res => {
-    if (!res.isConfirmed) { return; }
+      this.medallaForm.reset();
+      setTimeout(() =>
+        this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      );
+    }
+   editMedalla(m: any): void {
+    this.isEdit   = true;
+    this.showForm = true;
+    this.currentId = m.id;
 
-    this.medallaService.deleteMedalla(id).subscribe({
-      next: () => {
-        this.medallas = this.medallas.filter(m => m.id !== id);
+    this.medallaForm.patchValue({ nombre: m.nombre, descripcion: m.descripcion });
 
-        Swal.fire({
-          title: '¡Borrado!',
-          text: 'Medalla eliminada correctamente.',
-          icon: 'success',
-          confirmButtonText: 'Aceptar',
-          customClass: { popup: 'dark' }   
-        });
-      },
-      error: err => {
-        console.error(err);
+    setTimeout(() =>
+      this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    );
+  }
+  deleteMedalla(id: number): void {
+    Swal.fire({
+      title: '¿Eliminar medalla?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, borrar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      confirmButtonColor: '#d33',
+      customClass: { popup: 'dark' }    
+    }).then(res => {
+      if (!res.isConfirmed) { return; }
 
-        Swal.fire({
-          title: 'Error',
-          text: 'No se pudo eliminar la medalla',
-          icon: 'error',
-          confirmButtonText: 'Cerrar',
-          customClass: { popup: 'dark' }  
-        });
-      }
+      this.medallaService.deleteMedalla(id).subscribe({
+        next: () => {
+          this.medallas = this.medallas.filter(m => m.id !== id);
+
+          Swal.fire({
+            title: '¡Borrado!',
+            text: 'Medalla eliminada correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            customClass: { popup: 'dark' }   
+          });
+        },
+        error: err => {
+          console.error(err);
+
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudo eliminar la medalla',
+            icon: 'error',
+            confirmButtonText: 'Cerrar',
+            customClass: { popup: 'dark' }  
+          });
+        }
+      });
     });
-  });
-}
+  }
 
-  /** Cancelar edición / reset al modo crear */
   resetForm(): void {
-    this.isEdit = false;
+    this.showForm = false;
+    this.isEdit   = false;
     this.currentId = undefined;
     this.medallaForm.reset();
   }

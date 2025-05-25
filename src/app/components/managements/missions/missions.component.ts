@@ -17,7 +17,8 @@ export class MissionsComponent implements OnInit {
 
   misiones: any[] = [];
   missionForm!: FormGroup;
-  isEdit = false;
+  isEdit   = false; 
+  showForm = false;
   private currentId?: number;
 
   constructor(
@@ -46,15 +47,29 @@ export class MissionsComponent implements OnInit {
     });
   }
 
+  newMission(): void {
+    this.isEdit   = false;
+    this.showForm = true;
+    this.currentId = undefined;
+
+    this.missionForm.reset();
+    setTimeout(() => {
+      if (this.formSection) {
+        this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+  
   editMission(m: any): void {
-    this.isEdit = true;
+    this.isEdit   = true;
+    this.showForm = true;
     this.currentId = m.id;
+
     this.missionForm.patchValue({ nombre: m.nombre });
     setTimeout(() => {
-      this.formSection.nativeElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+      if (this.formSection) {
+        this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
   }
 
@@ -128,7 +143,8 @@ deleteMission(id: number): void {
 
 
   resetForm(): void {
-    this.isEdit = false;
+    this.showForm = false;
+    this.isEdit   = false;
     this.currentId = undefined;
     this.missionForm.reset();
   }
