@@ -2,8 +2,8 @@
   <!-- Radar de carga estilo militar -->
   <div class="radar-wrapper" *ngIf="loading" @spinnerFade>
     <div class="radar">
-      <div class="radar-grid"></div> <!-- Nueva cuadrícula militar -->
-      <div class="beam"></div> <!-- Haz de radar mejorado -->
+      <div class="radar-grid"></div> 
+      <div class="beam"></div> 
       
       <!-- Partículas mejoradas (12 puntos para mejor efecto) -->
       <div class="radar-particles">
@@ -35,13 +35,26 @@
              required
              autocomplete="username">
 
-      <input type="password"
-             placeholder="Contraseña"
-             class="login-input"
-             [(ngModel)]="contrasena"
-             name="contrasena"
-             required
-             autocomplete="current-password">
+<div class="password-wrapper">
+  <input [type]="showPassword ? 'text' : 'password'"
+         placeholder="Contraseña"
+         class="login-input"
+         [(ngModel)]="contrasena"
+         name="contrasena"
+         required
+         minlength="8"
+         autocomplete="current-password" />
+
+          <span class="toggle-password" (click)="showPassword = !showPassword">
+            {{ showPassword ? '👁️' : '👁️' }}
+          </span>
+        </div>
+
+        <small *ngIf="contrasena.length > 0 && contrasena.length < 8" class="password-warning">
+          Mín. 8 car., 1 mayús., 1 minús., 1 dígito.
+        </small>
+
+
 
       <button type="submit" 
               class="login-button"

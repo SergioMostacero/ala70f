@@ -12,7 +12,7 @@ import { RouteEncoderService } from '../../Services/route-encoder.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   animations: [
-    /* ---------------- Animaciones de entrada/salida -------------- */
+    /* ---------------- Animaciones -------------- */
     trigger('fadeSlide', [
       transition(':enter', [
         style({ opacity: 0, transform: 'translateY(20px)' }),
@@ -39,8 +39,10 @@ export class LoginComponent implements OnInit {
   email = '';
   contrasena = '';
   loading = true;
+  showPassword = false;
 
-  /* ---------- Huevo de pascua: 7 clics = fuego ------------------ */
+
+  /* ---------- Easter Egg -> 7 clics, animación de fuego ------------------ */
   private logoClickCount = 0;
   fireEffect = false;
 
@@ -51,26 +53,25 @@ export class LoginComponent implements OnInit {
     private notification: NotificationService
   ) {}
 
-  /* ---------- Ciclo de vida ------------------------------------- */
+  /* -------------------- Ciclo de vida -------------------- */
   ngOnInit(): void {
     /* simulamos carga 2 s */
     setTimeout(() => (this.loading = false), 2000);
   }
 
-  /* ---------- Click en el logo ---------------------------------- */
+  /* -------------------- Click en el logo -------------------- */
   handleLogoClick(): void {
     this.logoClickCount++;
 
     if (this.logoClickCount === 7) {
-      this.fireEffect = true;            // enciende el fuego
+      this.fireEffect = true;            
       setTimeout(() => {
-        this.fireEffect = false;         // lo apaga
-        this.logoClickCount = 0;         // reinicia el contador
-      }, 4000);                          // dura 4 s
+        this.fireEffect = false;         
+        this.logoClickCount = 0;         
+      }, 4000);                          
     }
   }
 
-  /* ---------- Login --------------------------------------------- */
   login(): void {
     this.tripulantesService
       .loginTripulantes(this.email, this.contrasena)

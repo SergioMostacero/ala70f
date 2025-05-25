@@ -1,4 +1,3 @@
-// edit-job.component.ts
 import { Component, EventEmitter, OnInit, Output, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Oficio } from '../../../../model/oficio.model';

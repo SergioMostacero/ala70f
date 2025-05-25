@@ -67,7 +67,6 @@ export class MissionsComponent implements OnInit {
     const dto = this.missionForm.value;
 
     if (this.isEdit && this.currentId != null) {
-      // EDITAR
       this.misionService.update(this.currentId, dto).subscribe({
         next: () => {
           this.notification.showMessage('Misión actualizada.', 'success');
@@ -76,7 +75,6 @@ export class MissionsComponent implements OnInit {
         error: () => this.notification.showMessage('Error al actualizar misión.', 'error')
       });
     } else {
-      // CREAR
       this.misionService.create(dto).subscribe({
         next: () => {
           this.notification.showMessage('Misión creada.', 'success');
@@ -129,7 +127,6 @@ deleteMission(id: number): void {
 }
 
 
-  /** Reset al modo crear */
   resetForm(): void {
     this.isEdit = false;
     this.currentId = undefined;

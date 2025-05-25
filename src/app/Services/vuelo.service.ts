@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Vuelo } from '../model/vuelo.model';
 
 export type VueloCreate = Omit<Vuelo, 'id'> & {
-  avionDTO:      { id: number };   // obligatorios
+  avionDTO:      { id: number };   
   misionDTO:     { id: number };
   itinerarioDTO: { id: number };
 };
@@ -41,7 +41,6 @@ export class VueloService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
   
-  // Obtener todos los vuelos
   getAllVuelos(): Observable<Vuelo[]> {
     return this.http.get<Vuelo[]>(this.baseUrl);
   }

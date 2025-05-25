@@ -3,7 +3,6 @@
     <h1 class="form-title">Administrar Medallas</h1>
   </div>
 
-  <!-- Selección del tripulante -->
   <div class="field">
     <label for="tripulanteSelect">Seleccionar Tripulante:</label>
     <select id="tripulanteSelect" [(ngModel)]="selectedTripulanteId">
@@ -11,7 +10,6 @@
     </select>
   </div>
 
-  <!-- Selección de la medalla -->
   <div class="field">
     <label for="medallaSelect">Seleccionar Medalla:</label>
     <select id="medallaSelect" [(ngModel)]="selectedMedallaId">
@@ -19,7 +17,6 @@
     </select>
   </div>
 
-  <!-- Botón para asignar medalla -->
   <div class="actions">
     <button type="button" (click)="asignarMedalla()" class="nav-button">
       Asignar Medalla

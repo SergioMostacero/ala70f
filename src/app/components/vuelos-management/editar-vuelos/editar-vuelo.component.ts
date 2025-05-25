@@ -48,7 +48,6 @@ export class EditarVueloComponent implements OnInit {
     private notification: NotificationService
   ) {}
 
-  /* ------------------------ INIT ------------------------ */
   ngOnInit(): void {
     this.vueloId = Number(this.route.snapshot.paramMap.get('id'));
     if (!this.vueloId) {
@@ -70,7 +69,6 @@ export class EditarVueloComponent implements OnInit {
   }, { emitEvent: false });
 }
 
-  /* -------------------- Formulario --------------------- */
   private initForm(): void {
     this.vueloForm = this.fb.group({
       fecha_salida: ['', Validators.required],
@@ -94,12 +92,11 @@ export class EditarVueloComponent implements OnInit {
   private loadVuelo(): void {
 
   forkJoin({
-    vuelo  : this.vueloService.getVueloById(this.vueloId),          // Observable<Vuelo>
-    tripus : this.tripulantesService.getTripulantesByVuelo(this.vueloId) // Observable<any[]>
+    vuelo  : this.vueloService.getVueloById(this.vueloId),         
+    tripus : this.tripulantesService.getTripulantesByVuelo(this.vueloId) 
   }).subscribe({
     next: ({ vuelo, tripus }) => {
 
-      // 1. Datos básicos del vuelo
       this.vueloForm.patchValue({
         ...vuelo,
         avionDTO     : { id: vuelo.avionDTO?.id },
@@ -107,10 +104,8 @@ export class EditarVueloComponent implements OnInit {
         itinerarioDTO: { id: vuelo.itinerarioDTO?.id }
       }, { emitEvent: false });
 
-      // 2. Distribuir tripulantes
       this.setTripulanteSelects(tripus);
 
-      // 3. Resto de lógica
       this.duracionItinerario = vuelo.itinerarioDTO?.duracion ?? '00:00';
       this.onAvionChange();
 
@@ -126,7 +121,6 @@ export class EditarVueloComponent implements OnInit {
 }
 
 
-  /* ------------------- Guardar cambios ------------------ */
   saveChanges(): void {
     if (this.vueloForm.invalid) {
       this.notification.showMessage('Complete todos los campos', 'error');
@@ -140,7 +134,7 @@ export class EditarVueloComponent implements OnInit {
 
     const tripulanteIds = new Set<number>([
       pilotoId, copilotoId, mecanicoId, tecnicoComId
-    ].filter(Boolean) as number[]);            // filtra null/undefined
+    ].filter(Boolean) as number[]);         
 
     const vueloData = {
       ...this.vueloForm.getRawValue(),
@@ -157,12 +151,10 @@ export class EditarVueloComponent implements OnInit {
     });
   }
 
-  /* -------------------- UX Helpers ---------------------- */
   goBack(): void {
     this.router.navigate([this.encoder.encode('flights')]);
   }
 
-  /* ---------- Eventos de select / input  ---------- */
   onAvionChange(): void {
     const avionId = this.avionFormGroup.get('id')?.value;
     const selectedAvion = this.avionList.find(a => a.id === avionId);
@@ -225,12 +217,10 @@ export class EditarVueloComponent implements OnInit {
     }
   }
 
-  /* ----------------- Helpers de acceso ------------------ */
   get avionFormGroup(): FormGroup     { return this.vueloForm.get('avionDTO') as FormGroup; }
   get misionesFormGroup(): FormGroup  { return this.vueloForm.get('misionDTO') as FormGroup; }
   get itinerarioFormGroup(): FormGroup{ return this.vueloForm.get('itinerarioDTO') as FormGroup; }
 
-  /* ------------------ Catálogos ------------------ */
   private loadCatalogos(): void {
     this.avionService.getAll().subscribe({
       next: data => this.avionList = data,

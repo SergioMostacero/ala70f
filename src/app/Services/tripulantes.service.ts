@@ -30,7 +30,6 @@ export class TripulantesService {
     return this.http.get<any[]>(this.baseUrl);
   }
 
-  // login
   loginTripulantes(email: string, contrasena: string): Observable<Tripulantes> {
     return this.http.post<Tripulantes>(
       `${this.baseUrl}/login`,
@@ -49,7 +48,6 @@ export class TripulantesService {
   }
 
 
-  // Cargar desde localStorage
   private loadFromStorage(): void {
     const storedTripulante = localStorage.getItem('tripulante');
     if (storedTripulante) {
@@ -57,13 +55,11 @@ export class TripulantesService {
     }
   }
 
-  // Logout
   logout(): void {
     this.loggedInTripulante = null;
     localStorage.removeItem('tripulante');
   }
 
-  // Otros métodos
   getTripulantess(): Observable<Tripulantes[]> {
     return this.http.get<Tripulantes[]>(this.baseUrl);
   }

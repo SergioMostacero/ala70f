@@ -29,6 +29,8 @@ export class EditUserComponent implements OnInit {
   selectedUserId: number | null = null;
   isLoaded = false;
   hoy: string = new Date().toISOString().substring(0, 10);
+  showPassword = false;
+
 
   constructor(
     private encoder: RouteEncoderService,
@@ -77,8 +79,8 @@ export class EditUserComponent implements OnInit {
     if (this.selectedUserId) {
       this.loadUser(this.selectedUserId);
     } else {
-      this.userForm.reset();   // vacía el formulario
-      this.isLoaded = false;   // evita que se envíe hasta que cargue un usuario válido
+      this.userForm.reset();   
+      this.isLoaded = false;   
     }
   }
 

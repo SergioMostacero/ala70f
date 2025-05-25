@@ -70,11 +70,9 @@ export class ControllerMedallasComponent implements OnInit {
           this.resetSelections();
         },
         error: (err) => {
-          // Verificar el código de estado HTTP
           if (err.status === 409) {
             this.notification.showMessage('Este tripulante ya posee esta medalla', 'error');
           } else if (err.status === 200 || err.status === 201) {
-            // Si el servidor responde con éxito, pero Angular lo interpreta como error
             this.notification.showMessage('Medalla asignada exitosamente', 'success');
             this.resetSelections();
           } else {

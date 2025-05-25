@@ -1,4 +1,3 @@
-// src/app/components/managements/create-job/create-job.component.ts
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -35,7 +34,7 @@ export class CreateJobComponent {
       return;
     }
 
-    const payload: Oficio = this.jobForm.value;   // {nombre, descripcion}
+    const payload: Oficio = this.jobForm.value;   
 
     this.oficioService.createOficio(payload).subscribe({
       next: () => {

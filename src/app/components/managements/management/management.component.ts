@@ -1,4 +1,3 @@
-// management.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteEncoderService } from '../../../Services/route-encoder.service';

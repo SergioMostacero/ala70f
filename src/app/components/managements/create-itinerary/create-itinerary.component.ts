@@ -12,7 +12,7 @@ import { NotificationService } from '../../../utils/notification.service';
   styleUrls: ['./create-itinerary.component.scss']
 })
 export class CreateItineraryComponent implements OnInit {
-  itineraryForm!: FormGroup; // Usamos el operador ! para evitar el error de inicialización
+  itineraryForm!: FormGroup;
   ubicaciones: any[] = [];
 
   constructor(

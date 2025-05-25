@@ -27,6 +27,8 @@ export class RegisterUserComponent implements OnInit {
   rangos: Rango[] = [];
   gruposSanguineos: GrupoSanguineo[] = [];
   oficios: Oficio[] = [];
+  showPassword = false;
+
 
 
   hoy: string = new Date().toISOString().substring(0, 10);
@@ -142,8 +144,8 @@ export class RegisterUserComponent implements OnInit {
   return (control: AbstractControl) => {
     const value = control.value?.trim();
     return !value
-      ? of(null)                                    // campo vacío → sin error
-      : this.tripulantesService.emailExists(value)  // llama al back-end
+      ? of(null)                                    
+      : this.tripulantesService.emailExists(value)  
           .pipe(
             map(exists => (exists ? { emailTaken: true } : null)),
             first()

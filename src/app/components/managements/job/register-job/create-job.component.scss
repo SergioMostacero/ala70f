@@ -78,14 +78,12 @@
   }
 }
 
-/* ---------- GRUPOS DE BOTONES ---------- */
 .button-group {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
 }
 
-/* ---------- BOTONES ---------- */
 .nav-button {
   flex: 1 1 auto;
   padding: 1rem;
@@ -133,7 +131,6 @@
   }
 }
 
-/* ---------- FORMULARIO ---------- */
 form {
   width: 100%;
   margin-top: 1.5rem;
@@ -186,7 +183,7 @@ form {
 
 .back-button {
   width: 100%;
-  max-width: 35rem; // Mismo ancho que el formulario
+  max-width: 35rem; 
   padding: 1rem 2rem;
   font-size: 1.1rem;
   margin: 3rem auto 2rem;
@@ -226,7 +223,6 @@ form {
     }
   }
 
-  // Versión extra pequeña
   @media (max-width: 480px) {
     font-size: 0.9rem;
     padding: 0.7rem;

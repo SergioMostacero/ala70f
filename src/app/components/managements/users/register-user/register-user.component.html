@@ -58,15 +58,22 @@
         </small>
       </div>
 
-      <div class="form-row">
-        <label>Contraseña</label>
-        <input type="password" formControlName="contrasena" minlength="8" />
-        <small *ngIf="registerForm.get('contrasena')?.hasError('pattern')">
-          Mín. 8 car., 1 mayús., 1 minús., 1 dígito.
-        </small>
-      </div>
+<div class="form-row password-row">
+  <label>Contraseña</label>
 
-      <!-- ▸ Información profesional -->
+  <div class="password-wrapper">
+    <input [type]="showPassword ? 'text' : 'password'" formControlName="contrasena" minlength="8" class="password-input"/>
+    <span class="toggle-password" (click)="showPassword = !showPassword">
+      {{ showPassword ? '👁️' : '👁️' }}
+    </span>
+  </div>
+
+  <small *ngIf="registerForm.get('contrasena')?.hasError('pattern')">
+    Mín. 8 car., 1 mayús., 1 minús., 1 dígito.
+  </small>
+</div>
+
+
       <h3 class="section-title">Información Profesional</h3>
 
       <div class="form-row" formGroupName="grupoSanguineoDTO">
@@ -104,7 +111,6 @@
         <label>Otorgar permisos administrativos</label>
       </div>
 
-      <!-- Botones -->
       <div class="buttons register-buttons">
         <button class="nav-button register-button"
                 type="submit"

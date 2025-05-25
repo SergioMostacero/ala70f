@@ -50,7 +50,7 @@ export class PlaneFormComponent implements OnInit {
     this.currentId = plane.id;
     this.planeForm.patchValue({
       nombre: plane.nombre,
-      maxCombustible: plane.max_combustible // Usar max_combustible de la interfaz
+      maxCombustible: plane.max_combustible 
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -131,7 +131,6 @@ export class PlaneFormComponent implements OnInit {
     this.planeForm.reset();
   }
 
-  /** Tras crear/editar recarga lista y resetea */
   private afterSave(): void {
     this.loadPlanes();
     this.resetForm();

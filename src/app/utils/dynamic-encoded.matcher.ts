@@ -30,13 +30,11 @@ export function dynamicEncodedMatcher(
   const encoder = inject(RouteEncoderService);
   const decoded = encoder.decode(segments[0].path);
 
-  // Si no se reconoce, dejamos al router seguir probando
   if (!decoded || !(decoded in routeMap)) return null;
 
-  // ⚠️ NO ponemos redirectTo aquí
   return {
-    consumed: [segments[0]],                 // solo el primer segmento
-    posParams: {                             // lo exponemos como parámetro
+    consumed: [segments[0]],                 
+    posParams: {                             
       real: new UrlSegment(routeMap[decoded], {})
     }
   };

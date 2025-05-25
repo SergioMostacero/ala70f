@@ -1,7 +1,5 @@
-<!-- Mis Vuelos (estilo unificado) -->
 <div class="container">
   <div class="user-panel">
-    <!-- Encabezado -->
     <div class="header-row">
       <button class="nav-button back-button" (click)="goBack()">Volver</button>
 
@@ -16,7 +14,6 @@
       </button>
     </div>
 
-    <!-- Tabla de vuelos -->
     <div class="flight-details-card">
       <div class="flight-info">
         <table class="flight-table">
@@ -28,7 +25,6 @@
               <th>Fecha Llegada</th>
               <th>Llegada</th>
               <th>Avión</th>
-              <!-- NUEVA COLUMNA -->
               <th *ngIf="mostrarBotonEdicion">Acciones</th>
             </tr>
           </thead>
@@ -66,17 +62,14 @@
                 </a>
               </td>
 
-              <!-- Acciones -->
               <td *ngIf="mostrarBotonEdicion" class="actions-cell">
                 <div class="actions-wrapper">
-                  <!-- Editar (izquierda) -->
                   <button class="icon-button"
                           (click)="editarVuelo(vuelo.id)"
                           aria-label="Editar vuelo">
                     <span class="material-icons">edit</span>
                   </button>
 
-                  <!-- Borrar (derecha) -->
                   <button class="icon-button danger-button"
                           (click)="borrarVuelo(vuelo.id)"
                           aria-label="Eliminar vuelo">

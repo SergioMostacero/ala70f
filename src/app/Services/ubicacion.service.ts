@@ -18,7 +18,6 @@ export class UbicacionService {
   getUbicacionesByItinerarioId(itinerarioId: number): Observable<Ubicacion[]> {
     return this.http.get<Ubicacion[]>(`${this.apiUrl}/itinerario/${itinerarioId}`);
   }
-  // ubicacion.service.ts
   getUbicacionesByTripulanteId(tripulanteId: number): Observable<Ubicacion[]> {
     return this.http.get<Ubicacion[]>(`${this.apiUrl}/tripulante/${tripulanteId}`);
   }
