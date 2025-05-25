@@ -27,8 +27,38 @@ export class VuelosComponent implements OnInit {
     const permisos = localStorage.getItem('permisos') === 'true';
     this.mostrarBotonRegistro = permisos;
     this.mostrarBotonEdicion  = permisos;  
+    this.loadVuelos(permisos);
   }
 
+  private loadVuelos(permisos: boolean): void {
+    // Si no hay usuario logueado y no tiene permisos, no hacer nada
+    const raw = localStorage.getItem('usuarioLogeado');
+    if (!raw && !permisos) {
+      console.warn('No hay usuario logueado');
+      return;
+    }
+
+    let obs$;
+    if (permisos) {
+      // carga **todos** los vuelos
+      obs$ = this.vueloService.getAllVuelos();
+    } else {
+      // carga sólo los vuelos del usuario
+      const usuario = JSON.parse(raw!) as { id: number };
+      obs$ = this.vueloService.getVuelosByUser(usuario.id);
+    }
+
+    obs$.subscribe({
+      next: (data) => {
+        // filtramos sólo los futuros o de hoy
+        const hoy = new Date();
+        this.vuelosRecientes = data.filter(v =>
+          v.fecha_salida && new Date(v.fecha_salida) >= hoy
+        );
+      },
+      error: (err) => console.error('Error cargando vuelos:', err)
+    });
+  }
   goBack(): void {
   this.router.navigate([ this.encoder.encode('homePermisos') ]);
 }

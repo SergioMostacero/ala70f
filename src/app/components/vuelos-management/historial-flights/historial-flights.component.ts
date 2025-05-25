@@ -20,6 +20,34 @@ export class HistorialFlightsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadVuelosUsuario();
+    const permisos = localStorage.getItem('permisos') === 'true';
+    this.loadHistorial(permisos);
+  }
+  private loadHistorial(permisos: boolean): void {
+    const raw = localStorage.getItem('usuarioLogeado');
+    if (!raw && !permisos) {
+      console.warn('No hay usuario logueado');
+      return;
+    }
+
+    let obs$;
+    if (permisos) {
+      obs$ = this.vueloService.getAllVuelos();
+    } else {
+      const { id: tripulanteId } = JSON.parse(raw!) as { id: number };
+      obs$ = this.vueloService.getVuelosByUser(tripulanteId);
+    }
+
+    obs$.subscribe({
+      next: (data) => {
+        const hoy = new Date();
+        this.historialVuelos = data.filter(
+          (v: any) => v.fecha_salida && new Date(v.fecha_salida) < hoy
+        );
+      },
+      error: (err) =>
+        console.error('Error cargando historial de vuelos:', err)
+    });
   }
 
   goBack(): void {

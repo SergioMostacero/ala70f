@@ -72,40 +72,40 @@ export class RegisterFlightComponent implements OnInit {
   
   onAvionChange(): void {
     const avionId = this.vueloForm.get('avionDTO.id')?.value;
-    const selectedAvion = this.avionList.find(avion => avion.id === avionId);
+    const selected = this.avionList.find(a => a.id === avionId);
   
-    if (selectedAvion) {
-      this.maxCombustible = selectedAvion.max_combustible;
-      this.maxCombustibleMessage = `${this.maxCombustible}`;
-    } else {
-      this.maxCombustible = 0;
-      this.maxCombustibleMessage = '';
+    this.maxCombustible       = selected ? selected.max_combustible : 0;
+    this.maxCombustibleMessage = selected ? `${this.maxCombustible}` : '';
+  
+    if (this.vueloForm.get('combustible')?.value) {
+      this.validateCombustible();
     }
-  
-    // Validar inmediatamente si ya hay un valor en combustible
-    this.validateCombustible();
   }
   
-validateCombustible(): void {
-  const combustibleControl = this.vueloForm.get('combustible');
-  const combustibleValue = Number(combustibleControl?.value);
-
-  if (combustibleValue > this.maxCombustible) {
-    combustibleControl?.setErrors({ max: true });
-    this.notification.showMessage(
-      `El combustible no puede exceder ${this.maxCombustible} toneladas.`,
-      'error'
-    );
-  } else if (combustibleValue <= 0) {
-    combustibleControl?.setErrors({ min: true });
-    this.notification.showMessage(
-      'El combustible debe ser mayor a 0.',
-      'error'
-    );
-  } else {
-    combustibleControl?.setErrors(null);
+  
+  validateCombustible(): void {
+    const control = this.vueloForm.get('combustible');
+    const valor   = Number(control?.value);
+  
+    if (!valor) { control?.setErrors(null); return; }
+  
+    if (valor > this.maxCombustible) {
+      control?.setErrors({ max: true });
+      this.notification.showMessage(
+        `El combustible no puede exceder ${this.maxCombustible} toneladas.`,
+        'error'
+      );
+    } else if (valor <= 0) {
+      control?.setErrors({ min: true });
+      this.notification.showMessage(
+        'El combustible debe ser mayor a 0.',
+        'error'
+      );
+    } else {
+      control?.setErrors(null);
+    }
   }
-}
+  
 
   
 
@@ -129,6 +129,8 @@ updateHoraLlegada(): void {
   const fechaSalida = this.vueloForm.get('fecha_salida')?.value;
   const duracion = this.duracionItinerario; 
 
+  if (!horaSalida || !fechaSalida || !duracion) { return; }
+
   if (horaSalida && duracion && fechaSalida) {
     const [durH, durM] = duracion.toString().split(':').map(Number);
     const salidaDate = new Date(`${fechaSalida}T${horaSalida}`);
@@ -149,9 +151,12 @@ updateHoraLlegada(): void {
 
   
 
-  onHoraSalidaChange(): void {
+onHoraSalidaChange(): void {
+    if (this.itinerarioFormGroup.get('id')?.value) {
     this.updateHoraLlegada();
   }
+}
+
 
   get avionFormGroup(): FormGroup {
     return this.vueloForm.get('avionDTO') as FormGroup;

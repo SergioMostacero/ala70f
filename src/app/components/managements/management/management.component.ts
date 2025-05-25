@@ -1,3 +1,4 @@
+// management.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteEncoderService } from '../../../Services/route-encoder.service';
@@ -33,10 +34,23 @@ export class ManagementComponent {
   goToMedallas() {
     this.router.navigate([this.encoder.encode('controller-medallas')]);
   }
+  goToEditMedallas() {
+    this.router.navigate([this.encoder.encode('medallas')]);
+  }
+
 
   crearItinerario() {
     this.router.navigate([this.encoder.encode('create-itinerary')]);
   }
+
+  goToPlanes() {
+    this.router.navigate([this.encoder.encode('plane')]);
+  }
+
+  goToMisiones(){
+    this.router.navigate([this.encoder.encode('missions')]);
+  }
+
   goBack(): void {
     this.router.navigate([ this.encoder.encode('homePermisos') ]);
   }

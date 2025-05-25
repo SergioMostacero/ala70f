@@ -1,0 +1,120 @@
+<div class="container">
+  <div class="user-panel" @routeAnimations>
+
+    <div class="header-row">
+      <h1 class="register-title">REGISTRO DE USUARIOS</h1>
+    </div>
+    <form [formGroup]="registerForm" (ngSubmit)="registrar()">
+
+      <h3 class="section-title">Datos Personales</h3>
+
+      <div class="form-row">
+        <label>Nombre</label>
+        <input type="text" formControlName="nombre"/>
+        <small *ngIf="registerForm.get('nombre')?.hasError('pattern')">
+          Solo letras y tildes.
+        </small>
+      </div>
+
+      <div class="form-row">
+        <label>Apellidos</label>
+        <input type="text" formControlName="apellidos"/>
+        <small *ngIf="registerForm.get('apellidos')?.hasError('pattern')">
+          Solo letras y tildes.
+        </small>
+      </div>
+
+      <div class="form-row">
+        <label>Antigüedad</label>
+
+        <input
+          type="date"
+          formControlName="antiguedad"
+          min="1900-01-01"
+          [attr.max]="hoy"         
+        />
+
+        <small *ngIf="registerForm.get('antiguedad')?.hasError('fueraRango')">
+          La fecha debe estar entre 01/01/1900 y hoy
+        </small>
+      </div>
+
+
+      <div class="form-row">
+        <label>Horas de vuelo</label>
+        <input type="number" formControlName="horas_totales" min="0" />
+      </div>
+
+      <h3 class="section-title">Acceso</h3>
+
+      <div class="form-row">
+        <label>Email</label>
+        <input type="email" formControlName="email" />
+        <small *ngIf="registerForm.get('email')?.hasError('email')">
+          Formato de email inválido.
+        </small>
+        <small *ngIf="registerForm.get('email')?.hasError('emailTaken')">
+          Este correo ya está registrado
+        </small>
+      </div>
+
+      <div class="form-row">
+        <label>Contraseña</label>
+        <input type="password" formControlName="contrasena" minlength="8" />
+        <small *ngIf="registerForm.get('contrasena')?.hasError('pattern')">
+          Mín. 8 car., 1 mayús., 1 minús., 1 dígito.
+        </small>
+      </div>
+
+      <!-- ▸ Información profesional -->
+      <h3 class="section-title">Información Profesional</h3>
+
+      <div class="form-row" formGroupName="grupoSanguineoDTO">
+        <label>Grupo sanguíneo</label>
+        <select formControlName="id">
+          <option [ngValue]="null">-- Elegir grupo --</option>
+          <option *ngFor="let g of gruposSanguineos" [ngValue]="g.id">
+            {{ g.tipo }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-row" formGroupName="rangoDTO">
+        <label>Rango</label>
+        <select formControlName="id">
+          <option [ngValue]="null">-- Elegir rango --</option>
+          <option *ngFor="let r of rangos" [ngValue]="r.id">
+            {{ r.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-row" formGroupName="oficioDTO">
+        <label>Oficio</label>
+        <select formControlName="id">
+          <option [ngValue]="null">-- Elegir oficio --</option>
+          <option *ngFor="let o of oficios" [ngValue]="o.id">
+            {{ o.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-row checkbox-row">
+        <input type="checkbox" formControlName="permisos" />
+        <label>Otorgar permisos administrativos</label>
+      </div>
+
+      <!-- Botones -->
+      <div class="buttons register-buttons">
+        <button class="nav-button register-button"
+                type="submit"
+                [disabled]="registerForm.invalid">
+          Registrar
+        </button>
+        <button class="nav-button home-button" type="button" (click)="goBack()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

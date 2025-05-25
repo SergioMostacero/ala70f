@@ -1,0 +1,59 @@
+<!-- edit-job.component.html -->
+<div class="table-container">
+  <h1 class="form-title">LISTA DE OFICIOS</h1>
+  
+  <table class="plane-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let oficio of oficios">
+        <td data-label="Nombre">{{ oficio.nombre }}</td>
+        <td data-label="Descripción">{{ oficio.descripcion }}</td>
+        <td class="actions-cell" data-label="Acciones">
+          <button class="nav-button" (click)="selectOficio(oficio)">✏️</button>
+          <button class="nav-button" (click)="deleteOficio(oficio.id)">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="oficios.length === 0" class="no-data">
+    No hay oficios registrados
+  </div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submit()" *ngIf="selectedOficio">
+  <h1 class="form-title">{{ selectedOficio.id ? 'EDITAR OFICIO' : 'NUEVO OFICIO' }}</h1>
+
+  <div class="field">
+    <label>Nombre</label>
+    <input formControlName="nombre" type="text" placeholder="Ej. Carpintero" />
+    <div *ngIf="form.get('nombre')?.invalid && form.get('nombre')?.touched" class="error-message">
+      El nombre es obligatorio (máx. 60 caracteres)
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Descripción</label>
+    <textarea formControlName="descripcion" rows="3" placeholder="Describe el oficio"></textarea>
+    <div *ngIf="form.get('descripcion')?.invalid && form.get('descripcion')?.touched" class="error-message">
+      La descripción es obligatoria (máx. 255 caracteres)
+    </div>
+  </div>
+
+  <div class="actions">
+    <button type="submit" [disabled]="form.invalid || loading">
+      {{ loading ? 'Guardando...' : 'Guardar cambios' }}
+    </button>
+    <button type="button" (click)="clearSelection()" class="cancel-button">
+      Cancelar
+    </button>
+  </div>
+</form>
+
+<button class="back-button" (click)="goBack()">← Volver</button>

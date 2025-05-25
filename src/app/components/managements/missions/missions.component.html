@@ -1,0 +1,48 @@
+<div class="table-container">
+  <h1 class="form-title">LISTA DE MISIONES</h1>
+  <table class="plane-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let m of misiones">
+        <td>{{ m.id }}</td>
+        <td>{{ m.nombre }}</td>
+        <td class="actions-cell">
+          <button class="nav-button" (click)="editMission(m)">✏️</button>
+          <button class="nav-button" (click)="deleteMission(m.id)">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<form #formSection [formGroup]="missionForm" (ngSubmit)="onSubmit()">
+  <h1 class="form-title">
+    {{ isEdit ? 'Editar Misión' : 'Crear Misión' }}
+  </h1>
+
+  <div class="field">
+    <label>Nombre</label>
+    <input formControlName="nombre" type="text" />
+  </div>
+
+  <div class="actions">
+    <button type="submit" [disabled]="missionForm.invalid">
+      {{ isEdit ? 'Guardar cambios' : 'Crear misión' }}
+    </button>
+    <button
+      *ngIf="isEdit"
+      type="button"
+      (click)="resetForm()"
+      class="cancel-button"
+    >
+      ✖️ Cancelar
+    </button>
+  </div>
+</form>
+<button class="back-button" (click)="goBack()">← Volver</button>

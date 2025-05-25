@@ -1,0 +1,129 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
+
+import { AvionService } from 'src/app/Services/avion.service';
+import { NotificationService } from 'src/app/utils/notification.service';
+import { Router } from '@angular/router';
+import { RouteEncoderService } from 'src/app/Services/route-encoder.service';
+
+@Component({
+  selector: 'app-plane-form',
+  templateUrl: './plane-form.component.html',
+  styleUrls: ['./plane-form.component.scss']
+})
+export class PlaneFormComponent implements OnInit {
+  planes: any[] = [];
+  planeForm!: FormGroup;
+  isEdit = false;
+  private currentId?: number;
+
+  constructor(
+    private fb: FormBuilder,
+    private avionService: AvionService,
+    private notification: NotificationService,
+    private router: Router,
+    private encoder: RouteEncoderService
+  ) {}
+
+  ngOnInit(): void {
+    this.initForm();
+    this.loadPlanes();
+  }
+
+  private initForm(): void {
+    this.planeForm = this.fb.group({
+    nombre:         ['', Validators.required],
+    maxCombustible: [null, [Validators.required, Validators.min(0)]]
+  });
+  }
+
+  private loadPlanes(): void {
+    this.avionService.getAll().subscribe({
+      next: list => this.planes = list,
+      error: () => this.notification.showMessage('Error al cargar aviones', 'error')
+    });
+  }
+
+    editPlane(plane: any): void {
+    this.isEdit = true;
+    this.currentId = plane.id;
+    this.planeForm.patchValue({
+      nombre: plane.nombre,
+      maxCombustible: plane.max_combustible // Usar max_combustible de la interfaz
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  onSubmit(): void {
+  if (this.planeForm.invalid) return this.notification.showMessage('Completa el formulario correctamente.', 'error');
+
+  const { nombre, maxCombustible } = this.planeForm.value;
+
+  const dto = {
+  id: this.currentId,
+  nombre: nombre,
+  max_combustible: Number(maxCombustible) 
+};
+
+  if (this.isEdit && this.currentId != null) {
+    this.avionService.update(dto).subscribe({
+      next: () => {
+        this.notification.showMessage('Avión actualizado.', 'success');
+        this.afterSave();
+      },
+      error: () => this.notification.showMessage('Error al actualizar.', 'error')
+    });
+  } else {
+    this.avionService.create(dto).subscribe({
+      next: () => {
+        this.notification.showMessage('Avión creado.', 'success');
+        this.afterSave();
+      },
+      error: () => this.notification.showMessage('Error al crear.', 'error')
+    });
+  }
+}
+
+
+  /** Borrar con confirmación SweetAlert2 */
+  deletePlane(id: number): void {
+    Swal.fire({
+      title: '¿Eliminar avión?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, borrar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      confirmButtonColor: '#d33',
+      customClass: { popup: 'dark' }
+    }).then(res => {
+      if (!res.isConfirmed) return;
+      this.avionService.delete(id).subscribe({
+        next: () => {
+          this.planes = this.planes.filter(p => p.id !== id);
+          Swal.fire('¡Borrado!', 'Avión eliminado.', 'success');
+        },
+        error: () => Swal.fire('Error', 'No se pudo eliminar.', 'error')
+      });
+    });
+  }
+
+  /** Reinicia formulario a modo “crear” y recarga lista */
+  resetForm(): void {
+    this.isEdit = false;
+    this.currentId = undefined;
+    this.planeForm.reset();
+  }
+
+  /** Tras crear/editar recarga lista y resetea */
+  private afterSave(): void {
+    this.loadPlanes();
+    this.resetForm();
+  }
+
+  goBack(): void {
+    this.router.navigate([ this.encoder.encode('homePermisos') ]);
+  }
+}

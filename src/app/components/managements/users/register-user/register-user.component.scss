@@ -19,11 +19,21 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   border: 1px solid #3a3f4b;
   animation: fadeInUp 0.6s ease-out both;
+}
 
-  .flight-title {
+/* ---------- CABECERA ---------- */
+.header-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  position: relative;
+
+  .register-title {
     font-size: 2rem;
     font-weight: 600;
     color: #e8ebf0;
+    width: 100%;
     text-align: center;
     margin: 1rem 0;
     position: relative;
@@ -43,23 +53,18 @@
   }
 }
 
-/* ---------- CABECERA ---------- */
-.header-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 2rem;
-  position: relative;
-  padding-bottom: 1rem;
+/* ---------- TÍTULOS DE SECCIÓN ---------- */
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #9fa4ad;
+  margin: 2rem 0 1.5rem;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid #3a3f4b;
 }
 
 /* ---------- FORMULARIO ---------- */
-form {
-  width: 100%;
-  margin-top: 1.5rem;
-}
-
-.form-group {
+.form-row {
   display: flex;
   flex-direction: column;
   margin-bottom: 1.5rem;
@@ -87,11 +92,6 @@ form {
       border-color: #555b6e;
       box-shadow: 0 0 0 3px rgba(85, 91, 110, 0.2);
     }
-
-    &[readonly] {
-      background: #2a2e35;
-      opacity: 0.8;
-    }
   }
 
   select {
@@ -101,6 +101,30 @@ form {
     background-position: right 1rem center;
     background-size: 1.2em;
     padding-right: 2.5rem;
+  }
+
+  small {
+    color: #ff4444;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+}
+
+/* ---------- CHECKBOX ---------- */
+.checkbox-row {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+
+  input[type='checkbox'] {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: #1d72b8;
+  }
+
+  label {
+    margin: 0;
+    font-weight: 400;
   }
 }
 
@@ -154,67 +178,24 @@ form {
   }
 }
 
-.button-group {
+.register-buttons {
   display: flex;
   gap: 1rem;
   margin-top: 2rem;
 
-  .nav-button {
-    flex: 1;
+  .register-button {
+    background: #1d72b8;
+    &:hover { background: #3896e4; }
   }
-}
-.back-button {
-  background: transparent;
-  color: #9fa4ad;
-  border: 1px solid #3a3f4b;
-  border-radius: 0.5rem;
-  padding: 0.8rem 1.5rem;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background: #3a3f4b;
-    color: #cdd0d5;
-    border-color: #555b6e;
-  }
-  
-  &::before {
-    content: '←';
-    margin-right: 0.5rem;
-    font-weight: bold;
+
+  .home-button {
+    background: transparent;
+    border: 1px solid #3a3f4b;
+    &:hover { background: #3a3f4b; }
   }
 }
 
 @keyframes fadeInUp {
   from { transform: translateY(20px); opacity: 0; }
   to   { transform: translateY(0);    opacity: 1; }
-}
-
-.tooltip-message {
-  background-color: #f1c40f;
-  color: #333;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: bold;
-  margin-top: 5px;
-  animation: fadeIn 0.5s;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-small {
-  color: #ff4444;
-  font-size: 0.85rem;
-  margin-top: 0.5rem;
 }

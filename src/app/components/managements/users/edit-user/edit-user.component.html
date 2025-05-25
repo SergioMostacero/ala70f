@@ -1,0 +1,188 @@
+<div class="container">
+  <div class="user-panel">
+
+    <!-- Cabecera -->
+    <h1 class="form-title">Editar Usuario</h1>
+
+    <!-- Selector de usuario -->
+    <div class="field">
+      <label for="usuario">Selecciona un usuario</label>
+      <select id="usuario"
+              [(ngModel)]="selectedUserId"
+              [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="onUserSelected()">
+        <option [ngValue]="null">-- Elegir usuario --</option>
+        <option *ngFor="let u of usuarios" [ngValue]="u.id">
+          {{ u.nombre }} {{ u.apellidos }} ({{ u.email }})
+        </option>
+      </select>
+    </div>
+
+    <!-- Formulario reactivo -->
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+      <!-- Nombre -->
+      <div class="field">
+        <label for="nombre">Nombre</label>
+        <input id="nombre"
+               type="text"
+               formControlName="nombre"
+               pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+"
+               placeholder="Ej. María-José" />
+        <div class="error-message" 
+             *ngIf="userForm.get('nombre')?.invalid && 
+                    (userForm.get('nombre')?.dirty || userForm.get('nombre')?.touched)">
+          <div *ngIf="userForm.get('nombre')?.errors?.['required']">El nombre es obligatorio.</div>
+          <div *ngIf="userForm.get('nombre')?.errors?.['pattern']">
+            Solo letras, espacios, guiones y apóstrofes.
+          </div>
+        </div>
+      </div>
+
+      <!-- Apellidos -->
+      <div class="field">
+        <label for="apellidos">Apellidos</label>
+        <input id="apellidos"
+               type="text"
+               formControlName="apellidos"
+               placeholder="Ej. Pérez García" />
+        <div class="error-message" 
+             *ngIf="userForm.get('apellidos')?.invalid && 
+                    (userForm.get('apellidos')?.dirty || userForm.get('apellidos')?.touched)">
+          <div *ngIf="userForm.get('apellidos')?.errors?.['required']">Los apellidos son obligatorios.</div>
+          <div *ngIf="userForm.get('apellidos')?.errors?.['pattern']">
+            Solo letras, espacios, guiones y apóstrofes.
+          </div>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email"
+               type="email"
+               formControlName="email"
+               placeholder="ejemplo@dominio.com" />
+        <div class="error-message" 
+             *ngIf="userForm.get('email')?.invalid && 
+                    (userForm.get('email')?.dirty || userForm.get('email')?.touched)">
+          <div *ngIf="userForm.get('email')?.errors?.['required']">El email es obligatorio.</div>
+          <div *ngIf="userForm.get('email')?.errors?.['email']">Formato de email inválido.</div>
+          <div *ngIf="userForm.get('email')?.hasError('emailTaken')">
+            Este correo ya está registrado
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Contraseña -->
+      <div class="field">
+        <label for="contrasena">Contraseña</label>
+        <input id="contrasena"
+               type="text"
+               formControlName="contrasena"
+               placeholder="Mín. 8 car., 1 mayús, 1 dígito" />
+        <div class="error-message" 
+             *ngIf="userForm.get('contrasena')?.invalid && 
+                    (userForm.get('contrasena')?.dirty || userForm.get('contrasena')?.touched)">
+          <div *ngIf="userForm.get('contrasena')?.errors?.['required']">La contraseña es obligatoria.</div>
+          <div *ngIf="userForm.get('contrasena')?.errors?.['minlength']">Debe tener al menos 8 caracteres.</div>
+          <div *ngIf="userForm.get('contrasena')?.dirty">
+            Mín. 1 mayús., 1 minús., 1 dígito.
+          </div>
+        </div>
+      </div>
+
+      <!-- Antigüedad -->
+      <div class="field">
+        <label for="antiguedad">Antigüedad</label>
+
+        <input  id="antiguedad"
+                type="date"
+                formControlName="antiguedad"
+                min="1900-01-01"
+                [attr.max]="hoy" />          <!-- ⬅ hoy vinculado desde TS -->
+
+        <div class="error-message"
+            *ngIf="userForm.get('antiguedad')?.invalid &&
+                    (userForm.get('antiguedad')?.dirty || userForm.get('antiguedad')?.touched)">
+          La fecha debe estar entre 01/01/1900&nbsp;y hoy.
+        </div>
+      </div>
+
+
+      <!-- Horas de vuelo -->
+      <div class="field">
+        <label for="horasVuelo">Horas de vuelo</label>
+        <input id="horasVuelo"
+          type="text"             
+          formControlName="horas_totales"
+          pattern="^[0-9]+(:[0-5][0-9])?$" /> 
+        <div class="error-message" 
+             *ngIf="userForm.get('horas_totales')?.invalid && 
+                    (userForm.get('horas_totales')?.dirty || userForm.get('horas_totales')?.touched)">
+          <div *ngIf="userForm.get('horas_totales')?.errors?.['required']">Las horas de vuelo son obligatorias.</div>
+          <div *ngIf="userForm.get('horas_totales')?.errors?.['min']">No puede ser negativo.</div>
+        </div>
+      </div>
+
+      <!-- Grupo sanguíneo -->
+      <div class="field" formGroupName="grupoSanguineoDTO">
+        <label for="grupo">Grupo sanguíneo</label>
+        <select id="grupo" formControlName="id">
+          <option [ngValue]="null">-- Elegir grupo --</option>
+          <option *ngFor="let g of gruposSanguineos" [ngValue]="g.id">
+            {{ g.tipo }}
+          </option>
+        </select>
+        <div class="error-message" 
+             *ngIf="userForm.get('grupoSanguineoDTO.id')?.invalid && 
+                    (userForm.get('grupoSanguineoDTO.id')?.dirty || userForm.get('grupoSanguineoDTO.id')?.touched)">
+          Debes elegir un grupo.
+        </div>
+      </div>
+
+      <!-- Rango -->
+      <div class="field" formGroupName="rangoDTO">
+        <label for="rango">Rango</label>
+        <select id="rango" formControlName="id">
+          <option [ngValue]="null">-- Elegir rango --</option>
+          <option *ngFor="let r of rangos" [ngValue]="r.id">
+            {{ r.nombre }}
+          </option>
+        </select>
+        <div class="error-message" 
+             *ngIf="userForm.get('rangoDTO.id')?.invalid && 
+                    (userForm.get('rangoDTO.id')?.dirty || userForm.get('rangoDTO.id')?.touched)">
+          Debes elegir un rango.
+        </div>
+      </div>
+
+      <!-- Oficio -->
+      <div class="field" formGroupName="oficioDTO">
+        <label for="oficio">Oficio</label>
+        <select id="oficio" formControlName="id">
+          <option [ngValue]="null">-- Elegir oficio --</option>
+          <option *ngFor="let o of oficios" [ngValue]="o.id">
+            {{ o.nombre }}
+          </option>
+        </select>
+        <div class="error-message" 
+             *ngIf="userForm.get('oficioDTO.id')?.invalid && 
+                    (userForm.get('oficioDTO.id')?.dirty || userForm.get('oficioDTO.id')?.touched)">
+          Debes elegir un oficio.
+        </div>
+      </div>
+      <div class="field checkbox-row">
+        <input type="checkbox" id="permisos" formControlName="permisos" />
+        <label for="permisos">Otorgar permisos administrativos</label>
+      </div>
+
+      <!-- Botones -->
+      <div class="actions">
+        <button type="submit" [disabled]="userForm.invalid">Guardar</button>
+        <button type="button" (click)="goBack()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>

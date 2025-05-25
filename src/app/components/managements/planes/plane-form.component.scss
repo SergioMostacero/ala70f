@@ -1,0 +1,264 @@
+/* ---------- CONTENEDOR GENERAL ---------- */
+.table-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #1c1f26;
+  border: 1px solid #3a3f4b;
+  border-radius: 0.75rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  color: #cdd0d5;
+  animation: fadeInUp 0.6s ease-out forwards;
+  overflow-x: auto;
+}
+
+/* ---------- TÍTULO (para tabla y formulario) ---------- */
+.form-title {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #e8ebf0;
+
+  &::after {
+    content: '';
+    display: block;
+    margin: 0.5rem auto 1.5rem;
+    width: 60px;
+    height: 3px;
+    background: #1d72b8;
+    border-radius: 2px;
+  }
+}
+
+/* ---------- TABLA DE AVIONES ---------- */
+.plane-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+
+  th, td {
+    padding: 0.75rem 1rem;
+    border: 1px solid #3a3f4b;
+    text-align: left;
+  }
+
+  thead {
+    background: #282c34;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #1f222a;
+  }
+
+  .actions-cell {
+    display: flex;
+    gap: 0.5rem;
+
+    .nav-button {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #cdd0d5;
+
+      &:first-child {
+        /* Editar */
+        background: #1d72b8;
+        &:hover { background: #3896e4; }
+      }
+
+      &:last-child {
+        /* Eliminar */
+        background: #ff4444;
+        &:hover { background: #ff6666; }
+      }
+    }
+  }
+}
+
+/* ---------- FORMULARIO DE CREAR/EDITAR ---------- */
+form {
+  width: 100%;
+  max-width: 35rem;
+  padding: 2.5rem;
+  margin: 2rem auto;
+  background: #1c1f26;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid #3a3f4b;
+  border-radius: 0.75rem;
+  color: #cdd0d5;
+  animation: fadeInUp 0.6s ease-out forwards;
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+
+    label {
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      color: #9fa4ad;
+      font-weight: 300;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.85rem 1.25rem;
+      border: 1px solid #3a3f4b;
+      background: #282c34;
+      color: #ffffff;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: #555b6e;
+        box-shadow: 0 0 0 3px rgba(85, 91, 110, 0.2);
+      }
+      input[type="number"] {
+        -moz-appearance: textfield;
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    button {
+      flex: 1;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    /* Botón principal: Crear o Guardar */
+    button[type="submit"] {
+      background: #1d72b8;
+      color: #cdd0d5;
+
+      &:hover:enabled {
+        background: #3896e4;
+      }
+    }
+
+    /* Botón de cancelar edición */
+    .cancel-button {
+      background: transparent;
+      color: #ff6666;
+      border: 1px solid #ff4444;
+
+      &:hover {
+        background: #ff4444;
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+/* ---------- ANIMACIÓN ---------- */
+@keyframes fadeInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@media (max-width: 600px) {
+  .plane-table,
+  .plane-table thead,
+  .plane-table tbody,
+  .plane-table th,
+  .plane-table td,
+  .plane-table tr {
+    display: block;
+  }
+
+  /* ocultamos la cabecera */
+  .plane-table thead {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  /* cada fila se convierte en una “tarjeta” */
+  .plane-table tr {
+    margin-bottom: 1rem;
+    border: 1px solid #3a3f4b;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  /* las celdas muestran su etiqueta con ::before */
+  .plane-table td {
+    border: none;
+    border-bottom: 1px solid #3a3f4b;
+    position: relative;
+    padding-left: 50%;
+    white-space: normal;          /* deja que el texto se parta */
+  }
+
+  .plane-table td::before {
+    content: attr(data-label);    /* ver nota ↓ */
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 600;
+    color: #9fa4ad;
+  }
+
+  /* botones uno debajo del otro */
+  .plane-table .actions-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+/* ---------- BOTÓN VOLVER ---------- */
+.back-button {
+  display: block;
+  width: 100%;
+  max-width: 550px;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  background: transparent;
+  border: 2px solid #3a3f4b;
+  color: #9fa4ad;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  margin: 3rem auto 8rem;
+  position: relative;
+  z-index: 1;
+
+  &:hover {
+    background: #3a3f4b;
+    color: #cdd0d5;
+    transform: scale(1.02);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
