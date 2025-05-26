@@ -14,6 +14,7 @@ export class ManagementComponent {
     private encoder: RouteEncoderService
   ) {}
 
+  //rutas de navegacion
   crearUsuario() {
     this.router.navigate([this.encoder.encode('register')]);
   }
@@ -36,7 +37,6 @@ export class ManagementComponent {
   goToEditMedallas() {
     this.router.navigate([this.encoder.encode('medallas')]);
   }
-
 
   crearItinerario() {
     this.router.navigate([this.encoder.encode('create-itinerary')]);

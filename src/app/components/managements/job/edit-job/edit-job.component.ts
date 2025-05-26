@@ -38,6 +38,7 @@ export class EditJobComponent implements OnInit {
     this.router.navigate([this.encoder.encode('management')]);
   }
 
+  //cre el form con las validaciones
   private buildForm(oficio?: Oficio): void {
     this.form = this.fb.group({
       id: [oficio?.id || null],
@@ -46,6 +47,7 @@ export class EditJobComponent implements OnInit {
     });
   }
 
+  //carga los oficios
   private loadOficios(): void {
     this.oficioService.getOficios().subscribe({
       next: data => this.oficios = data,
@@ -55,7 +57,7 @@ export class EditJobComponent implements OnInit {
       }
     });
   }
-
+  //selecciona el oficio a editar
   selectOficio(oficio: Oficio): void {
     this.selectedOficio = oficio;
     this.buildForm(oficio);
@@ -69,6 +71,7 @@ export class EditJobComponent implements OnInit {
     });
   }
 
+  //guardar la edicion de oficios
   submit(): void {
     if (this.form.invalid || !this.form.value.id) {
       this.form.markAllAsTouched();
@@ -94,6 +97,7 @@ export class EditJobComponent implements OnInit {
     });
   }
 
+  //borrar un oficio
   deleteOficio(id: number): void {
     Swal.fire({
       title: '¿Eliminar oficio?',
@@ -138,7 +142,7 @@ export class EditJobComponent implements OnInit {
     });
   }
 
-
+  //limpiar eltexto de abajo
   clearSelection(): void {
     this.selectedOficio = undefined;
     this.buildForm();

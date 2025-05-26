@@ -28,6 +28,7 @@ export class CreateJobComponent {
     });
   }
 
+  //guarda el oficio nuevo
   onSubmit(): void {
     if (this.jobForm.invalid) {
       this.notification.showMessage('Completa todos los campos obligatorios', 'error');

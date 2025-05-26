@@ -11,7 +11,7 @@ import { RouteEncoderService } from '../../Services/route-encoder.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   animations: [
-    /* ---------------- Animaciones -------------- */
+    // animaciones para el login 
     trigger('fadeSlide', [
       transition(':enter', [
         style({ opacity: 0, transform: 'translateY(20px)' }),
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => (this.loading = false), 2000);
   }
-
+  //easter egg si pulsas 7 veces se ilumina, peticion de Sergio Sanchez
   handleLogoClick(): void {
     this.logoClickCount++;
 
@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
       }, 4000);                          
     }
   }
-
+  //se loggea un tripulante y se guarda su data
   login(): void {
     this.tripulantesService
       .loginTripulantes(this.email, this.contrasena)

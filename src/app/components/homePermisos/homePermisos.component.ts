@@ -75,7 +75,7 @@ export class HomePermisosComponent implements OnInit {
       }
     });
   }
-
+  //ajustes y botones del home
   getNombreCompleto(): string {
     return this.tripulante ? `${this.tripulante.nombre}` : '';
   }

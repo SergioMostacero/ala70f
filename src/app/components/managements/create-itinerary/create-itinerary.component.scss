@@ -1,5 +1,3 @@
-
-/* ---------- TÍTULO DEL FORMULARIO ---------- */
 .form-title {
     font-size: 2rem;
     font-weight: 600;
@@ -164,7 +162,6 @@ form {
     to   { transform: translateY(0);    opacity: 1; }
   }
 
-  /* ---------- BOTÓN VOLVER ---------- */
 .back-container {
     max-width: 35rem;
     margin: 1rem auto 2rem;
@@ -194,7 +191,7 @@ form {
       font-weight: bold;
     }
   }
-  /* ---------- RESPONSIVE ---------- */
+  
 @media (max-width: 768px) {
   form {
     width: 90%;

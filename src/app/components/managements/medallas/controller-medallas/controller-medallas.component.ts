@@ -31,6 +31,7 @@ export class ControllerMedallasComponent implements OnInit {
     this.loadMedallas();
   }
 
+  //carga los tripulantes para seleccionar uno y darle una medalla
   private loadTripulantes(): void {
     this.tripulantesService.getTripulantess().subscribe({
       next: (data: Tripulantes[]) => {
@@ -43,6 +44,7 @@ export class ControllerMedallasComponent implements OnInit {
     });
   }
 
+  //carga las medallas para adjudiraclas al usuario seleccionado anteriormente
   private loadMedallas(): void {
     this.medallaService.getAllMedallas().subscribe({
       next: (data: any[]) => {
@@ -54,9 +56,12 @@ export class ControllerMedallasComponent implements OnInit {
       }
     });
   }
+
   goBack(): void {
     this.router.navigate([ this.encoder.encode('management') ]);
   }
+
+  //asignar la medalla al usuario
   asignarMedalla(): void {
     if (!this.selectedTripulanteId || !this.selectedMedallaId) {
       this.notification.showMessage('Debes seleccionar un tripulante y una medalla', 'error');

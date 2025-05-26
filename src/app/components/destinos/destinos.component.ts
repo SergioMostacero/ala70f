@@ -54,6 +54,7 @@ export class DestinosComponent implements OnInit, OnDestroy {
       : 'Error cargando destinos';
   }
 
+  //limpiar mapa apra proximo tripulante
   private cleanupMap(): void {
     if (this.map) {
       this.map.dispose();
@@ -72,7 +73,7 @@ ngOnDestroy(): void {
       this.map.dispose();
   }
 }
-
+  //carga la data del usuario loggeado
   private loadUserData(): void {
     const raw = localStorage.getItem('usuarioLogeado');
     if (!raw) { this.handleError('Debe iniciar sesión'); return; }
@@ -87,11 +88,13 @@ ngOnDestroy(): void {
       }
 
       this.loadUbicaciones(tripulanteId);
-    } catch (e) {
-      this.handleError('Error en formato de datos de usuario');
+      } catch (e) {
+        this.handleError('Error en formato de datos de usuario');
+        }
     }
-}
 
+
+  //carga las ubicaciones del usuario loggeado
   private loadUbicaciones(tripulanteId: number): void {
     this.isLoading = true;
     
@@ -105,6 +108,7 @@ ngOnDestroy(): void {
     });
   }
 
+  //procesa las ubicaciones para meterlas al mapa por coordenadas
   private processUbicaciones(ubicaciones: Ubicacion[]): Ubicacion[] {
     const coordenadasUnicas = new Set<string>();
     
@@ -125,6 +129,7 @@ ngOnDestroy(): void {
     return !isNaN(parseFloat(coord)) && isFinite(parseFloat(coord));
   }
 
+  //inicia el mapa con las coordenadas
   private initMapConUbicaciones(ubicaciones: Ubicacion[]): void {
     this.cleanupMap();
     if (ubicaciones.length === 0) return;
