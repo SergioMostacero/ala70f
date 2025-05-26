@@ -1,7 +1,6 @@
 .container {
   min-height: 100vh;
   padding: 20px;
-  background: #121212;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -208,6 +207,30 @@
     &:hover { background: #3a3f4b; }
   }
 }
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 2.8rem;  
+}
+
+.eye-toggle {
+  color: #cdd0d5;
+  position: absolute;
+  top: 50%;
+  right: .75rem;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 @keyframes fadeInUp {
   from { transform: translateY(20px); opacity: 0; }

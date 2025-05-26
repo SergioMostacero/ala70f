@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { animate, style, transition, trigger } from '@angular/animations';
-
 import { TripulantesService } from '../../Services/tripulantes.service';
 import { Tripulantes } from '../../model/Tripulantes.model';
 import { NotificationService } from 'src/app/utils/notification.service';
@@ -35,14 +34,13 @@ import { RouteEncoderService } from '../../Services/route-encoder.service';
   ]
 })
 export class LoginComponent implements OnInit {
-  /* -------------------------- Datos ----------------------------- */
   email = '';
   contrasena = '';
   loading = true;
   showPassword = false;
 
 
-  /* ---------- Easter Egg -> 7 clics, animación de fuego ------------------ */
+  /* - Easter Egg -> 7 clics, animación de fuego */
   private logoClickCount = 0;
   fireEffect = false;
 
@@ -53,13 +51,10 @@ export class LoginComponent implements OnInit {
     private notification: NotificationService
   ) {}
 
-  /* -------------------- Ciclo de vida -------------------- */
   ngOnInit(): void {
-    /* simulamos carga 2 s */
     setTimeout(() => (this.loading = false), 2000);
   }
 
-  /* -------------------- Click en el logo -------------------- */
   handleLogoClick(): void {
     this.logoClickCount++;
 
@@ -77,7 +72,6 @@ export class LoginComponent implements OnInit {
       .loginTripulantes(this.email, this.contrasena)
       .subscribe({
         next: (tripulante: Tripulantes) => {
-          /* guardamos lo necesario */
           const userData = {
             id: tripulante.id,
             permisos: tripulante.permisos,
@@ -97,7 +91,6 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('usuarioLogeado', JSON.stringify(userData));
           localStorage.setItem('permisos', String(tripulante.permisos));
 
-          /* redirige después de 0.5 s */
           setTimeout(
             () => this.router.navigate([this.encoder.encode('homePermisos')]),
             500

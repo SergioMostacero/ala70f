@@ -13,6 +13,8 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditUserComponent } from './components/managements/users/edit-user/edit-user.component';
+import { MatIconModule }   from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppRoutingModule } from './app-routing.module'; 
 import { RegisterFlightComponent } from './components/vuelos-management/register-flight/register-flight.component';
@@ -59,6 +61,8 @@ import { EditMedallasComponent } from './components/managements/medallas/edit-me
     FormsModule,
     AppRoutingModule, 
     MatSnackBarModule,
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -71,25 +71,34 @@
 
 
 
-<div class="field">
-  <label for="contrasena">Contraseña</label>
+    <div class="field">
+      <label for="contrasena">Contraseña</label>
 
-  <div class="password-wrapper">
-    <input id="contrasena" [type]="showPassword ? 'text' : 'password'" formControlName="contrasena" placeholder="Mín. 8 car., 1 mayús, 1 dígito" minlength="8" />
-    <span class="toggle-password" (click)="showPassword = !showPassword">
-      {{ showPassword ? '🙈' : '👁️' }}
-    </span>
-  </div>
-  <div class="error-message" 
-       *ngIf="userForm.get('contrasena')?.invalid && 
-              (userForm.get('contrasena')?.dirty || userForm.get('contrasena')?.touched)">
-    <div *ngIf="userForm.get('contrasena')?.errors?.['required']">La contraseña es obligatoria.</div>
-    <div *ngIf="userForm.get('contrasena')?.errors?.['minlength']">Debe tener al menos 8 caracteres.</div>
-    <div *ngIf="userForm.get('contrasena')?.dirty">
-      Mín. 1 mayús., 1 minús., 1 dígito.
+      <div class="password-wrapper">
+      <input id="contrasena"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="contrasena"
+            placeholder="Mín. 8 car., 1 mayús, 1 dígito"
+            minlength="8" />
+      <button class="eye-toggle"
+              type="button"
+              aria-label="Mostrar u ocultar contraseña"
+              (click)="showPassword = !showPassword">
+        <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
     </div>
-  </div>
-</div>
+
+
+      <div class="error-message" 
+          *ngIf="userForm.get('contrasena')?.invalid && 
+                  (userForm.get('contrasena')?.dirty || userForm.get('contrasena')?.touched)">
+        <div *ngIf="userForm.get('contrasena')?.errors?.['required']">La contraseña es obligatoria.</div>
+        <div *ngIf="userForm.get('contrasena')?.errors?.['minlength']">Debe tener al menos 8 caracteres.</div>
+        <div *ngIf="userForm.get('contrasena')?.dirty">
+          Mín. 1 mayús., 1 minús., 1 dígito.
+        </div>
+      </div>
+    </div>
 
 
       <div class="field">
