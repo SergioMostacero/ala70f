@@ -40,6 +40,7 @@ export class PlaneFormComponent implements OnInit {
   });
   }
 
+  //carga todos los aviones
   private loadPlanes(): void {
     this.avionService.getAll().subscribe({
       next: list => this.planes = list,
@@ -47,6 +48,7 @@ export class PlaneFormComponent implements OnInit {
     });
   }
 
+  //edita el avion saca el form
   editPlane(plane: any): void {
     this.isEdit   = true;      
     this.showForm = true;      
@@ -62,7 +64,7 @@ export class PlaneFormComponent implements OnInit {
     );
   }
 
-
+  //guarda los cambios del form
   onSubmit(): void {
     if (this.planeForm.invalid) return this.notification.showMessage('Completa el formulario correctamente.', 'error');
 
@@ -133,9 +135,9 @@ export class PlaneFormComponent implements OnInit {
     });
   }
 
-
+  //resetea el form al darla a cancelar
   resetForm(): void {
-    this.showForm = false;      // ← oculta el form
+    this.showForm = false;     
     this.isEdit   = false;
     this.currentId = undefined;
     this.planeForm.reset();

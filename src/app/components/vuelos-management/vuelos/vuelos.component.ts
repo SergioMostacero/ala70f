@@ -40,7 +40,6 @@ export class VuelosComponent implements OnInit {
 
     let obs$;
     if (permisos) {
-      // carga todos los vuelos
       obs$ = this.vueloService.getAllVuelos();
     } else {
       const usuario = JSON.parse(raw!) as { id: number };
@@ -116,7 +115,7 @@ export class VuelosComponent implements OnInit {
   }
 
 
-// En vuelos.component.ts
+//carga los vuelos por usuario
 private loadVuelosUsuario(): void {
   const raw = localStorage.getItem('usuarioLogeado');
   if (!raw) {

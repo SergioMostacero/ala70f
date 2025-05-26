@@ -41,6 +41,7 @@ export class EditMedallasComponent implements OnInit {
     });
   }
 
+  // cargar lista de medallas
   private loadMedallas(): void {
     this.medallaService.getAllMedallas().subscribe({
       next: list => this.medallas = list,
@@ -48,6 +49,7 @@ export class EditMedallasComponent implements OnInit {
     });
   }
 
+  //formulario se abre cuando le da a editar
   onSubmit(): void {
     if (this.medallaForm.invalid) {
       this.notification.showMessage('Completa el formulario correctamente.', 'error');
@@ -56,7 +58,6 @@ export class EditMedallasComponent implements OnInit {
     const dto = this.medallaForm.value;
 
     if (this.isEdit && this.currentId != null) {
-      // ACTUALIZAR
       this.medallaService.updateMedalla(this.currentId, dto).subscribe({
         next: () => {
           this.notification.showMessage('Medalla actualizada.', 'success');
@@ -75,6 +76,8 @@ export class EditMedallasComponent implements OnInit {
       });
     }
   }
+
+  //formulario se abre para crear medalla nueva
   newMedalla(): void {
       this.isEdit   = false;
       this.showForm = true;
@@ -85,6 +88,7 @@ export class EditMedallasComponent implements OnInit {
         this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
       );
     }
+
    editMedalla(m: any): void {
     this.isEdit   = true;
     this.showForm = true;
@@ -96,6 +100,8 @@ export class EditMedallasComponent implements OnInit {
       this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
     );
   }
+
+  //borrar medalla con pop up de confirmacion
   deleteMedalla(id: number): void {
     Swal.fire({
       title: '¿Eliminar medalla?',
@@ -137,6 +143,7 @@ export class EditMedallasComponent implements OnInit {
     });
   }
 
+  // cuando le das a cancelar se resetea el form
   resetForm(): void {
     this.showForm = false;
     this.isEdit   = false;

@@ -60,6 +60,8 @@ export class EditarVueloComponent implements OnInit {
     this.loadCatalogos();
     this.loadVuelo();
   }
+
+  //carga los selects para guardar los tripulantes al vuelo
   private setTripulanteSelects(tripus: any[]): void {
   this.vueloForm.patchValue({
     piloto:     tripus.find(t => t.oficioDTO.nombre === 'Piloto')?.id ?? null,
@@ -68,7 +70,7 @@ export class EditarVueloComponent implements OnInit {
     tecnicoCom: tripus.find(t => t.oficioDTO.nombre.includes('Técnico'))?.id ?? null,
   }, { emitEvent: false });
 }
-
+  //inicia formulario
   private initForm(): void {
     this.vueloForm = this.fb.group({
       fecha_salida: ['', Validators.required],
@@ -89,6 +91,7 @@ export class EditarVueloComponent implements OnInit {
     });
   }
 
+  //carga el vuelo con los datos del anterior vuelo
   private loadVuelo(): void {
 
   forkJoin({
@@ -120,7 +123,7 @@ export class EditarVueloComponent implements OnInit {
   });
 }
 
-
+  //guarda los cambios del nuevo vuelo
   saveChanges(): void {
     if (this.vueloForm.invalid) {
       this.notification.showMessage('Complete todos los campos', 'error');

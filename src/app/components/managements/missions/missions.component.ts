@@ -40,6 +40,7 @@ export class MissionsComponent implements OnInit {
     });
   }
 
+  //carga toda la lista de misiones
   private loadMisiones(): void {
     this.misionService.getAll().subscribe({
       next: list => this.misiones = list,
@@ -47,6 +48,7 @@ export class MissionsComponent implements OnInit {
     });
   }
 
+  //crear nueva mision
   newMission(): void {
     this.isEdit   = false;
     this.showForm = true;
@@ -73,7 +75,7 @@ export class MissionsComponent implements OnInit {
     });
   }
 
-
+  //guarda el formulario rellenado
   onSubmit(): void {
     if (this.missionForm.invalid) {
       this.notification.showMessage('Completa el formulario correctamente.', 'error');
@@ -141,7 +143,7 @@ deleteMission(id: number): void {
   });
 }
 
-
+  //resetea el form cuando le da a cancelar
   resetForm(): void {
     this.showForm = false;
     this.isEdit   = false;

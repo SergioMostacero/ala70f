@@ -51,6 +51,7 @@ export class RegisterUserComponent implements OnInit {
     this.cargarOpciones();
   }
 
+  //inicia el form con los validadores
   private initForm(): void {
     this.registerForm = this.fb.group({
       nombre: [
@@ -88,6 +89,7 @@ export class RegisterUserComponent implements OnInit {
     });
   }
 
+  //controla que la antiguedad sea realista
   private rangoAntiguedadValidator() {
     return (control: AbstractControl): ValidationErrors | null => {
       const valor = control.value;
@@ -140,6 +142,7 @@ export class RegisterUserComponent implements OnInit {
     this.router.navigate([this.encoder.encode('management')]);
   }
 
+  //Comprueba validator de email
   private emailUniqueValidator(): AsyncValidatorFn {
   return (control: AbstractControl) => {
     const value = control.value?.trim();

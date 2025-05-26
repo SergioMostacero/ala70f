@@ -49,6 +49,7 @@ export class EditUserComponent implements OnInit {
     this.loadAllUsers();
   }
 
+  //inicia el form con todos los validators
   private initForm(): void {
     this.userForm = this.fb.group({
       nombre: ['',[Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)]],
@@ -64,6 +65,7 @@ export class EditUserComponent implements OnInit {
     });
   }
 
+  //carga todos los usuarios a editar
   private loadAllUsers(): void {
     this.tripService.getAll().subscribe({
       next: (users) => {
@@ -84,7 +86,7 @@ export class EditUserComponent implements OnInit {
     }
   }
 
-
+//carga los datos del usr seleccionado
   private loadUser(userId: number): void {
     this.tripService.getById(userId).subscribe({
       next: (u) => {
@@ -133,6 +135,7 @@ export class EditUserComponent implements OnInit {
     const updatedUser = this.prepareUpdateData();
     this.updateUser(updatedUser);
   }
+
   private loadSelectOptions(): void {
     this.rangoService.getRangos().subscribe(r => this.rangos = r);
     this.grupoSangService.getGruposSanguineos().subscribe(g => this.gruposSanguineos = g);
@@ -148,6 +151,8 @@ export class EditUserComponent implements OnInit {
       oficioDTO: { id: this.userForm.value.oficioDTO.id },
     };
   }
+
+  //guarda el usaurio actualizado
   private updateUser(updatedUser: Tripulantes): void {
     if (!this.selectedUserId) return; 
     
@@ -167,6 +172,7 @@ export class EditUserComponent implements OnInit {
     this.router.navigate([ this.encoder.encode('management') ]);
   }
 
+  //cmrueba la fecha para que sea realista
   private AntiguedadValidator() {
     return (control: AbstractControl): ValidationErrors | null => {
       const valor = control.value;
@@ -180,6 +186,7 @@ export class EditUserComponent implements OnInit {
     };
   }
 
+    //valida el email sea valido
     private emailUniqueValidator(): AsyncValidatorFn {
     return (control: AbstractControl) => {
       const value = control.value?.trim();
@@ -193,6 +200,7 @@ export class EditUserComponent implements OnInit {
     };
   }
 
+  //pasa las horas y minutos a decimales
   private toDecimalHours(value: string | number | null): number {
     if (value == null) return 0;
 
