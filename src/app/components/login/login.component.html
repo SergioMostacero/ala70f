@@ -1,11 +1,9 @@
 <div class="login-container" @routeAnimations>
-  <!-- Radar de carga estilo militar -->
   <div class="radar-wrapper" *ngIf="loading" @spinnerFade>
     <div class="radar">
-      <div class="radar-grid"></div> <!-- Nueva cuadrícula militar -->
-      <div class="beam"></div> <!-- Haz de radar mejorado -->
+      <div class="radar-grid"></div> 
+      <div class="beam"></div> 
       
-      <!-- Partículas mejoradas (12 puntos para mejor efecto) -->
       <div class="radar-particles">
         <span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span>
@@ -16,7 +14,6 @@
 
   <!-- Panel de login con animaciones -->
   <div class="login-panel" @fadeSlide *ngIf="!loading">
-    <!-- Logo con efecto de fuego condicional -->
     <img src="assets/img/logo.png" 
          alt="Logo de la aplicación"
          class="app-logo"
@@ -35,13 +32,32 @@
              required
              autocomplete="username">
 
-      <input type="password"
-             placeholder="Contraseña"
-             class="login-input"
-             [(ngModel)]="contrasena"
-             name="contrasena"
-             required
-             autocomplete="current-password">
+      <div class="password-wrapper">
+        <input [type]="showPassword ? 'text' : 'password'"
+              placeholder="Contraseña"
+              class="login-input"
+              [(ngModel)]="contrasena"
+              name="contrasena"
+              required
+              minlength="8"
+              autocomplete="current-password" />
+
+        <button class="eye-toggle"
+                type="button"
+                aria-label="Mostrar u ocultar contraseña"
+                (click)="showPassword = !showPassword">
+          <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </div>
+
+
+
+
+        <small *ngIf="contrasena.length > 0 && contrasena.length < 8" class="password-warning">
+          Mín. 8 car., 1 mayús., 1 minús., 1 dígito.
+        </small>
+
+
 
       <button type="submit" 
               class="login-button"

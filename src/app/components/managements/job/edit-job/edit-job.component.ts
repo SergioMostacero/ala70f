@@ -1,11 +1,12 @@
-// edit-job.component.ts
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Oficio } from '../../../../model/oficio.model';
 import { OficioService } from '../../../../Services/oficio.service';
 import { RouteEncoderService } from '../../../../Services/route-encoder.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../../utils/notification.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-edit-job',
@@ -18,6 +19,7 @@ export class EditJobComponent implements OnInit {
   @Output() saved = new EventEmitter<Oficio>();
   form!: FormGroup;
   loading = false;
+  @ViewChild('editForm') private editFormRef?: ElementRef<HTMLFormElement>;
 
   constructor(
     private router: Router,
@@ -36,6 +38,7 @@ export class EditJobComponent implements OnInit {
     this.router.navigate([this.encoder.encode('management')]);
   }
 
+  //cre el form con las validaciones
   private buildForm(oficio?: Oficio): void {
     this.form = this.fb.group({
       id: [oficio?.id || null],
@@ -44,6 +47,7 @@ export class EditJobComponent implements OnInit {
     });
   }
 
+  //carga los oficios
   private loadOficios(): void {
     this.oficioService.getOficios().subscribe({
       next: data => this.oficios = data,
@@ -53,12 +57,21 @@ export class EditJobComponent implements OnInit {
       }
     });
   }
-
+  //selecciona el oficio a editar
   selectOficio(oficio: Oficio): void {
     this.selectedOficio = oficio;
     this.buildForm(oficio);
+
+    setTimeout(() => {
+      this.editFormRef?.nativeElement.scrollIntoView({
+        behavior: 'smooth',   
+        block: 'start'        
+      });
+  
+    });
   }
 
+  //guardar la edicion de oficios
   submit(): void {
     if (this.form.invalid || !this.form.value.id) {
       this.form.markAllAsTouched();
@@ -84,22 +97,52 @@ export class EditJobComponent implements OnInit {
     });
   }
 
+  //borrar un oficio
   deleteOficio(id: number): void {
-    if (confirm('¿Estás seguro de querer eliminar este oficio?')) {
+    Swal.fire({
+      title: '¿Eliminar oficio?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, borrar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      confirmButtonColor: '#d33',
+      customClass: { popup: 'dark' }    
+    }).then(res => {
+      if (!res.isConfirmed) { return; }
+
       this.oficioService.deleteOficio(id).subscribe({
         next: () => {
           this.oficios = this.oficios.filter(o => o.id !== id);
           this.notification.showMessage('Oficio eliminado con éxito.', 'success');
-          this.clearSelection();
+          this.clearSelection?.();
+
+          Swal.fire({
+            title: '¡Borrado!',
+            text: 'Oficio eliminado correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            customClass: { popup: 'dark' }  
+          });
         },
         error: err => {
           console.error(err);
           this.notification.showMessage('Error al eliminar el oficio.', 'error');
+
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudo eliminar el oficio',
+            icon: 'error',
+            confirmButtonText: 'Cerrar',
+            customClass: { popup: 'dark' } 
+          });
         }
       });
-    }
+    });
   }
 
+  //limpiar eltexto de abajo
   clearSelection(): void {
     this.selectedOficio = undefined;
     this.buildForm();

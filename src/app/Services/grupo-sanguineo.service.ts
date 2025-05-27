@@ -10,13 +10,8 @@ export class GrupoSanguineoService {
   private apiUrl = 'https://api.ala70tfg.com/api/grupoSanguineos';
 
   constructor(private http: HttpClient) { }
-
-  getGruposSanguineos(): Observable<GrupoSanguineo[]> {
-    return this.http.get<GrupoSanguineo[]>(this.apiUrl);
-  }
-  // grupo-sanguineo.service.ts
-
-  getGrupoSanguineoById(id: number): Observable<GrupoSanguineo> {
-    return this.http.get<GrupoSanguineo>(`${this.apiUrl}/${id}`);
-  }
+  /* Obtiene todos los Grupos Sanguineos */
+  getGruposSanguineos(): Observable<GrupoSanguineo[]> {return this.http.get<GrupoSanguineo[]>(this.apiUrl);}
+  /* Obtiene Grupo sanguineo por id*/
+  getGrupoSanguineoById(id: number): Observable<GrupoSanguineo> {return this.http.get<GrupoSanguineo>(`${this.apiUrl}/${id}`);}
 }

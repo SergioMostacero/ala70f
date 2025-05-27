@@ -1,17 +1,13 @@
-<!-- Editar Vuelo (estilo unificado) -->
 <div class="container">
     <div class="user-panel">
   
-      <!-- Cabecera -->
       <div class="header-row">
         <button class="back-button" (click)="goBack()">Volver</button>
         <h1 class="flight-title">Editar Vuelo</h1>
       </div>
   
-      <!-- Formulario reactivo -->
       <form [formGroup]="vueloForm" (ngSubmit)="saveChanges()">
   
-        <!-- Fecha y hora -->
         <div class="form-group">
           <label for="fecha_salida">Fecha Salida</label>
           <input id="fecha_salida"
@@ -57,7 +53,6 @@
                  readonly />
         </div>
   
-        <!-- Anticipo -->
         <div class="form-group">
           <label for="anticipo">Anticipo</label>
           <input id="anticipo"
@@ -65,7 +60,6 @@
                  formControlName="anticipo" />
         </div>
   
-        <!-- Avión -->
         <div class="form-group" [formGroup]="avionFormGroup">
           <label for="avionSelect">Avión</label>
           <select id="avionSelect"
@@ -78,7 +72,6 @@
           </select>
         </div>
   
-        <!-- Combustible -->
         <div class="form-group">
           <label for="combustible">Combustible (t)</label>
           <input id="combustible"
@@ -92,7 +85,6 @@
           </div>
         </div>
   
-        <!-- Misión -->
         <div class="form-group" [formGroup]="misionesFormGroup">
           <label for="misionSelect">Misión</label>
           <select id="misionSelect" formControlName="id">
@@ -103,7 +95,6 @@
           </select>
         </div>
   
-        <!-- Tripulación -->
         <div class="form-group">
           <label for="tripulanteSelect">Piloto</label>
           <select id="tripulanteSelect" formControlName="piloto">
@@ -144,7 +135,6 @@
           </select>
         </div>
   
-        <!-- Botones -->
         <div class="button-group">
           <button type="submit"
                   class="nav-button save-button"

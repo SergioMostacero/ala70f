@@ -1,10 +1,8 @@
 <div class="container">
   <div class="user-panel">
 
-    <!-- Cabecera -->
     <h1 class="form-title">Editar Usuario</h1>
 
-    <!-- Selector de usuario -->
     <div class="field">
       <label for="usuario">Selecciona un usuario</label>
       <select id="usuario"
@@ -18,10 +16,8 @@
       </select>
     </div>
 
-    <!-- Formulario reactivo -->
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
 
-      <!-- Nombre -->
       <div class="field">
         <label for="nombre">Nombre</label>
         <input id="nombre"
@@ -39,7 +35,6 @@
         </div>
       </div>
 
-      <!-- Apellidos -->
       <div class="field">
         <label for="apellidos">Apellidos</label>
         <input id="apellidos"
@@ -56,7 +51,7 @@
         </div>
       </div>
 
-      <!-- Email -->
+
       <div class="field">
         <label for="email">Email</label>
         <input id="email"
@@ -75,25 +70,37 @@
       </div>
 
 
-      <!-- Contraseña -->
-      <div class="field">
-        <label for="contrasena">Contraseña</label>
-        <input id="contrasena"
-               type="text"
-               formControlName="contrasena"
-               placeholder="Mín. 8 car., 1 mayús, 1 dígito" />
-        <div class="error-message" 
-             *ngIf="userForm.get('contrasena')?.invalid && 
-                    (userForm.get('contrasena')?.dirty || userForm.get('contrasena')?.touched)">
-          <div *ngIf="userForm.get('contrasena')?.errors?.['required']">La contraseña es obligatoria.</div>
-          <div *ngIf="userForm.get('contrasena')?.errors?.['minlength']">Debe tener al menos 8 caracteres.</div>
-          <div *ngIf="userForm.get('contrasena')?.dirty">
-            Mín. 1 mayús., 1 minús., 1 dígito.
-          </div>
+
+    <div class="field">
+      <label for="contrasena">Contraseña</label>
+
+      <div class="password-wrapper">
+      <input id="contrasena"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="contrasena"
+            placeholder="Mín. 8 car., 1 mayús, 1 dígito"
+            minlength="8" />
+      <button class="eye-toggle"
+              type="button"
+              aria-label="Mostrar u ocultar contraseña"
+              (click)="showPassword = !showPassword">
+        <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </div>
+
+
+      <div class="error-message" 
+          *ngIf="userForm.get('contrasena')?.invalid && 
+                  (userForm.get('contrasena')?.dirty || userForm.get('contrasena')?.touched)">
+        <div *ngIf="userForm.get('contrasena')?.errors?.['required']">La contraseña es obligatoria.</div>
+        <div *ngIf="userForm.get('contrasena')?.errors?.['minlength']">Debe tener al menos 8 caracteres.</div>
+        <div *ngIf="userForm.get('contrasena')?.dirty">
+          Mín. 1 mayús., 1 minús., 1 dígito.
         </div>
       </div>
+    </div>
 
-      <!-- Antigüedad -->
+
       <div class="field">
         <label for="antiguedad">Antigüedad</label>
 
@@ -101,7 +108,7 @@
                 type="date"
                 formControlName="antiguedad"
                 min="1900-01-01"
-                [attr.max]="hoy" />          <!-- ⬅ hoy vinculado desde TS -->
+                [attr.max]="hoy" />   
 
         <div class="error-message"
             *ngIf="userForm.get('antiguedad')?.invalid &&
@@ -111,22 +118,32 @@
       </div>
 
 
-      <!-- Horas de vuelo -->
-      <div class="field">
-        <label for="horasVuelo">Horas de vuelo</label>
-        <input id="horasVuelo"
-          type="text"             
-          formControlName="horas_totales"
-          pattern="^[0-9]+(:[0-5][0-9])?$" /> 
-        <div class="error-message" 
-             *ngIf="userForm.get('horas_totales')?.invalid && 
-                    (userForm.get('horas_totales')?.dirty || userForm.get('horas_totales')?.touched)">
-          <div *ngIf="userForm.get('horas_totales')?.errors?.['required']">Las horas de vuelo son obligatorias.</div>
-          <div *ngIf="userForm.get('horas_totales')?.errors?.['min']">No puede ser negativo.</div>
-        </div>
-      </div>
+<div class="field">
+  <label for="horasVuelo">Horas de vuelo</label>
+  <div class="hour-minute-wrapper">
+    <input type="number"
+           id="horas"
+           min="0"
+           placeholder="hh"
+           formControlName="horas"
+           class="time-input" />
+    :
+    <input type="number"
+           id="minutos"
+           min="0"
+           max="59"
+           placeholder="mm"
+           formControlName="minutos"
+           class="time-input" />
+  </div>
+  <div class="error-message" 
+       *ngIf="userForm.get('minutos')?.invalid && 
+              (userForm.get('minutos')?.dirty || userForm.get('minutos')?.touched)">
+    Los minutos deben estar entre 0 y 59.
+  </div>
+</div>
 
-      <!-- Grupo sanguíneo -->
+
       <div class="field" formGroupName="grupoSanguineoDTO">
         <label for="grupo">Grupo sanguíneo</label>
         <select id="grupo" formControlName="id">
@@ -142,7 +159,6 @@
         </div>
       </div>
 
-      <!-- Rango -->
       <div class="field" formGroupName="rangoDTO">
         <label for="rango">Rango</label>
         <select id="rango" formControlName="id">
@@ -158,7 +174,6 @@
         </div>
       </div>
 
-      <!-- Oficio -->
       <div class="field" formGroupName="oficioDTO">
         <label for="oficio">Oficio</label>
         <select id="oficio" formControlName="id">
@@ -178,7 +193,6 @@
         <label for="permisos">Otorgar permisos administrativos</label>
       </div>
 
-      <!-- Botones -->
       <div class="actions">
         <button type="submit" [disabled]="userForm.invalid">Guardar</button>
         <button type="button" (click)="goBack()">Cancelar</button>

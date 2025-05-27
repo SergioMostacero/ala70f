@@ -2,7 +2,6 @@ import { UrlSegment, UrlMatchResult } from '@angular/router';
 import { inject } from '@angular/core';
 import { RouteEncoderService } from '../Services/route-encoder.service';
 
-/** Diccionario clave → ruta real */
 const routeMap: Record<string, string> = {
   login: 'login',
   register: 'register',
@@ -14,7 +13,7 @@ const routeMap: Record<string, string> = {
   flights: 'flights',
   'register-flights': 'register-flights',
   historial: 'historial',
-  vuelo: 'vuelo',                     // el :id se deja para el router
+  vuelo: 'vuelo',                
   'controller-medallas': 'controller-medallas',
   'create-job': 'create-job',
   'edit-job': 'edit-job',
@@ -30,13 +29,11 @@ export function dynamicEncodedMatcher(
   const encoder = inject(RouteEncoderService);
   const decoded = encoder.decode(segments[0].path);
 
-  // Si no se reconoce, dejamos al router seguir probando
   if (!decoded || !(decoded in routeMap)) return null;
 
-  // ⚠️ NO ponemos redirectTo aquí
   return {
-    consumed: [segments[0]],                 // solo el primer segmento
-    posParams: {                             // lo exponemos como parámetro
+    consumed: [segments[0]],                 
+    posParams: {                             
       real: new UrlSegment(routeMap[decoded], {})
     }
   };

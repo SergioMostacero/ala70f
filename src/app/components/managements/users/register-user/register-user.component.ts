@@ -27,7 +27,7 @@ export class RegisterUserComponent implements OnInit {
   rangos: Rango[] = [];
   gruposSanguineos: GrupoSanguineo[] = [];
   oficios: Oficio[] = [];
-
+  showPassword = false;
 
   hoy: string = new Date().toISOString().substring(0, 10);
 
@@ -65,7 +65,7 @@ export class RegisterUserComponent implements OnInit {
           Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)
         ]
       ],
-      email: ['', [Validators.required, Validators.email], [ this.emailUniqueValidator() ] ],
+      email: ['', [Validators.required, Validators.email], [this.emailUniqueValidator()]],
       contrasena: [
         '',
         [
@@ -78,22 +78,23 @@ export class RegisterUserComponent implements OnInit {
         null,
         [Validators.required, this.rangoAntiguedadValidator()]
       ],
-      horas_totales: [0, [Validators.required, Validators.min(0)]],
+      horas: [0, [Validators.required, Validators.min(0)]],
+      minutos: [0, [Validators.required, Validators.min(0), Validators.max(59)]],
       permisos: [false],
       grupoSanguineoDTO: this.fb.group({ id: [null, Validators.required] }),
-      rangoDTO:           this.fb.group({ id: [null, Validators.required] }),
-      oficioDTO:          this.fb.group({ id: [null, Validators.required] })
+      rangoDTO: this.fb.group({ id: [null, Validators.required] }),
+      oficioDTO: this.fb.group({ id: [null, Validators.required] })
     });
   }
 
   private rangoAntiguedadValidator() {
     return (control: AbstractControl): ValidationErrors | null => {
       const valor = control.value;
-      if (!valor) { return null; }   
+      if (!valor) { return null; }
 
       const fecha = new Date(valor);
-      const min   = new Date('1900-01-01');
-      const max   = new Date(this.hoy);
+      const min = new Date('1900-01-01');
+      const max = new Date(this.hoy);
 
       return (fecha >= min && fecha <= max) ? null : { fueraRango: true };
     };
@@ -113,12 +114,18 @@ export class RegisterUserComponent implements OnInit {
     }
 
     const raw = this.registerForm.value;
+
+    const hh = String(raw.horas).padStart(2, '0');
+    const mm = String(raw.minutos).padStart(2, '0');
+    const horas_totales = `${hh}:${mm}`;
+
     const nuevoTripulante: Tripulantes = {
       ...raw,
+      horas_totales,
       antiguedad: formatDate(raw.antiguedad, 'yyyy-MM-dd', 'en-GB'),
       grupoSanguineoDTO: { id: raw.grupoSanguineoDTO.id } as any,
-      rangoDTO:          { id: raw.rangoDTO.id }          as any,
-      oficioDTO:         { id: raw.oficioDTO.id }         as any
+      rangoDTO: { id: raw.rangoDTO.id } as any,
+      oficioDTO: { id: raw.oficioDTO.id } as any
     };
 
     this.tripulantesService.createTripulantes(nuevoTripulante).subscribe({
@@ -139,15 +146,15 @@ export class RegisterUserComponent implements OnInit {
   }
 
   private emailUniqueValidator(): AsyncValidatorFn {
-  return (control: AbstractControl) => {
-    const value = control.value?.trim();
-    return !value
-      ? of(null)                                    // campo vacío → sin error
-      : this.tripulantesService.emailExists(value)  // llama al back-end
-          .pipe(
-            map(exists => (exists ? { emailTaken: true } : null)),
-            first()
-          );
-  };
-}
+    return (control: AbstractControl) => {
+      const value = control.value?.trim();
+      return !value
+        ? of(null)
+        : this.tripulantesService.emailExists(value)
+            .pipe(
+              map(exists => (exists ? { emailTaken: true } : null)),
+              first()
+            );
+    };
+  }
 }

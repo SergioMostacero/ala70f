@@ -62,7 +62,7 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
     this.router.navigate([ this.encoder.encode('homePermisos') ]);
   }
 
-  
+  //carga los datos del vuelo
   private loadVuelo(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
@@ -98,106 +98,102 @@ export class ViewFlightComponent implements OnInit, OnDestroy {
     });
   }
   
-public exportarPDF(): void {
-  if (!this.vuelo) return;
+  //func exportar vuelo a pdf
+  public exportarPDF(): void {
+    if (!this.vuelo) return;
 
-  const doc = new jsPDF({ orientation: 'portrait', unit: 'pt' });
-  const blue: [number, number, number] = [29, 114, 184];
-  const today = dayjs().format('DD/MM/YYYY');
-  const pageW = doc.internal.pageSize.getWidth();
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'pt' });
+    const blue: [number, number, number] = [29, 114, 184];
+    const today = dayjs().format('DD/MM/YYYY');
+    const pageW = doc.internal.pageSize.getWidth();
 
-  this.loadLogo().then(logo => {
-    // CABECERA
-    doc.setFillColor(...blue);
-    doc.rect(0, 0, pageW, 70, 'F');
-    doc.addImage(logo, 'PNG', 20, 12, 45, 45);
-    doc.setFont('Helvetica', 'bold').setFontSize(20).setTextColor(255, 255, 255);
-    doc.text('INFORME OFICIAL DE VUELO', pageW / 2, 32, { align: 'center' });
-    doc.setFont('Helvetica', 'normal').setFontSize(12);
-    doc.text(`Fecha del informe: ${today}`, pageW / 2, 50, { align: 'center' });
+    this.loadLogo().then(logo => {
+      doc.setFillColor(...blue);
+      doc.rect(0, 0, pageW, 70, 'F');
+      doc.addImage(logo, 'PNG', 20, 12, 45, 45);
+      doc.setFont('Helvetica', 'bold').setFontSize(20).setTextColor(255, 255, 255);
+      doc.text('INFORME OFICIAL DE VUELO', pageW / 2, 32, { align: 'center' });
+      doc.setFont('Helvetica', 'normal').setFontSize(12);
+      doc.text(`Fecha del informe: ${today}`, pageW / 2, 50, { align: 'center' });
 
-    // FECHAS Y FORMATO
-    const itinerary = this.vuelo.itinerarioDTO?.nombre ?? '-';
-    const salida = this.formatFechaHora(this.vuelo.fecha_salida, this.vuelo.hora_salida);
-    const llegada = this.formatFechaHora(this.vuelo.fecha_llegada, this.vuelo.hora_llegada);
+      const itinerary = this.vuelo.itinerarioDTO?.nombre ?? '-';
+      const salida = this.formatFechaHora(this.vuelo.fecha_salida, this.vuelo.hora_salida);
+      const llegada = this.formatFechaHora(this.vuelo.fecha_llegada, this.vuelo.hora_llegada);
 
-    const datosPrincipales: CellDef[][] = [
-      ['Itinerario', itinerary],
-      ['Duración', this.limpiarTexto(this.vuelo.itinerarioDTO?.duracion)],
-      ['Salida', salida],
-      ['Llegada', llegada],
-      ['Avión', this.limpiarTexto(this.vuelo.avionDTO?.nombre)],
-      ['Misión', this.limpiarTexto(this.vuelo.misionDTO?.nombre)],
-      ['Combustible', this.vuelo.combustible ? `${this.vuelo.combustible} t` : 'N/A'],
-      ['Anticipo', this.vuelo.anticipo ? `${this.vuelo.anticipo} €` : 'N/A']
-    ];
+      const datosPrincipales: CellDef[][] = [
+        ['Itinerario', itinerary],
+        ['Duración', this.limpiarTexto(this.vuelo.itinerarioDTO?.duracion)],
+        ['Salida', salida],
+        ['Llegada', llegada],
+        ['Avión', this.limpiarTexto(this.vuelo.avionDTO?.nombre)],
+        ['Misión', this.limpiarTexto(this.vuelo.misionDTO?.nombre)],
+        ['Combustible', this.vuelo.combustible ? `${this.vuelo.combustible} t` : 'N/A'],
+        ['Anticipo', this.vuelo.anticipo ? `${this.vuelo.anticipo} €` : 'N/A']
+      ];
 
-    autoTable(doc, {
-      startY: 90,
-      head: [['Campo', 'Valor']],
-      body: datosPrincipales,
-      theme: 'grid',
-      styles: { font: 'Helvetica', fontSize: 11, halign: 'left' },
-      headStyles: { fillColor: blue, textColor: 255, fontStyle: 'bold', halign: 'left' },
-      bodyStyles: { cellPadding: 6 }
-    });
-
-    // TRIPULACIÓN
-    if (this.tripulantes.length) {
       autoTable(doc, {
-        margin: { top: 20 },
-        head: [['Oficio', 'Nombre completo', 'Rango']],
-        body: this.tripulantes.map(t => [
-          this.limpiarTexto(t.oficioDTO?.nombre),
-          `${t.nombre} ${t.apellidos}`,
-          this.limpiarTexto(t.rangoDTO?.nombre)
-        ]),
-        theme: 'striped',
-        styles: { font: 'Helvetica', fontSize: 10, halign: 'left' },
-        headStyles: { fillColor: [60, 60, 60], textColor: 255, fontStyle: 'bold', halign: 'left' },
-        bodyStyles: { cellPadding: 5 }
-      });
-    }
-
-    // UBICACIONES (sin ordenar)
-    if (this.ubicaciones.length) {
-      autoTable(doc, {
-        margin: { top: 20 },
-        head: [['Ciudad', 'País', 'Latitud', 'Longitud']],
-        body: this.ubicaciones.map(u => [
-          this.limpiarTexto(u.ciudad),
-          this.limpiarTexto(u.pais),
-          u.latitud ?? 'N/A',
-          u.longitud ?? 'N/A'
-        ]),
-        theme: 'striped',
-        styles: { font: 'Helvetica', fontSize: 10, halign: 'left' },
+        startY: 90,
+        head: [['Campo', 'Valor']],
+        body: datosPrincipales,
+        theme: 'grid',
+        styles: { font: 'Helvetica', fontSize: 11, halign: 'left' },
         headStyles: { fillColor: blue, textColor: 255, fontStyle: 'bold', halign: 'left' },
-        bodyStyles: { cellPadding: 5 }
+        bodyStyles: { cellPadding: 6 }
       });
-    }
 
-    // PIE DE PÁGINA
-    doc.setFontSize(9).setTextColor(150);
-    doc.text(`Generado automáticamente por el sistema el ${today}`, pageW / 2, doc.internal.pageSize.getHeight() - 20, {
-      align: 'center'
+      if (this.tripulantes.length) {
+        autoTable(doc, {
+          margin: { top: 20 },
+          head: [['Oficio', 'Nombre completo', 'Rango']],
+          body: this.tripulantes.map(t => [
+            this.limpiarTexto(t.oficioDTO?.nombre),
+            `${t.nombre} ${t.apellidos}`,
+            this.limpiarTexto(t.rangoDTO?.nombre)
+          ]),
+          theme: 'striped',
+          styles: { font: 'Helvetica', fontSize: 10, halign: 'left' },
+          headStyles: { fillColor: [60, 60, 60], textColor: 255, fontStyle: 'bold', halign: 'left' },
+          bodyStyles: { cellPadding: 5 }
+        });
+      }
+
+      if (this.ubicaciones.length) {
+        autoTable(doc, {
+          margin: { top: 20 },
+          head: [['Ciudad', 'País', 'Latitud', 'Longitud']],
+          body: this.ubicaciones.map(u => [
+            this.limpiarTexto(u.ciudad),
+            this.limpiarTexto(u.pais),
+            u.latitud ?? 'N/A',
+            u.longitud ?? 'N/A'
+          ]),
+          theme: 'striped',
+          styles: { font: 'Helvetica', fontSize: 10, halign: 'left' },
+          headStyles: { fillColor: blue, textColor: 255, fontStyle: 'bold', halign: 'left' },
+          bodyStyles: { cellPadding: 5 }
+        });
+      }
+
+      doc.setFontSize(9).setTextColor(150);
+      doc.text(`Generado automáticamente por el sistema el ${today}`, pageW / 2, doc.internal.pageSize.getHeight() - 20, {
+        align: 'center'
+      });
+
+      const safeItinerary = itinerary.replace(/\s+/g, '_').replace(/[!’]/g, '');
+      const salidaStr = dayjs(this.vuelo.fecha_salida).format('YYYYMMDD');
+      doc.save(`INFORME_VUELO_G45-${safeItinerary}-${salidaStr}.pdf`);
     });
+  }
 
-    // NOMBRE ARCHIVO
-    const safeItinerary = itinerary.replace(/\s+/g, '_').replace(/[!’]/g, '');
-    const salidaStr = dayjs(this.vuelo.fecha_salida).format('YYYYMMDD');
-    doc.save(`INFORME_VUELO_G45-${safeItinerary}-${salidaStr}.pdf`);
-  });
-}
+  //formato de fecha valido
+  private formatFechaHora(fecha: string, hora: string): string {
+    const dt = dayjs(`${fecha}T${hora}`);
+    return dt.format('DD [de] MMMM [de] YYYY, HH:mm [h]');
+  }
 
-private formatFechaHora(fecha: string, hora: string): string {
-  const dt = dayjs(`${fecha}T${hora}`);
-  return dt.format('DD [de] MMMM [de] YYYY, HH:mm [h]');
-}
-
-private limpiarTexto(valor: any): string {
-  return valor && valor !== '-' ? valor : 'N/A';
-}
+  private limpiarTexto(valor: any): string {
+    return valor && valor !== '-' ? valor : 'N/A';
+  }
 
   private loadUbicacionesYMapa(itinerarioId: number): void {
     this.ubicacionService.getUbicacionesByItinerarioId(itinerarioId).subscribe({

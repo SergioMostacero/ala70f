@@ -1,7 +1,7 @@
 {
   "name": "Ala70TFG",
   "short_name": "Ala70TFG",
-  "description": "Aplicación web progresiva de Ala70TFG",
+  "description": "Aplicación web de Ala70TFG",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

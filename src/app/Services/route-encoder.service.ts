@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+//Clase service para cifrar las url 
 @Injectable({
   providedIn: 'root'
 })
@@ -16,12 +17,12 @@ export class RouteEncoderService {
       const decoded = atob(encodedRoute);
       return decoded.replace(this.prefix, '');
     } catch (e) {
-      return ''; // Ruta no válida
+      return ''; 
     }
   }
 
   encodeWithParam(route: string, param: string | number): string[] {
-    return [this.encode(route), param.toString()]; // Mantener parámetro sin cifrar
+    return [this.encode(route), param.toString()]; 
   }
 
     decodeToNumber(encodedValue: string): number | null {

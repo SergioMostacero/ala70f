@@ -17,7 +17,8 @@ export class EditMedallasComponent implements OnInit {
 
   medallas: any[] = [];
   medallaForm!: FormGroup;
-  isEdit = false;
+  isEdit   = false;  
+  showForm = false; 
   private currentId?: number;
 
   constructor(
@@ -40,6 +41,7 @@ export class EditMedallasComponent implements OnInit {
     });
   }
 
+  // cargar lista de medallas
   private loadMedallas(): void {
     this.medallaService.getAllMedallas().subscribe({
       next: list => this.medallas = list,
@@ -47,21 +49,7 @@ export class EditMedallasComponent implements OnInit {
     });
   }
 
-  /** Prepara formulario para editar */
-  editMedalla(m: any): void {
-    this.isEdit = true;
-    this.currentId = m.id;
-    this.medallaForm.patchValue({
-      nombre: m.nombre,
-      descripcion: m.descripcion
-    });
-    // Scroll suave al formulario
-    setTimeout(() => {
-      this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  }
-
-  /** Crear o actualizar medalla */
+  //formulario se abre cuando le da a editar
   onSubmit(): void {
     if (this.medallaForm.invalid) {
       this.notification.showMessage('Completa el formulario correctamente.', 'error');
@@ -70,7 +58,6 @@ export class EditMedallasComponent implements OnInit {
     const dto = this.medallaForm.value;
 
     if (this.isEdit && this.currentId != null) {
-      // ACTUALIZAR
       this.medallaService.updateMedalla(this.currentId, dto).subscribe({
         next: () => {
           this.notification.showMessage('Medalla actualizada.', 'success');
@@ -90,7 +77,31 @@ export class EditMedallasComponent implements OnInit {
     }
   }
 
-  /** Borrar con confirmación */
+  //formulario se abre para crear medalla nueva
+  newMedalla(): void {
+      this.isEdit   = false;
+      this.showForm = true;
+      this.currentId = undefined;
+
+      this.medallaForm.reset();
+      setTimeout(() =>
+        this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      );
+    }
+
+   editMedalla(m: any): void {
+    this.isEdit   = true;
+    this.showForm = true;
+    this.currentId = m.id;
+
+    this.medallaForm.patchValue({ nombre: m.nombre, descripcion: m.descripcion });
+
+    setTimeout(() =>
+      this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    );
+  }
+
+  //borrar medalla con pop up de confirmacion
   deleteMedalla(id: number): void {
     Swal.fire({
       title: '¿Eliminar medalla?',
@@ -101,22 +112,41 @@ export class EditMedallasComponent implements OnInit {
       cancelButtonText: 'Cancelar',
       reverseButtons: true,
       confirmButtonColor: '#d33',
-      customClass: { popup: 'dark' }
+      customClass: { popup: 'dark' }    
     }).then(res => {
-      if (!res.isConfirmed) return;
+      if (!res.isConfirmed) { return; }
+
       this.medallaService.deleteMedalla(id).subscribe({
         next: () => {
-          this.medallas = this.medallas.filter(x => x.id !== id);
-          Swal.fire('¡Borrado!', 'Medalla eliminada correctamente.', 'success');
+          this.medallas = this.medallas.filter(m => m.id !== id);
+
+          Swal.fire({
+            title: '¡Borrado!',
+            text: 'Medalla eliminada correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            customClass: { popup: 'dark' }   
+          });
         },
-        error: () => Swal.fire('Error', 'No se pudo eliminar medalla', 'error')
+        error: err => {
+          console.error(err);
+
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudo eliminar la medalla',
+            icon: 'error',
+            confirmButtonText: 'Cerrar',
+            customClass: { popup: 'dark' }  
+          });
+        }
       });
     });
   }
 
-  /** Cancelar edición / reset al modo crear */
+  // cuando le das a cancelar se resetea el form
   resetForm(): void {
-    this.isEdit = false;
+    this.showForm = false;
+    this.isEdit   = false;
     this.currentId = undefined;
     this.medallaForm.reset();
   }

@@ -28,7 +28,7 @@ export class LogrosMedallasComponent implements OnInit {
     this.loadTripulante();
     this.loadAllMedallas();
   }
-
+  //carga el tripulante si no hay te devuelve al login
   private loadTripulante(): void {
     this.tripulante = this.tripulantesService.getLoggedInUser();
   
@@ -45,12 +45,13 @@ export class LogrosMedallasComponent implements OnInit {
 
   
 
-
+  //carga todas las medallas de ese usuario
   private loadAllMedallas(): void {
     this.medallaService.getAllMedallas()
       .subscribe(medallas => this.todasMedallas = medallas);
   }
 
+  //para saber si ese usuario ya posee esa medalla 
   tieneMedalla(medallaId: number): boolean {
     return this.medallas.some(m => m.id === medallaId);
   }

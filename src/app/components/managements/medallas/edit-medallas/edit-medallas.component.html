@@ -1,5 +1,9 @@
-<div class="table-container">
-  <h1 class="form-title">LISTA DE MEDALLAS</h1>
+<div class="table-container"> 
+  <h1 class="form-title">LISTA DE MEDALLAS
+    <button class="add-button" (click)="newMedalla()" aria-label="Crear medalla">＋</button>
+  </h1>
+   
+<div class="table-wrapper">
   <table class="plane-table">
     <thead>
       <tr>
@@ -21,9 +25,15 @@
       </tr>
     </tbody>
   </table>
+  </div>
 </div>
 
-<form #formSection [formGroup]="medallaForm" (ngSubmit)="onSubmit()">
+
+<form  #formSection
+       *ngIf="showForm"                      
+       [formGroup]="medallaForm"
+       (ngSubmit)="onSubmit()">
+
   <h1 class="form-title">
     {{ isEdit ? 'Editar Medalla' : 'Crear Medalla' }}
   </h1>
@@ -42,16 +52,14 @@
     <button type="submit" [disabled]="medallaForm.invalid">
       {{ isEdit ? 'Guardar cambios' : 'Crear medalla' }}
     </button>
-    <button
-      *ngIf="isEdit"
-      type="button"
-      (click)="resetForm()"
-      class="cancel-button"
-    >
+
+    <button *ngIf="isEdit"
+            type="button"
+            (click)="resetForm()"
+            class="cancel-button">
       Cancelar
     </button>
   </div>
 </form>
+
 <button class="back-button" (click)="goBack()">← Volver</button>
-
-

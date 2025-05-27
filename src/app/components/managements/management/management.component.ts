@@ -1,4 +1,3 @@
-// management.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteEncoderService } from '../../../Services/route-encoder.service';
@@ -15,6 +14,7 @@ export class ManagementComponent {
     private encoder: RouteEncoderService
   ) {}
 
+  //rutas de navegacion
   crearUsuario() {
     this.router.navigate([this.encoder.encode('register')]);
   }
@@ -37,7 +37,6 @@ export class ManagementComponent {
   goToEditMedallas() {
     this.router.navigate([this.encoder.encode('medallas')]);
   }
-
 
   crearItinerario() {
     this.router.navigate([this.encoder.encode('create-itinerary')]);

@@ -1,4 +1,3 @@
-<!-- edit-job.component.html -->
 <div class="table-container">
   <h1 class="form-title">LISTA DE OFICIOS</h1>
   
@@ -27,7 +26,7 @@
   </div>
 </div>
 
-<form [formGroup]="form" (ngSubmit)="submit()" *ngIf="selectedOficio">
+<form #editForm [formGroup]="form" (ngSubmit)="submit()" *ngIf="selectedOficio">
   <h1 class="form-title">{{ selectedOficio.id ? 'EDITAR OFICIO' : 'NUEVO OFICIO' }}</h1>
 
   <div class="field">

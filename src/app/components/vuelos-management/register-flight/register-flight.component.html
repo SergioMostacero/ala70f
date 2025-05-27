@@ -1,16 +1,12 @@
-<!-- Registrar Vuelo (estilo unificado) -->
 <div class="container">
   <div class="user-panel">
-    <!-- Cabecera -->
     <div class="header-row">
       
       <h1 class="flight-title">Registrar Vuelo</h1>
     </div>
 
-    <!-- Formulario reactivo -->
     <form [formGroup]="vueloForm" (ngSubmit)="createVuelo()">
 
-      <!-- Fecha y hora -->
       <div class="form-group">
         <label for="fecha_salida">Fecha Salida</label>
         <input id="fecha_salida" type="date" formControlName="fecha_salida" />
@@ -21,7 +17,6 @@
         <input id="hora_salida" type="time" formControlName="hora_salida" (change)="onHoraSalidaChange()" />
       </div>
 
-      <!-- Itinerario -->
       <div class="form-group" [formGroup]="itinerarioFormGroup">
         <label for="itinerarioSelect">Itinerario</label>
         <select id="itinerarioSelect" formControlName="id"
@@ -43,14 +38,12 @@
         <input id="hora_llegada" type="time" formControlName="hora_llegada" readonly />
       </div>
 
-      <!-- Anticipo y gasolina -->
       <div class="form-group">
         <label for="anticipo">Anticipo</label>
         <input id="anticipo" type="text" formControlName="anticipo" />
       </div>
 
 
-<!-- Avión -->
 <div class="form-group" [formGroup]="avionFormGroup">
   <label for="avionSelect">Avión</label>
   <select id="avionSelect" formControlName="id" (change)="onAvionChange()">
@@ -61,7 +54,6 @@
   </select>
 </div>
 
-<!-- Combustible (Mensaje de Capacidad Máxima) -->
 <div class="form-group">
   <label for="combustible">Combustible (Toneladas)</label>
   <input
@@ -73,13 +65,11 @@
     (input)="validateCombustible()"
   />
   
-  <!-- Mensaje Emergente de Capacidad Máxima -->
   <div *ngIf="maxCombustibleMessage" class="tooltip-message">
     Capacidad máxima: {{ maxCombustibleMessage }} toneladas
   </div>
 </div>
 
-      <!-- Misión -->
       <div class="form-group" [formGroup]="misionesFormGroup">
         <label for="misionSelect">Misión</label>
         <select id="misionSelect" formControlName="id">
@@ -90,7 +80,6 @@
         </select>
       </div>
 
-      <!-- Tripulación -->
       <div class="form-group">
         <label for="tripulanteSelect">Piloto</label>
         <select id="tripulanteSelect" formControlName="piloto">
@@ -131,7 +120,6 @@
         </select>
       </div>
 
-      <!-- Botones -->
       <div class="button-group">
         <button type="submit" class="nav-button" [disabled]="vueloForm.invalid">
           Crear Vuelo

@@ -70,6 +70,7 @@ export class RegisterFlightComponent implements OnInit {
     });
   }
   
+  //control combustible dependiendo del avions eleccionado
   onAvionChange(): void {
     const avionId = this.vueloForm.get('avionDTO.id')?.value;
     const selected = this.avionList.find(a => a.id === avionId);
@@ -82,7 +83,7 @@ export class RegisterFlightComponent implements OnInit {
     }
   }
   
-  
+  //control de combustibe
   validateCombustible(): void {
     const control = this.vueloForm.get('combustible');
     const valor   = Number(control?.value);
@@ -124,6 +125,7 @@ export class RegisterFlightComponent implements OnInit {
     }
   }
 
+//actualiza solo la hora de llegada dependiendo de la hora de salida y las ciudades a las que vas
 updateHoraLlegada(): void {
   const horaSalida = this.vueloForm.get('hora_salida')?.value;
   const fechaSalida = this.vueloForm.get('fecha_salida')?.value;
@@ -220,6 +222,8 @@ goBack(): void {
   this.router.navigate([ this.encoder.encode('flights') ]);
 }
 
+
+//carga los datos necesarios
 private loadAviones(): void {
   this.avionService.getAll().subscribe({
     next: (data: Avion[]) => {

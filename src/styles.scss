@@ -1,20 +1,11 @@
 @use '@angular/material' as mat;
 
-// ------------------------------------------
-// 2) Core styles de Angular Material
-// ------------------------------------------
 @include mat.core();
 
-// ------------------------------------------
-// 3) Definición de paletas
-// ------------------------------------------
 $frontAla70-primary: mat.define-palette(mat.$indigo-palette);
 $frontAla70-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 $frontAla70-warn: mat.define-palette(mat.$red-palette);
 
-// ------------------------------------------
-// 4) Creación de tu tema (light)
-// ------------------------------------------
 $frontAla70-theme: mat.define-light-theme((
   color: (
     primary: $frontAla70-primary,
@@ -23,9 +14,6 @@ $frontAla70-theme: mat.define-light-theme((
   )
 ));
 
-// ------------------------------------------
-// 5) Incluir estilos de todos los componentes
-// ------------------------------------------
 @include mat.all-component-themes($frontAla70-theme);
 *,
 *::before,
@@ -39,12 +27,12 @@ html,
 body {
   height: 100%;
   margin: 0;
-  background: #121212;
+  background: url('/assets/img/multicam.png') no-repeat center center fixed;
+  background-size: cover;
   color: #e0e0e0;
   font-family: Inter, Roboto, sans-serif;
 }
 
-// Scrollbar oscuro (WebKit)
 ::-webkit-scrollbar {
   width: 8px;
   background: #1a1a1a;
@@ -54,7 +42,6 @@ body {
   border-radius: 4px;
 }
 
-// Contenedor raíz Angular
 app-root {
   display: block;
   height: 100vh;
@@ -63,14 +50,12 @@ app-root {
   border: 0;
 }
 
-// Asegurar que el router-outlet o el div animado llenen la pantalla
 app-root > div,
 :host ::ng-deep router-outlet + * {
   display: block;
   min-height: 100%;
 }
 
-// Enlaces
 a {
   color: #64b5f6;
   text-decoration: none;
@@ -90,7 +75,6 @@ a:hover {
 }
 
 
-/* styles.scss */
 .swal2-popup.dark {
   background: #222 !important;
   color: #eee;

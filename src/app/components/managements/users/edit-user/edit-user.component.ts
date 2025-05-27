@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators, AsyncValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AsyncValidatorFn } from '@angular/forms';
 import { map, first } from 'rxjs/operators';
 import { of } from 'rxjs';
+
 import { TripulantesService } from '../../../../Services/tripulantes.service';
 import { RangoService } from '../../../../Services/rango.service';
 import { GrupoSanguineoService } from '../../../../Services/grupo-sanguineo.service';
 import { OficioService } from '../../../../Services/oficio.service';
 import { NotificationService } from '../../../../utils/notification.service';
+import { RouteEncoderService } from '../../../../Services/route-encoder.service';
+
 import { Tripulantes } from '../../../../model/Tripulantes.model';
 import { Rango } from '../../../../model/rango.model';
 import { GrupoSanguineo } from '../../../../model/grupo-sanguineo.model';
 import { Oficio } from '../../../../model/oficio.model';
-import { RouteEncoderService } from '../../../../Services/route-encoder.service';
 
 @Component({
   selector: 'app-edit-user',
@@ -29,6 +30,9 @@ export class EditUserComponent implements OnInit {
   selectedUserId: number | null = null;
   isLoaded = false;
   hoy: string = new Date().toISOString().substring(0, 10);
+  showPassword = false;
+
+  originalEmail: string = '';
 
   constructor(
     private encoder: RouteEncoderService,
@@ -49,16 +53,17 @@ export class EditUserComponent implements OnInit {
 
   private initForm(): void {
     this.userForm = this.fb.group({
-      nombre: ['',[Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)]],
-      apellidos: ['',[ Validators.required, Validators.maxLength(100), Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)]],
-      email: ['',[Validators.required,Validators.email],[ this.emailUniqueValidator() ]  ],
-      contrasena: ['',[Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/)]],
+      nombre: ['', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)]],
+      apellidos: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s'-]+$/)]],
+      email: ['', [Validators.required, Validators.email], [this.emailUniqueValidator()]],
+      contrasena: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/)]],
       antiguedad: [null, [Validators.required, this.AntiguedadValidator()]],
-      horas_totales: [ 0,[ Validators.required, Validators.min(0)]],
+      horas: [0, [Validators.required, Validators.min(0)]],
+      minutos: [0, [Validators.required, Validators.min(0), Validators.max(59)]],
       permisos: [false],
       grupoSanguineoDTO: this.fb.group({ id: [null, Validators.required] }),
-      rangoDTO:           this.fb.group({ id: [null, Validators.required] }),
-      oficioDTO:          this.fb.group({ id: [null, Validators.required] }),
+      rangoDTO: this.fb.group({ id: [null, Validators.required] }),
+      oficioDTO: this.fb.group({ id: [null, Validators.required] }),
     });
   }
 
@@ -67,7 +72,7 @@ export class EditUserComponent implements OnInit {
       next: (users) => {
         this.usuarios = users;
       },
-      error: (err) => {
+      error: () => {
         this.notification.showMessage('Error cargando lista de usuarios', 'error');
       }
     });
@@ -77,11 +82,10 @@ export class EditUserComponent implements OnInit {
     if (this.selectedUserId) {
       this.loadUser(this.selectedUserId);
     } else {
-      this.userForm.reset();   // vacía el formulario
-      this.isLoaded = false;   // evita que se envíe hasta que cargue un usuario válido
+      this.userForm.reset();
+      this.isLoaded = false;
     }
   }
-
 
   private loadUser(userId: number): void {
     this.tripService.getById(userId).subscribe({
@@ -103,23 +107,28 @@ export class EditUserComponent implements OnInit {
   }
 
   private patchFormValues(u: Tripulantes): void {
-    const horasTotales = this.toDecimalHours(u.horas_totales);
+    const [hh, mm] = String(u.horas_totales || '00:00').split(':');
+
+    this.originalEmail = u.email;
+
     this.userForm.patchValue({
       nombre: u.nombre,
       apellidos: u.apellidos,
       email: u.email,
       contrasena: u.contrasena,
       antiguedad: u.antiguedad,
-      horas_totales: u.horas_totales,
+      horas: +hh,
+      minutos: +mm,
       permisos: u.permisos,
       grupoSanguineoDTO: { id: u.grupoSanguineoDTO.id },
       rangoDTO: { id: u.rangoDTO.id },
       oficioDTO: { id: u.oficioDTO.id },
     });
+
     const passCtrl = this.userForm.get('contrasena');
-      passCtrl?.markAsDirty();
-      passCtrl?.markAsTouched();
-      passCtrl?.updateValueAndValidity(); 
+    passCtrl?.markAsDirty();
+    passCtrl?.markAsTouched();
+    passCtrl?.updateValueAndValidity();
   }
 
   onSubmit(): void {
@@ -131,6 +140,7 @@ export class EditUserComponent implements OnInit {
     const updatedUser = this.prepareUpdateData();
     this.updateUser(updatedUser);
   }
+
   private loadSelectOptions(): void {
     this.rangoService.getRangos().subscribe(r => this.rangos = r);
     this.grupoSangService.getGruposSanguineos().subscribe(g => this.gruposSanguineos = g);
@@ -138,18 +148,24 @@ export class EditUserComponent implements OnInit {
   }
 
   private prepareUpdateData(): Tripulantes {
+    const raw = this.userForm.value;
+    const hh = String(raw.horas).padStart(2, '0');
+    const mm = String(raw.minutos).padStart(2, '0');
+
     return {
-      ...this.userForm.value,
+      ...raw,
       id: this.selectedUserId,
-      grupoSanguineoDTO: { id: this.userForm.value.grupoSanguineoDTO.id },
-      rangoDTO: { id: this.userForm.value.rangoDTO.id },
-      oficioDTO: { id: this.userForm.value.oficioDTO.id },
+      horas_totales: `${hh}:${mm}`,
+      grupoSanguineoDTO: { id: raw.grupoSanguineoDTO.id },
+      rangoDTO: { id: raw.rangoDTO.id },
+      oficioDTO: { id: raw.oficioDTO.id },
     };
   }
+
   private updateUser(updatedUser: Tripulantes): void {
-    if (!this.selectedUserId) return; 
-    
-    this.tripService.updateTripulante(this.selectedUserId, updatedUser).subscribe({ 
+    if (!this.selectedUserId) return;
+
+    this.tripService.updateTripulante(this.selectedUserId, updatedUser).subscribe({
       next: () => {
         this.notification.showMessage('Usuario actualizado con éxito', 'success');
         this.router.navigate([this.encoder.encode('management')]);
@@ -162,42 +178,34 @@ export class EditUserComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate([ this.encoder.encode('management') ]);
+    this.router.navigate([this.encoder.encode('management')]);
   }
 
   private AntiguedadValidator() {
     return (control: AbstractControl): ValidationErrors | null => {
       const valor = control.value;
-      if (!valor) { return null; }
+      if (!valor) return null;
 
       const fecha = new Date(valor);
-      const min   = new Date('1900-01-01');
-      const max   = new Date(this.hoy);
+      const min = new Date('1900-01-01');
+      const max = new Date(this.hoy);
 
       return (fecha >= min && fecha <= max) ? null : { fueraRango: true };
     };
   }
 
-    private emailUniqueValidator(): AsyncValidatorFn {
+  private emailUniqueValidator(): AsyncValidatorFn {
     return (control: AbstractControl) => {
       const value = control.value?.trim();
-      return !value
-        ? of(null)                                    
-        : this.tripService.emailExists(value)  
-            .pipe(
-              map(exists => (exists ? { emailTaken: true } : null)),
-              first()
-            );
+      if (!value) return of(null);
+
+      // Permitir el email original del usuario sin validación extra
+      if (value === this.originalEmail) return of(null);
+
+      return this.tripService.emailExists(value).pipe(
+        map(exists => (exists ? { emailTaken: true } : null)),
+        first()
+      );
     };
-  }
-
-  private toDecimalHours(value: string | number | null): number {
-    if (value == null) return 0;
-
-    if (typeof value === 'number') {           
-      return value;
-    }
-    const [h, m = '0'] = value.split(':');     
-    return +h + +m / 60;                        
   }
 }

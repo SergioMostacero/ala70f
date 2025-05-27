@@ -9,24 +9,14 @@ export class ItinerarioService {
   private apiUrl = 'https://api.ala70tfg.com/api/itinerarios';
 
   constructor(private http: HttpClient) {}
-
-  getAll(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
-  }
-
-  getById(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
-  }
-
-  create(itinerario: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, itinerario);
-  }
-
-  update(id: number, itinerario: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${id}`, itinerario);
-  }
-
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
+  /* Obtiene todos los Itinerarios */
+  getAll(): Observable<any[]> {return this.http.get<any[]>(this.apiUrl);}
+  /* Obtiene Itinerario por Id */
+  getById(id: number): Observable<any> {return this.http.get<any>(`${this.apiUrl}/${id}`);}
+  /* Crea un itinerario */
+  create(itinerario: any): Observable<any> {return this.http.post<any>(this.apiUrl, itinerario);}
+  /* Actualiaz un itinerario */
+  update(id: number, itinerario: any): Observable<any> {return this.http.put<any>(`${this.apiUrl}/${id}`, itinerario);}
+  /* Elimina un itinerario */
+  delete(id: number): Observable<void> {return this.http.delete<void>(`${this.apiUrl}/${id}`);}
 }

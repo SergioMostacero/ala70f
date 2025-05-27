@@ -40,10 +40,31 @@
       </div>
 
 
-      <div class="form-row">
-        <label>Horas de vuelo</label>
-        <input type="number" formControlName="horas_totales" min="0" />
-      </div>
+<div class="form-row">
+  <label>Horas de vuelo</label>
+  <div class="hour-minute-wrapper">
+    <input
+      type="number"
+      formControlName="horas"
+      min="0"
+      placeholder="hh"
+      class="time-input"
+    />
+    :
+    <input
+      type="number"
+      formControlName="minutos"
+      min="0"
+      max="59"
+      placeholder="mm"
+      class="time-input"
+    />
+  </div>
+  <small *ngIf="registerForm.get('minutos')?.hasError('max')">
+    Los minutos deben estar entre 0 y 59.
+  </small>
+</div>
+
 
       <h3 class="section-title">Acceso</h3>
 
@@ -58,15 +79,28 @@
         </small>
       </div>
 
-      <div class="form-row">
-        <label>Contraseña</label>
-        <input type="password" formControlName="contrasena" minlength="8" />
-        <small *ngIf="registerForm.get('contrasena')?.hasError('pattern')">
-          Mín. 8 car., 1 mayús., 1 minús., 1 dígito.
-        </small>
-      </div>
+<div class="form-row password-row">
+  <label>Contraseña</label>
 
-      <!-- ▸ Información profesional -->
+  <div class="password-wrapper">
+      <input id="contrasena"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="contrasena"
+            placeholder="Mín. 8 car., 1 mayús, 1 dígito"
+            minlength="8" />
+      <button class="eye-toggle"
+              type="button"
+              aria-label="Mostrar u ocultar contraseña"
+              (click)="showPassword = !showPassword">
+        <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </div>
+  <small *ngIf="registerForm.get('contrasena')?.hasError('pattern')">
+    Mín. 8 car., 1 mayús., 1 minús., 1 dígito.
+  </small>
+</div>
+
+
       <h3 class="section-title">Información Profesional</h3>
 
       <div class="form-row" formGroupName="grupoSanguineoDTO">
@@ -104,7 +138,6 @@
         <label>Otorgar permisos administrativos</label>
       </div>
 
-      <!-- Botones -->
       <div class="buttons register-buttons">
         <button class="nav-button register-button"
                 type="submit"

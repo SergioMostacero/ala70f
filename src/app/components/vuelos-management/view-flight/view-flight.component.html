@@ -1,6 +1,5 @@
 <div class="container">
   <div class="user-panel">
-    <!-- Header -->
     <div class="header-row">
       <button class="nav-button back-button" (click)="goBack()">Volver</button>
       <h1 class="flight-title">G45-{{ vuelo?.itinerarioDTO?.id }} - {{ vuelo?.itinerarioDTO?.nombre }}</h1>
@@ -9,7 +8,6 @@
       </button>
     </div>
 
-    <!-- Información del vuelo -->
     <div class="flight-details-card">
       <div class="flight-info">
         <div class="info-row">
@@ -37,7 +35,6 @@
       </div>
     </div>
 
-    <!-- Itinerario y Ubicaciones -->
     <div class="itinerary-card">
       <h2>Itinerario y Ubicaciones</h2>
 
@@ -51,7 +48,6 @@
     </div>
 
 
-    <!-- Tripulación -->
     <div class="crew-section" *ngIf="tripulantes.length">
       <h2>Tripulación</h2>
 
@@ -64,7 +60,6 @@
       </div>
     </div>
 
-    <!-- Mapa -->
     <div class="map-container">
       <div id="map" class="map"></div>
     </div>

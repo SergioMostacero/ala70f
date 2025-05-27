@@ -1,7 +1,6 @@
 .container {
   padding: 20px;
   min-height: 100vh;
-  background: #121212;
 }
 
 .user-panel {
@@ -157,7 +156,6 @@
   }
 }
 
-/* Media Queries for mobile devices */
 @media (max-width: 600px) {
   .user-panel {
     padding: 1.5rem;
@@ -174,7 +172,7 @@
   }
 
   .back-button {
-    position: static; /* Make it flow in the document */
+    position: static; 
     transform: translateY(0);
     left: auto;
     top: auto;

@@ -12,7 +12,7 @@ import { NotificationService } from '../../../utils/notification.service';
   styleUrls: ['./create-itinerary.component.scss']
 })
 export class CreateItineraryComponent implements OnInit {
-  itineraryForm!: FormGroup; // Usamos el operador ! para evitar el error de inicialización
+  itineraryForm!: FormGroup;
   ubicaciones: any[] = [];
 
   constructor(
@@ -36,6 +36,7 @@ export class CreateItineraryComponent implements OnInit {
     });
   }
 
+  //carga las ubicaciones para formar el itineraio
   private loadUbicaciones(): void {
     this.ubicacionService.getAll().subscribe({
       next: (data) => {
@@ -55,6 +56,7 @@ export class CreateItineraryComponent implements OnInit {
       : '';
   }
 
+  //crear ubicaciones 
   createPaso(orden: number): FormGroup {
     return this.fb.group({
       ubicacionId: [null, Validators.required],
@@ -62,11 +64,13 @@ export class CreateItineraryComponent implements OnInit {
     });
   }
 
+  //añadir mas ubicaciones al itinerario
   addPaso(): void {
     const nextOrder = this.pasos.length + 1;
     this.pasos.push(this.createPaso(nextOrder));
   }
 
+  //borrar ubicaciones en el itinerario
   removePaso(i: number): void {
     if (this.pasos.length > 2) {
       this.pasos.removeAt(i);
@@ -80,6 +84,7 @@ export class CreateItineraryComponent implements OnInit {
     });
   }
 
+  //control para que no se puede ir al mismo destino desde ese mismo ( no puedes ir de madrid a madrid )
   onPasoChange(index: number): void {
     const pasosArray = this.pasos.controls;
     const pasoActual = pasosArray[index];
@@ -105,6 +110,7 @@ export class CreateItineraryComponent implements OnInit {
     }
   }
 
+  //añadir el itinerario a la lista
   onSubmit(): void {
     if (this.itineraryForm.invalid || this.pasos.length < 2) {
       this.notification.showMessage('Completa el formulario correctamente.', 'error');
@@ -132,6 +138,7 @@ export class CreateItineraryComponent implements OnInit {
     });
   }
 
+  //cambiar de sentido el itinerario apra crear la vuelta
   reverseItinerary(): void {
     const pasosArray = this.pasos;
     pasosArray.controls.reverse();

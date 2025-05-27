@@ -17,7 +17,8 @@ export class MissionsComponent implements OnInit {
 
   misiones: any[] = [];
   missionForm!: FormGroup;
-  isEdit = false;
+  isEdit   = false; 
+  showForm = false;
   private currentId?: number;
 
   constructor(
@@ -36,10 +37,10 @@ export class MissionsComponent implements OnInit {
   private initForm(): void {
     this.missionForm = this.fb.group({
       nombre: ['', Validators.required],
-      // añade más controles si los tienes...
     });
   }
 
+  //carga toda la lista de misiones
   private loadMisiones(): void {
     this.misionService.getAll().subscribe({
       next: list => this.misiones = list,
@@ -47,22 +48,34 @@ export class MissionsComponent implements OnInit {
     });
   }
 
-  /** Rellena el formulario para edición y hace scroll al form */
-  editMission(m: any): void {
-    this.isEdit = true;
-    this.currentId = m.id;
-    this.missionForm.patchValue({ nombre: m.nombre });
-    // Esperamos al próximo ciclo de detección para asegurarnos de que formSection está renderizado
+  //crear nueva mision
+  newMission(): void {
+    this.isEdit   = false;
+    this.showForm = true;
+    this.currentId = undefined;
+
+    this.missionForm.reset();
     setTimeout(() => {
-      this.formSection.nativeElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+      if (this.formSection) {
+        this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+  
+  editMission(m: any): void {
+    this.isEdit   = true;
+    this.showForm = true;
+    this.currentId = m.id;
+
+    this.missionForm.patchValue({ nombre: m.nombre });
+    setTimeout(() => {
+      if (this.formSection) {
+        this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
   }
 
-
-  /** Crear o guardar cambios */
+  //guarda el formulario rellenado
   onSubmit(): void {
     if (this.missionForm.invalid) {
       this.notification.showMessage('Completa el formulario correctamente.', 'error');
@@ -71,7 +84,6 @@ export class MissionsComponent implements OnInit {
     const dto = this.missionForm.value;
 
     if (this.isEdit && this.currentId != null) {
-      // EDITAR
       this.misionService.update(this.currentId, dto).subscribe({
         next: () => {
           this.notification.showMessage('Misión actualizada.', 'success');
@@ -80,7 +92,6 @@ export class MissionsComponent implements OnInit {
         error: () => this.notification.showMessage('Error al actualizar misión.', 'error')
       });
     } else {
-      // CREAR
       this.misionService.create(dto).subscribe({
         next: () => {
           this.notification.showMessage('Misión creada.', 'success');
@@ -91,33 +102,51 @@ export class MissionsComponent implements OnInit {
     }
   }
 
-  /** Borrado con confirmación */
-  deleteMission(id: number): void {
-    Swal.fire({
-      title: '¿Eliminar misión?',
-      text: 'Esta acción no se puede deshacer',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, borrar',
-      cancelButtonText: 'Cancelar',
-      reverseButtons: true,
-      confirmButtonColor: '#d33',
-      customClass: { popup: 'dark' }
-    }).then(res => {
-      if (!res.isConfirmed) return;
-      this.misionService.delete(id).subscribe({
-        next: () => {
-          this.misiones = this.misiones.filter(x => x.id !== id);
-          Swal.fire('¡Borrado!', 'Misión eliminada correctamente.', 'success');
-        },
-        error: () => Swal.fire('Error', 'No se pudo eliminar misión', 'error')
-      });
-    });
-  }
+deleteMission(id: number): void {
+  Swal.fire({
+    title: '¿Eliminar misión?',
+    text: 'Esta acción no se puede deshacer',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, borrar',
+    cancelButtonText: 'Cancelar',
+    reverseButtons: true,
+    confirmButtonColor: '#d33',
+    customClass: { popup: 'dark' }  
+  }).then(res => {
+    if (!res.isConfirmed) { return; }
 
-  /** Reset al modo crear */
+    this.misionService.delete(id).subscribe({
+      next: () => {
+        this.misiones = this.misiones.filter(m => m.id !== id);
+
+        Swal.fire({
+          title: '¡Borrado!',
+          text: 'Misión eliminada correctamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+          customClass: { popup: 'dark' }   
+        });
+      },
+      error: err => {
+        console.error(err);
+
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo eliminar la misión',
+          icon: 'error',
+          confirmButtonText: 'Cerrar',
+          customClass: { popup: 'dark' }   
+        });
+      }
+    });
+  });
+}
+
+  //resetea el form cuando le da a cancelar
   resetForm(): void {
-    this.isEdit = false;
+    this.showForm = false;
+    this.isEdit   = false;
     this.currentId = undefined;
     this.missionForm.reset();
   }

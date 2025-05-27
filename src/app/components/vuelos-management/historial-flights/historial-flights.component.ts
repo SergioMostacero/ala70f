@@ -23,6 +23,8 @@ export class HistorialFlightsComponent implements OnInit {
     const permisos = localStorage.getItem('permisos') === 'true';
     this.loadHistorial(permisos);
   }
+
+  //carga el historial de vuelos
   private loadHistorial(permisos: boolean): void {
     const raw = localStorage.getItem('usuarioLogeado');
     if (!raw && !permisos) {
@@ -61,9 +63,10 @@ export class HistorialFlightsComponent implements OnInit {
 
   verVuelo(vueloId: number) {
     const encodedPath = this.encoder.encode('vuelo');
-    this.router.navigate([encodedPath, vueloId]); // Mantener ID legible
+    this.router.navigate([encodedPath, vueloId]); 
   }
 
+  //carga los vuelos de ese usuario en concreto 
   private loadVuelosUsuario(): void {
     const raw = localStorage.getItem('usuarioLogeado');
     if (!raw) {

@@ -33,7 +33,6 @@ export class DestinosComponent implements OnInit, OnDestroy {
     private encoder: RouteEncoderService
   ) {}
 
-  // Añadir métodos faltantes
   getTotalPaises(): number {
     return new Set(this.ubicaciones.map(u => u.pais)).size;
   }
@@ -55,6 +54,7 @@ export class DestinosComponent implements OnInit, OnDestroy {
       : 'Error cargando destinos';
   }
 
+  //limpiar mapa apra proximo tripulante
   private cleanupMap(): void {
     if (this.map) {
       this.map.dispose();
@@ -63,38 +63,38 @@ export class DestinosComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Resto del código existente...
   ngOnInit(): void {
     this.loadUserData();
   }
 
-  // Añadir en el ngOnDestroy
 ngOnDestroy(): void {
   if (this.map) {
       this.map.setTarget();
       this.map.dispose();
   }
 }
-
+  //carga la data del usuario loggeado
   private loadUserData(): void {
     const raw = localStorage.getItem('usuarioLogeado');
     if (!raw) { this.handleError('Debe iniciar sesión'); return; }
 
     try {
-      const userData = JSON.parse(raw);        // JSON.parse puede lanzar error :contentReference[oaicite:2]{index=2}
-      const tripulanteId = userData.id;        // <-- aquí cambias
+      const userData = JSON.parse(raw);        
+      const tripulanteId = userData.id;        
 
-      if (tripulanteId == null) {              // null o undefined
+      if (tripulanteId == null) {              
         this.handleError('ID de tripulante no encontrado');
         return;
       }
 
       this.loadUbicaciones(tripulanteId);
-    } catch (e) {
-      this.handleError('Error en formato de datos de usuario');
+      } catch (e) {
+        this.handleError('Error en formato de datos de usuario');
+        }
     }
-}
 
+
+  //carga las ubicaciones del usuario loggeado
   private loadUbicaciones(tripulanteId: number): void {
     this.isLoading = true;
     
@@ -108,6 +108,7 @@ ngOnDestroy(): void {
     });
   }
 
+  //procesa las ubicaciones para meterlas al mapa por coordenadas
   private processUbicaciones(ubicaciones: Ubicacion[]): Ubicacion[] {
     const coordenadasUnicas = new Set<string>();
     
@@ -128,11 +129,11 @@ ngOnDestroy(): void {
     return !isNaN(parseFloat(coord)) && isFinite(parseFloat(coord));
   }
 
+  //inicia el mapa con las coordenadas
   private initMapConUbicaciones(ubicaciones: Ubicacion[]): void {
     this.cleanupMap();
     if (ubicaciones.length === 0) return;
 
-    // Esperar a que Angular actualice el DOM
     setTimeout(() => {
         const mapTarget = document.getElementById('map-destinos');
         
@@ -141,13 +142,11 @@ ngOnDestroy(): void {
             return;
         }
 
-        // Verificar dimensiones del contenedor
         if (mapTarget.offsetWidth === 0 || mapTarget.offsetHeight === 0) {
             mapTarget.style.height = '500px';
             mapTarget.style.width = '100%';
         }
 
-        // Crear features
         const features = ubicaciones
             .filter(u => this.isValidCoordinate(u.latitud) && this.isValidCoordinate(u.longitud))
             .map(u => {
@@ -161,7 +160,6 @@ ngOnDestroy(): void {
                 });
             });
 
-        // Configurar capas
         const vectorSource = new VectorSource({ features });
         const vectorLayer = new VectorLayer({
             source: vectorSource,
@@ -174,7 +172,6 @@ ngOnDestroy(): void {
             })
         });
 
-        // Crear mapa
         this.map = new Map({
             target: 'map-destinos',
             layers: [new TileLayer({ source: new OSM() }), vectorLayer],
@@ -186,7 +183,6 @@ ngOnDestroy(): void {
             })
         });
 
-        // Ajustar vista si hay features
         if (features.length > 0) {
             const extent = vectorSource.getExtent();
             this.map.getView().fit(extent, {
@@ -195,7 +191,6 @@ ngOnDestroy(): void {
             });
         }
 
-        // Forzar actualización después de renderizado
         setTimeout(() => this.map.updateSize(), 100);
     }, 0);
 }

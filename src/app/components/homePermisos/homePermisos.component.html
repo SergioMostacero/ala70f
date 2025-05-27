@@ -1,6 +1,5 @@
 <div class="container" *ngIf="tripulante; else noUser">
   <div class="user-panel">
-    <!-- Perfil del tripulante -->
     <div class="info">
       <div class="user-img">
         <img src="assets/img/logo.png" alt="Logo del escuadron" class="profile-logo" />
@@ -29,7 +28,7 @@
     <!-- Botones de navegación -->
     <div class="nav-buttons">
       <button class="nav-button" *ngIf="tienePermisos" (click)="verGestion()">GESTIÓN</button>
-      <button class="nav-button" (click)="verVuelos()">VUELOS</button>   
+      <button class="nav-button" (click)="verVuelos()">PROXIMOS VUELOS</button>   
       <button class="nav-button" (click)="irALogrosMedallas()">MEDALLAS/LOGROS</button>
       <button class="nav-button" (click)="irALogrosHistorial()">HISTORIAL DE VUELOS</button>
       <button class="nav-button" (click)="irADestinos()">TUS DESTINOS</button>
@@ -39,5 +38,5 @@
 
 <!-- Si no hay tripulante logueado -->
 <ng-template #noUser>
-  <p class="no-user-message">No hay tripulante logueado.</p>
+  <p class="no-user-message"></p>
 </ng-template>

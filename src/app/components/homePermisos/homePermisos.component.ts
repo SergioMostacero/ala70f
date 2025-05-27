@@ -6,6 +6,7 @@ import { GrupoSanguineoService } from '../../Services/grupo-sanguineo.service';
 import { RangoService } from 'src/app/Services/rango.service';
 import { NotificationService } from '../../utils/notification.service';
 import { RouteEncoderService } from '../../Services/route-encoder.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-homePermisos',
@@ -17,7 +18,7 @@ export class HomePermisosComponent implements OnInit {
   isLoading = true;
   errorMessage: string | null = null;
 
-  /** TRUE ⇢ el usuario puede acceder al módulo de gestión */
+
   tienePermisos = false;
 
   constructor(
@@ -33,6 +34,16 @@ export class HomePermisosComponent implements OnInit {
     const stub = this.tripulantesService.getLoggedInUser();
 
     if (!stub || stub.id == null) {
+    Swal.fire({
+      title: 'Redirigiendo...',
+      text: 'No hay tripulante logueado, volviendo al login...',
+      icon: 'warning',
+      timer: 3000,
+      timerProgressBar: true,
+      showConfirmButton: false,
+      customClass: { popup: 'dark' }
+      });
+
       this.notification.showMessage(
         'No hay tripulante logueado. Redirigiendo…',
         'error'
@@ -48,23 +59,23 @@ export class HomePermisosComponent implements OnInit {
         this.tripulante = full;
         this.isLoading = false;
 
-        /** ───▶ decide aquí el criterio de autorización ◀─── */
         this.tienePermisos =
           full.rangoDTO?.nombre === 'Administrador' ||
           (Array.isArray(full.permisos) && full.permisos.includes('GESTION')) ||
           full.permisos === true ||
-          (full as any).esAdministrador === true;                    // flag explícito
+          (full as any).esAdministrador === true;
       },
       error: () => {
         this.notification.showMessage(
           'No se pudo cargar datos de usuario',
           'error'
+          
         );
         this.router.navigate([this.encoder.encode('login')]);
       }
     });
   }
-
+  //ajustes y botones del home
   getNombreCompleto(): string {
     return this.tripulante ? `${this.tripulante.nombre}` : '';
   }
@@ -75,7 +86,6 @@ export class HomePermisosComponent implements OnInit {
   irALogrosHistorial() { this.router.navigate([this.encoder.encode('historial')]); }
   irADestinos()        { this.router.navigate([this.encoder.encode('destinos')]); }
 
-  /** Ejemplo de navegación con datos en state */
   registrar(): void {
     this.router.navigate(
       [this.encoder.encode('register')],
